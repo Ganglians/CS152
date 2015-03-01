@@ -1,0 +1,3007 @@
+State 67 contains 1 shift/reduce conflict.
+State 68 contains 1 shift/reduce conflict.
+State 70 contains 2 shift/reduce conflicts.
+State 71 contains 3 shift/reduce conflicts.
+State 143 contains 1 shift/reduce conflict.
+State 201 contains 1 shift/reduce conflict.
+
+Grammar
+rule 1    start -> program_start
+rule 2    program_start -> program identifier semicolon block end_program
+rule 3    program_start -> error program identifier semicolon block end_program
+rule 4    block -> declaration_list begin_program statement_list
+rule 5    declaration_list -> declaration_list declaration semicolon
+rule 6    declaration_list -> declaration semicolon
+rule 7    declaration -> identifier_list colon optional_array integer
+rule 8    identifier_list -> identifier_list comma identifier
+rule 9    identifier_list -> identifier
+rule 10   optional_array -> array l_bracket number r_bracket of
+rule 11   optional_array ->		/* empty */
+rule 12   statement -> var assign expression
+rule 13   statement -> var assign bool_exp question expression colon expression
+rule 14   statement -> if bool_exp then statement_list optional_elseif optional_else end_if
+rule 15   statement -> while bool_exp begin_loop statement_list end_loop
+rule 16   statement -> do begin_loop statement_list end_loop while bool_exp
+rule 17   statement -> read var_list
+rule 18   statement -> write var_list
+rule 19   statement -> break
+rule 20   statement -> continue
+rule 21   statement -> exit
+rule 22   optional_elseif -> optional_elseif elseif bool_exp statement_list
+rule 23   optional_elseif -> elseif bool_exp statement_list optional_else
+rule 24   optional_elseif ->		/* empty */
+rule 25   optional_else -> else statement_list
+rule 26   optional_else ->		/* empty */
+rule 27   var_list -> var_list comma var
+rule 28   var_list -> var
+rule 29   statement_list -> statement_list statement semicolon
+rule 30   statement_list -> statement semicolon
+rule 31   bool_exp -> relation_and_exp relation_and_exp_list
+rule 32   relation_and_exp_list -> relation_and_exp_list or relation_and_exp
+rule 33   relation_and_exp_list -> or relation_and_exp
+rule 34   relation_and_exp_list ->		/* empty */
+rule 35   relation_and_exp -> relation_exp relation_exp_list
+rule 36   relation_exp_list -> relation_exp_list and relation_exp
+rule 37   relation_exp_list -> and relation_exp
+rule 38   relation_exp_list ->		/* empty */
+rule 39   relation_exp -> not expression comp expression
+rule 40   relation_exp -> not true
+rule 41   relation_exp -> not false
+rule 42   relation_exp -> not l_paren bool_exp r_paren
+rule 43   relation_exp -> expression comp expression
+rule 44   relation_exp -> true
+rule 45   relation_exp -> false
+rule 46   relation_exp -> l_paren bool_exp r_paren
+rule 47   comp -> equal_to
+rule 48   comp -> not_equal_to
+rule 49   comp -> less_than
+rule 50   comp -> greater_than
+rule 51   comp -> less_than_or_equal_to
+rule 52   comp -> greater_than_or_equal_to
+rule 53   expression -> multiplicative_exp multiplicative_exp_list
+rule 54   multiplicative_exp_list -> multiplicative_exp_list add multiplicative_exp
+rule 55   multiplicative_exp_list -> multiplicative_exp_list sub multiplicative_exp
+rule 56   multiplicative_exp_list -> add multiplicative_exp
+rule 57   multiplicative_exp_list -> sub multiplicative_exp
+rule 58   multiplicative_exp_list ->		/* empty */
+rule 59   multiplicative_exp -> term term_list
+rule 60   term_list -> term_list multiply term
+rule 61   term_list -> term_list divide term
+rule 62   term_list -> term_list mod term
+rule 63   term_list -> multiply term
+rule 64   term_list -> divide term
+rule 65   term_list -> mod term
+rule 66   term_list ->		/* empty */
+rule 67   term -> sub var
+rule 68   term -> sub number var
+rule 69   term -> sub l_paren expression r_paren
+rule 70   term -> var
+rule 71   term -> number
+rule 72   term -> l_paren expression r_paren
+rule 73   var -> identifier
+rule 74   var -> identifier l_bracket expression r_bracket
+rule 75   program -> PROGRAM
+rule 76   identifier -> IDENT
+rule 77   semicolon -> SEMICOLON
+rule 78   end_program -> END_PROGRAM
+rule 79   begin_program -> BEGIN_PROGRAM
+rule 80   comma -> COMMA
+rule 81   colon -> COLON
+rule 82   array -> ARRAY
+rule 83   l_bracket -> L_BRACKET
+rule 84   number -> NUMBER
+rule 85   r_bracket -> R_BRACKET
+rule 86   l_paren -> L_PAREN
+rule 87   r_paren -> R_PAREN
+rule 88   of -> OF
+rule 89   integer -> INTEGER
+rule 90   assign -> ASSIGN
+rule 91   question -> QUESTION
+rule 92   if -> IF
+rule 93   then -> THEN
+rule 94   end_if -> ENDIF
+rule 95   elseif -> ELSEIF
+rule 96   else -> ELSE
+rule 97   while -> WHILE
+rule 98   begin_loop -> BEGINLOOP
+rule 99   end_loop -> ENDLOOP
+rule 100  do -> DO
+rule 101  read -> READ
+rule 102  write -> WRITE
+rule 103  break -> BREAK
+rule 104  continue -> CONTINUE
+rule 105  exit -> EXIT
+rule 106  or -> OR
+rule 107  and -> AND
+rule 108  not -> NOT
+rule 109  true -> TRUE
+rule 110  false -> FALSE
+rule 111  equal_to -> EQ
+rule 112  not_equal_to -> NEQ
+rule 113  less_than -> LT
+rule 114  greater_than -> GT
+rule 115  less_than_or_equal_to -> LTE
+rule 116  greater_than_or_equal_to -> GTE
+rule 117  add -> ADD
+rule 118  sub -> SUB
+rule 119  multiply -> MULT
+rule 120  divide -> DIV
+rule 121  mod -> MOD
+
+Terminals, with rules where they appear
+
+$ (-1)
+error (256) 3
+PROGRAM (258) 75
+BEGIN_PROGRAM (259) 79
+END_PROGRAM (260) 78
+INTEGER (261) 89
+ARRAY (262) 82
+OF (263) 88
+IF (264) 92
+THEN (265) 93
+ENDIF (266) 94
+ELSE (267) 96
+ELSEIF (268) 95
+WHILE (269) 97
+DO (270) 100
+BEGINLOOP (271) 98
+ENDLOOP (272) 99
+BREAK (273) 103
+CONTINUE (274) 104
+EXIT (275) 105
+READ (276) 101
+WRITE (277) 102
+AND (278) 107
+OR (279) 106
+NOT (280) 108
+TRUE (281) 109
+FALSE (282) 110
+SUB (283) 118
+ADD (284) 117
+MULT (285) 119
+DIV (286) 120
+MOD (287) 121
+EQ (288) 111
+NEQ (289) 112
+LT (290) 113
+GT (291) 114
+LTE (292) 115
+GTE (293) 116
+SEMICOLON (294) 77
+COLON (295) 81
+COMMA (296) 80
+QUESTION (297) 91
+L_BRACKET (298) 83
+R_BRACKET (299) 85
+L_PAREN (300) 86
+R_PAREN (301) 87
+ASSIGN (302) 90
+NUMBER (303) 84
+IDENT (304) 76
+NEG (305)
+
+Nonterminals, with rules where they appear
+
+start (51)
+    on left: 1
+program_start (52)
+    on left: 2 3, on right: 1
+block (53)
+    on left: 4, on right: 2 3
+declaration_list (54)
+    on left: 5 6, on right: 4 5
+declaration (55)
+    on left: 7, on right: 5 6
+identifier_list (56)
+    on left: 8 9, on right: 7 8
+optional_array (57)
+    on left: 10 11, on right: 7
+statement (58)
+    on left: 12 13 14 15 16 17 18 19 20 21, on right: 29 30
+optional_elseif (59)
+    on left: 22 23 24, on right: 14 22
+optional_else (60)
+    on left: 25 26, on right: 14 23
+var_list (61)
+    on left: 27 28, on right: 17 18 27
+statement_list (62)
+    on left: 29 30, on right: 4 14 15 16 22 23 25 29
+bool_exp (63)
+    on left: 31, on right: 13 14 15 16 22 23 42 46
+relation_and_exp_list (64)
+    on left: 32 33 34, on right: 31 32
+relation_and_exp (65)
+    on left: 35, on right: 31 32 33
+relation_exp_list (66)
+    on left: 36 37 38, on right: 35 36
+relation_exp (67)
+    on left: 39 40 41 42 43 44 45 46, on right: 35 36 37
+comp (68)
+    on left: 47 48 49 50 51 52, on right: 39 43
+expression (69)
+    on left: 53, on right: 12 13 39 43 69 72 74
+multiplicative_exp_list (70)
+    on left: 54 55 56 57 58, on right: 53 54 55
+multiplicative_exp (71)
+    on left: 59, on right: 53 54 55 56 57
+term_list (72)
+    on left: 60 61 62 63 64 65 66, on right: 59 60 61 62
+term (73)
+    on left: 67 68 69 70 71 72, on right: 59 60 61 62 63 64 65
+var (74)
+    on left: 73 74, on right: 12 13 27 28 67 68 70
+program (75)
+    on left: 75, on right: 2 3
+identifier (76)
+    on left: 76, on right: 2 3 8 9 73 74
+semicolon (77)
+    on left: 77, on right: 2 3 5 6 29 30
+end_program (78)
+    on left: 78, on right: 2 3
+begin_program (79)
+    on left: 79, on right: 4
+comma (80)
+    on left: 80, on right: 8 27
+colon (81)
+    on left: 81, on right: 7 13
+array (82)
+    on left: 82, on right: 10
+l_bracket (83)
+    on left: 83, on right: 10 74
+number (84)
+    on left: 84, on right: 10 68 71
+r_bracket (85)
+    on left: 85, on right: 10 74
+l_paren (86)
+    on left: 86, on right: 42 46 69 72
+r_paren (87)
+    on left: 87, on right: 42 46 69 72
+of (88)
+    on left: 88, on right: 10
+integer (89)
+    on left: 89, on right: 7
+assign (90)
+    on left: 90, on right: 12 13
+question (91)
+    on left: 91, on right: 13
+if (92)
+    on left: 92, on right: 14
+then (93)
+    on left: 93, on right: 14
+end_if (94)
+    on left: 94, on right: 14
+elseif (95)
+    on left: 95, on right: 22 23
+else (96)
+    on left: 96, on right: 25
+while (97)
+    on left: 97, on right: 15 16
+begin_loop (98)
+    on left: 98, on right: 15 16
+end_loop (99)
+    on left: 99, on right: 15 16
+do (100)
+    on left: 100, on right: 16
+read (101)
+    on left: 101, on right: 17
+write (102)
+    on left: 102, on right: 18
+break (103)
+    on left: 103, on right: 19
+continue (104)
+    on left: 104, on right: 20
+exit (105)
+    on left: 105, on right: 21
+or (106)
+    on left: 106, on right: 32 33
+and (107)
+    on left: 107, on right: 36 37
+not (108)
+    on left: 108, on right: 39 40 41 42
+true (109)
+    on left: 109, on right: 40 44
+false (110)
+    on left: 110, on right: 41 45
+equal_to (111)
+    on left: 111, on right: 47
+not_equal_to (112)
+    on left: 112, on right: 48
+less_than (113)
+    on left: 113, on right: 49
+greater_than (114)
+    on left: 114, on right: 50
+less_than_or_equal_to (115)
+    on left: 115, on right: 51
+greater_than_or_equal_to (116)
+    on left: 116, on right: 52
+add (117)
+    on left: 117, on right: 54 56
+sub (118)
+    on left: 118, on right: 55 57 67 68 69
+multiply (119)
+    on left: 119, on right: 60 63
+divide (120)
+    on left: 120, on right: 61 64
+mod (121)
+    on left: 121, on right: 62 65
+
+
+state 0
+
+    error	shift, and go to state 1
+    PROGRAM	shift, and go to state 2
+
+    start	go to state 204
+    program_start	go to state 3
+    program	go to state 4
+
+
+
+state 1
+
+    program_start  ->  error . program identifier semicolon block end_program   (rule 3)
+
+    PROGRAM	shift, and go to state 2
+
+    program	go to state 5
+
+
+
+state 2
+
+    program  ->  PROGRAM .   (rule 75)
+
+    $default	reduce using rule 75 (program)
+
+
+
+state 3
+
+    start  ->  program_start .   (rule 1)
+
+    $default	reduce using rule 1 (start)
+
+
+
+state 4
+
+    program_start  ->  program . identifier semicolon block end_program   (rule 2)
+
+    IDENT	shift, and go to state 6
+
+    identifier	go to state 7
+
+
+
+state 5
+
+    program_start  ->  error program . identifier semicolon block end_program   (rule 3)
+
+    IDENT	shift, and go to state 6
+
+    identifier	go to state 8
+
+
+
+state 6
+
+    identifier  ->  IDENT .   (rule 76)
+
+    $default	reduce using rule 76 (identifier)
+
+
+
+state 7
+
+    program_start  ->  program identifier . semicolon block end_program   (rule 2)
+
+    SEMICOLON	shift, and go to state 9
+
+    semicolon	go to state 10
+
+
+
+state 8
+
+    program_start  ->  error program identifier . semicolon block end_program   (rule 3)
+
+    SEMICOLON	shift, and go to state 9
+
+    semicolon	go to state 11
+
+
+
+state 9
+
+    semicolon  ->  SEMICOLON .   (rule 77)
+
+    $default	reduce using rule 77 (semicolon)
+
+
+
+state 10
+
+    program_start  ->  program identifier semicolon . block end_program   (rule 2)
+
+    IDENT	shift, and go to state 6
+
+    block	go to state 12
+    declaration_list	go to state 13
+    declaration	go to state 14
+    identifier_list	go to state 15
+    identifier	go to state 16
+
+
+
+state 11
+
+    program_start  ->  error program identifier semicolon . block end_program   (rule 3)
+
+    IDENT	shift, and go to state 6
+
+    block	go to state 17
+    declaration_list	go to state 13
+    declaration	go to state 14
+    identifier_list	go to state 15
+    identifier	go to state 16
+
+
+
+state 12
+
+    program_start  ->  program identifier semicolon block . end_program   (rule 2)
+
+    END_PROGRAM	shift, and go to state 18
+
+    end_program	go to state 19
+
+
+
+state 13
+
+    block  ->  declaration_list . begin_program statement_list   (rule 4)
+    declaration_list  ->  declaration_list . declaration semicolon   (rule 5)
+
+    BEGIN_PROGRAM	shift, and go to state 20
+    IDENT	shift, and go to state 6
+
+    declaration	go to state 21
+    identifier_list	go to state 15
+    identifier	go to state 16
+    begin_program	go to state 22
+
+
+
+state 14
+
+    declaration_list  ->  declaration . semicolon   (rule 6)
+
+    SEMICOLON	shift, and go to state 9
+
+    semicolon	go to state 23
+
+
+
+state 15
+
+    declaration  ->  identifier_list . colon optional_array integer   (rule 7)
+    identifier_list  ->  identifier_list . comma identifier   (rule 8)
+
+    COLON	shift, and go to state 24
+    COMMA	shift, and go to state 25
+
+    comma	go to state 26
+    colon	go to state 27
+
+
+
+state 16
+
+    identifier_list  ->  identifier .   (rule 9)
+
+    $default	reduce using rule 9 (identifier_list)
+
+
+
+state 17
+
+    program_start  ->  error program identifier semicolon block . end_program   (rule 3)
+
+    END_PROGRAM	shift, and go to state 18
+
+    end_program	go to state 28
+
+
+
+state 18
+
+    end_program  ->  END_PROGRAM .   (rule 78)
+
+    $default	reduce using rule 78 (end_program)
+
+
+
+state 19
+
+    program_start  ->  program identifier semicolon block end_program .   (rule 2)
+
+    $default	reduce using rule 2 (program_start)
+
+
+
+state 20
+
+    begin_program  ->  BEGIN_PROGRAM .   (rule 79)
+
+    $default	reduce using rule 79 (begin_program)
+
+
+
+state 21
+
+    declaration_list  ->  declaration_list declaration . semicolon   (rule 5)
+
+    SEMICOLON	shift, and go to state 9
+
+    semicolon	go to state 29
+
+
+
+state 22
+
+    block  ->  declaration_list begin_program . statement_list   (rule 4)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 38
+    statement_list	go to state 39
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 23
+
+    declaration_list  ->  declaration semicolon .   (rule 6)
+
+    $default	reduce using rule 6 (declaration_list)
+
+
+
+state 24
+
+    colon  ->  COLON .   (rule 81)
+
+    $default	reduce using rule 81 (colon)
+
+
+
+state 25
+
+    comma  ->  COMMA .   (rule 80)
+
+    $default	reduce using rule 80 (comma)
+
+
+
+state 26
+
+    identifier_list  ->  identifier_list comma . identifier   (rule 8)
+
+    IDENT	shift, and go to state 6
+
+    identifier	go to state 50
+
+
+
+state 27
+
+    declaration  ->  identifier_list colon . optional_array integer   (rule 7)
+
+    ARRAY	shift, and go to state 51
+
+    $default	reduce using rule 11 (optional_array)
+
+    optional_array	go to state 52
+    array	go to state 53
+
+
+
+state 28
+
+    program_start  ->  error program identifier semicolon block end_program .   (rule 3)
+
+    $default	reduce using rule 3 (program_start)
+
+
+
+state 29
+
+    declaration_list  ->  declaration_list declaration semicolon .   (rule 5)
+
+    $default	reduce using rule 5 (declaration_list)
+
+
+
+state 30
+
+    if  ->  IF .   (rule 92)
+
+    $default	reduce using rule 92 (if)
+
+
+
+state 31
+
+    while  ->  WHILE .   (rule 97)
+
+    $default	reduce using rule 97 (while)
+
+
+
+state 32
+
+    do  ->  DO .   (rule 100)
+
+    $default	reduce using rule 100 (do)
+
+
+
+state 33
+
+    break  ->  BREAK .   (rule 103)
+
+    $default	reduce using rule 103 (break)
+
+
+
+state 34
+
+    continue  ->  CONTINUE .   (rule 104)
+
+    $default	reduce using rule 104 (continue)
+
+
+
+state 35
+
+    exit  ->  EXIT .   (rule 105)
+
+    $default	reduce using rule 105 (exit)
+
+
+
+state 36
+
+    read  ->  READ .   (rule 101)
+
+    $default	reduce using rule 101 (read)
+
+
+
+state 37
+
+    write  ->  WRITE .   (rule 102)
+
+    $default	reduce using rule 102 (write)
+
+
+
+state 38
+
+    statement_list  ->  statement . semicolon   (rule 30)
+
+    SEMICOLON	shift, and go to state 9
+
+    semicolon	go to state 54
+
+
+
+state 39
+
+    block  ->  declaration_list begin_program statement_list .   (rule 4)
+    statement_list  ->  statement_list . statement semicolon   (rule 29)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    $default	reduce using rule 4 (block)
+
+    statement	go to state 55
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 40
+
+    statement  ->  var . assign expression   (rule 12)
+    statement  ->  var . assign bool_exp question expression colon expression   (rule 13)
+
+    ASSIGN	shift, and go to state 56
+
+    assign	go to state 57
+
+
+
+state 41
+
+    var  ->  identifier .   (rule 73)
+    var  ->  identifier . l_bracket expression r_bracket   (rule 74)
+
+    L_BRACKET	shift, and go to state 58
+
+    $default	reduce using rule 73 (var)
+
+    l_bracket	go to state 59
+
+
+
+state 42
+
+    statement  ->  if . bool_exp then statement_list optional_elseif optional_else end_if   (rule 14)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    bool_exp	go to state 66
+    relation_and_exp	go to state 67
+    relation_exp	go to state 68
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 43
+
+    statement  ->  while . bool_exp begin_loop statement_list end_loop   (rule 15)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    bool_exp	go to state 79
+    relation_and_exp	go to state 67
+    relation_exp	go to state 68
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 44
+
+    statement  ->  do . begin_loop statement_list end_loop while bool_exp   (rule 16)
+
+    BEGINLOOP	shift, and go to state 80
+
+    begin_loop	go to state 81
+
+
+
+state 45
+
+    statement  ->  read . var_list   (rule 17)
+
+    IDENT	shift, and go to state 6
+
+    var_list	go to state 82
+    var 	go to state 83
+    identifier	go to state 41
+
+
+
+state 46
+
+    statement  ->  write . var_list   (rule 18)
+
+    IDENT	shift, and go to state 6
+
+    var_list	go to state 84
+    var 	go to state 83
+    identifier	go to state 41
+
+
+
+state 47
+
+    statement  ->  break .   (rule 19)
+
+    $default	reduce using rule 19 (statement)
+
+
+
+state 48
+
+    statement  ->  continue .   (rule 20)
+
+    $default	reduce using rule 20 (statement)
+
+
+
+state 49
+
+    statement  ->  exit .   (rule 21)
+
+    $default	reduce using rule 21 (statement)
+
+
+
+state 50
+
+    identifier_list  ->  identifier_list comma identifier .   (rule 8)
+
+    $default	reduce using rule 8 (identifier_list)
+
+
+
+state 51
+
+    array  ->  ARRAY .   (rule 82)
+
+    $default	reduce using rule 82 (array)
+
+
+
+state 52
+
+    declaration  ->  identifier_list colon optional_array . integer   (rule 7)
+
+    INTEGER	shift, and go to state 85
+
+    integer	go to state 86
+
+
+
+state 53
+
+    optional_array  ->  array . l_bracket number r_bracket of   (rule 10)
+
+    L_BRACKET	shift, and go to state 58
+
+    l_bracket	go to state 87
+
+
+
+state 54
+
+    statement_list  ->  statement semicolon .   (rule 30)
+
+    $default	reduce using rule 30 (statement_list)
+
+
+
+state 55
+
+    statement_list  ->  statement_list statement . semicolon   (rule 29)
+
+    SEMICOLON	shift, and go to state 9
+
+    semicolon	go to state 88
+
+
+
+state 56
+
+    assign  ->  ASSIGN .   (rule 90)
+
+    $default	reduce using rule 90 (assign)
+
+
+
+state 57
+
+    statement  ->  var assign . expression   (rule 12)
+    statement  ->  var assign . bool_exp question expression colon expression   (rule 13)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    bool_exp	go to state 89
+    relation_and_exp	go to state 67
+    relation_exp	go to state 68
+    expression	go to state 90
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 58
+
+    l_bracket  ->  L_BRACKET .   (rule 83)
+
+    $default	reduce using rule 83 (l_bracket)
+
+
+
+state 59
+
+    var  ->  identifier l_bracket . expression r_bracket   (rule 74)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    expression	go to state 91
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 60
+
+    not  ->  NOT .   (rule 108)
+
+    $default	reduce using rule 108 (not)
+
+
+
+state 61
+
+    true  ->  TRUE .   (rule 109)
+
+    $default	reduce using rule 109 (true)
+
+
+
+state 62
+
+    false  ->  FALSE .   (rule 110)
+
+    $default	reduce using rule 110 (false)
+
+
+
+state 63
+
+    sub  ->  SUB .   (rule 118)
+
+    $default	reduce using rule 118 (sub)
+
+
+
+state 64
+
+    l_paren  ->  L_PAREN .   (rule 86)
+
+    $default	reduce using rule 86 (l_paren)
+
+
+
+state 65
+
+    number  ->  NUMBER .   (rule 84)
+
+    $default	reduce using rule 84 (number)
+
+
+
+state 66
+
+    statement  ->  if bool_exp . then statement_list optional_elseif optional_else end_if   (rule 14)
+
+    THEN	shift, and go to state 93
+
+    then	go to state 94
+
+
+
+state 67
+
+    bool_exp  ->  relation_and_exp . relation_and_exp_list   (rule 31)
+
+    OR  	shift, and go to state 95
+
+    OR  	[reduce using rule 34 (relation_and_exp_list)]
+    $default	reduce using rule 34 (relation_and_exp_list)
+
+    relation_and_exp_list	go to state 96
+    or  	go to state 97
+
+
+
+state 68
+
+    relation_and_exp  ->  relation_exp . relation_exp_list   (rule 35)
+
+    AND 	shift, and go to state 98
+
+    AND 	[reduce using rule 38 (relation_exp_list)]
+    $default	reduce using rule 38 (relation_exp_list)
+
+    relation_exp_list	go to state 99
+    and 	go to state 100
+
+
+
+state 69
+
+    relation_exp  ->  expression . comp expression   (rule 43)
+
+    EQ  	shift, and go to state 101
+    NEQ 	shift, and go to state 102
+    LT  	shift, and go to state 103
+    GT  	shift, and go to state 104
+    LTE 	shift, and go to state 105
+    GTE 	shift, and go to state 106
+
+    comp	go to state 107
+    equal_to	go to state 108
+    not_equal_to	go to state 109
+    less_than	go to state 110
+    greater_than	go to state 111
+    less_than_or_equal_to	go to state 112
+    greater_than_or_equal_to	go to state 113
+
+
+
+state 70
+
+    expression  ->  multiplicative_exp . multiplicative_exp_list   (rule 53)
+
+    SUB 	shift, and go to state 63
+    ADD 	shift, and go to state 114
+
+    SUB 	[reduce using rule 58 (multiplicative_exp_list)]
+    ADD 	[reduce using rule 58 (multiplicative_exp_list)]
+    $default	reduce using rule 58 (multiplicative_exp_list)
+
+    multiplicative_exp_list	go to state 115
+    add 	go to state 116
+    sub 	go to state 117
+
+
+
+state 71
+
+    multiplicative_exp  ->  term . term_list   (rule 59)
+
+    MULT	shift, and go to state 118
+    DIV 	shift, and go to state 119
+    MOD 	shift, and go to state 120
+
+    MULT	[reduce using rule 66 (term_list)]
+    DIV 	[reduce using rule 66 (term_list)]
+    MOD 	[reduce using rule 66 (term_list)]
+    $default	reduce using rule 66 (term_list)
+
+    term_list	go to state 121
+    multiply	go to state 122
+    divide	go to state 123
+    mod 	go to state 124
+
+
+
+state 72
+
+    term  ->  var .   (rule 70)
+
+    $default	reduce using rule 70 (term)
+
+
+
+state 73
+
+    term  ->  number .   (rule 71)
+
+    $default	reduce using rule 71 (term)
+
+
+
+state 74
+
+    relation_exp  ->  l_paren . bool_exp r_paren   (rule 46)
+    term  ->  l_paren . expression r_paren   (rule 72)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    bool_exp	go to state 125
+    relation_and_exp	go to state 67
+    relation_exp	go to state 68
+    expression	go to state 126
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 75
+
+    relation_exp  ->  not . expression comp expression   (rule 39)
+    relation_exp  ->  not . true   (rule 40)
+    relation_exp  ->  not . false   (rule 41)
+    relation_exp  ->  not . l_paren bool_exp r_paren   (rule 42)
+
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    expression	go to state 127
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 128
+    true	go to state 129
+    false	go to state 130
+    sub 	go to state 78
+
+
+
+state 76
+
+    relation_exp  ->  true .   (rule 44)
+
+    $default	reduce using rule 44 (relation_exp)
+
+
+
+state 77
+
+    relation_exp  ->  false .   (rule 45)
+
+    $default	reduce using rule 45 (relation_exp)
+
+
+
+state 78
+
+    term  ->  sub . var   (rule 67)
+    term  ->  sub . number var   (rule 68)
+    term  ->  sub . l_paren expression r_paren   (rule 69)
+
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    var 	go to state 131
+    identifier	go to state 41
+    number	go to state 132
+    l_paren	go to state 133
+
+
+
+state 79
+
+    statement  ->  while bool_exp . begin_loop statement_list end_loop   (rule 15)
+
+    BEGINLOOP	shift, and go to state 80
+
+    begin_loop	go to state 134
+
+
+
+state 80
+
+    begin_loop  ->  BEGINLOOP .   (rule 98)
+
+    $default	reduce using rule 98 (begin_loop)
+
+
+
+state 81
+
+    statement  ->  do begin_loop . statement_list end_loop while bool_exp   (rule 16)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 38
+    statement_list	go to state 135
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 82
+
+    statement  ->  read var_list .   (rule 17)
+    var_list  ->  var_list . comma var   (rule 27)
+
+    COMMA	shift, and go to state 25
+
+    $default	reduce using rule 17 (statement)
+
+    comma	go to state 136
+
+
+
+state 83
+
+    var_list  ->  var .   (rule 28)
+
+    $default	reduce using rule 28 (var_list)
+
+
+
+state 84
+
+    statement  ->  write var_list .   (rule 18)
+    var_list  ->  var_list . comma var   (rule 27)
+
+    COMMA	shift, and go to state 25
+
+    $default	reduce using rule 18 (statement)
+
+    comma	go to state 136
+
+
+
+state 85
+
+    integer  ->  INTEGER .   (rule 89)
+
+    $default	reduce using rule 89 (integer)
+
+
+
+state 86
+
+    declaration  ->  identifier_list colon optional_array integer .   (rule 7)
+
+    $default	reduce using rule 7 (declaration)
+
+
+
+state 87
+
+    optional_array  ->  array l_bracket . number r_bracket of   (rule 10)
+
+    NUMBER	shift, and go to state 65
+
+    number	go to state 137
+
+
+
+state 88
+
+    statement_list  ->  statement_list statement semicolon .   (rule 29)
+
+    $default	reduce using rule 29 (statement_list)
+
+
+
+state 89
+
+    statement  ->  var assign bool_exp . question expression colon expression   (rule 13)
+
+    QUESTION	shift, and go to state 138
+
+    question	go to state 139
+
+
+
+state 90
+
+    statement  ->  var assign expression .   (rule 12)
+    relation_exp  ->  expression . comp expression   (rule 43)
+
+    EQ  	shift, and go to state 101
+    NEQ 	shift, and go to state 102
+    LT  	shift, and go to state 103
+    GT  	shift, and go to state 104
+    LTE 	shift, and go to state 105
+    GTE 	shift, and go to state 106
+
+    $default	reduce using rule 12 (statement)
+
+    comp	go to state 107
+    equal_to	go to state 108
+    not_equal_to	go to state 109
+    less_than	go to state 110
+    greater_than	go to state 111
+    less_than_or_equal_to	go to state 112
+    greater_than_or_equal_to	go to state 113
+
+
+
+state 91
+
+    var  ->  identifier l_bracket expression . r_bracket   (rule 74)
+
+    R_BRACKET	shift, and go to state 140
+
+    r_bracket	go to state 141
+
+
+
+state 92
+
+    term  ->  l_paren . expression r_paren   (rule 72)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    expression	go to state 142
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 93
+
+    then  ->  THEN .   (rule 93)
+
+    $default	reduce using rule 93 (then)
+
+
+
+state 94
+
+    statement  ->  if bool_exp then . statement_list optional_elseif optional_else end_if   (rule 14)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 38
+    statement_list	go to state 143
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 95
+
+    or  ->  OR .   (rule 106)
+
+    $default	reduce using rule 106 (or)
+
+
+
+state 96
+
+    bool_exp  ->  relation_and_exp relation_and_exp_list .   (rule 31)
+    relation_and_exp_list  ->  relation_and_exp_list . or relation_and_exp   (rule 32)
+
+    OR  	shift, and go to state 95
+
+    $default	reduce using rule 31 (bool_exp)
+
+    or  	go to state 144
+
+
+
+state 97
+
+    relation_and_exp_list  ->  or . relation_and_exp   (rule 33)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    relation_and_exp	go to state 145
+    relation_exp	go to state 68
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 98
+
+    and  ->  AND .   (rule 107)
+
+    $default	reduce using rule 107 (and)
+
+
+
+state 99
+
+    relation_and_exp  ->  relation_exp relation_exp_list .   (rule 35)
+    relation_exp_list  ->  relation_exp_list . and relation_exp   (rule 36)
+
+    AND 	shift, and go to state 98
+
+    $default	reduce using rule 35 (relation_and_exp)
+
+    and 	go to state 146
+
+
+
+state 100
+
+    relation_exp_list  ->  and . relation_exp   (rule 37)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    relation_exp	go to state 147
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 101
+
+    equal_to  ->  EQ .   (rule 111)
+
+    $default	reduce using rule 111 (equal_to)
+
+
+
+state 102
+
+    not_equal_to  ->  NEQ .   (rule 112)
+
+    $default	reduce using rule 112 (not_equal_to)
+
+
+
+state 103
+
+    less_than  ->  LT .   (rule 113)
+
+    $default	reduce using rule 113 (less_than)
+
+
+
+state 104
+
+    greater_than  ->  GT .   (rule 114)
+
+    $default	reduce using rule 114 (greater_than)
+
+
+
+state 105
+
+    less_than_or_equal_to  ->  LTE .   (rule 115)
+
+    $default	reduce using rule 115 (less_than_or_equal_to)
+
+
+
+state 106
+
+    greater_than_or_equal_to  ->  GTE .   (rule 116)
+
+    $default	reduce using rule 116 (greater_than_or_equal_to)
+
+
+
+state 107
+
+    relation_exp  ->  expression comp . expression   (rule 43)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    expression	go to state 148
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 108
+
+    comp  ->  equal_to .   (rule 47)
+
+    $default	reduce using rule 47 (comp)
+
+
+
+state 109
+
+    comp  ->  not_equal_to .   (rule 48)
+
+    $default	reduce using rule 48 (comp)
+
+
+
+state 110
+
+    comp  ->  less_than .   (rule 49)
+
+    $default	reduce using rule 49 (comp)
+
+
+
+state 111
+
+    comp  ->  greater_than .   (rule 50)
+
+    $default	reduce using rule 50 (comp)
+
+
+
+state 112
+
+    comp  ->  less_than_or_equal_to .   (rule 51)
+
+    $default	reduce using rule 51 (comp)
+
+
+
+state 113
+
+    comp  ->  greater_than_or_equal_to .   (rule 52)
+
+    $default	reduce using rule 52 (comp)
+
+
+
+state 114
+
+    add  ->  ADD .   (rule 117)
+
+    $default	reduce using rule 117 (add)
+
+
+
+state 115
+
+    expression  ->  multiplicative_exp multiplicative_exp_list .   (rule 53)
+    multiplicative_exp_list  ->  multiplicative_exp_list . add multiplicative_exp   (rule 54)
+    multiplicative_exp_list  ->  multiplicative_exp_list . sub multiplicative_exp   (rule 55)
+
+    SUB 	shift, and go to state 63
+    ADD 	shift, and go to state 114
+
+    $default	reduce using rule 53 (expression)
+
+    add 	go to state 149
+    sub 	go to state 150
+
+
+
+state 116
+
+    multiplicative_exp_list  ->  add . multiplicative_exp   (rule 56)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    multiplicative_exp	go to state 151
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 117
+
+    multiplicative_exp_list  ->  sub . multiplicative_exp   (rule 57)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    multiplicative_exp	go to state 152
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 118
+
+    multiply  ->  MULT .   (rule 119)
+
+    $default	reduce using rule 119 (multiply)
+
+
+
+state 119
+
+    divide  ->  DIV .   (rule 120)
+
+    $default	reduce using rule 120 (divide)
+
+
+
+state 120
+
+    mod  ->  MOD .   (rule 121)
+
+    $default	reduce using rule 121 (mod)
+
+
+
+state 121
+
+    multiplicative_exp  ->  term term_list .   (rule 59)
+    term_list  ->  term_list . multiply term   (rule 60)
+    term_list  ->  term_list . divide term   (rule 61)
+    term_list  ->  term_list . mod term   (rule 62)
+
+    MULT	shift, and go to state 118
+    DIV 	shift, and go to state 119
+    MOD 	shift, and go to state 120
+
+    $default	reduce using rule 59 (multiplicative_exp)
+
+    multiply	go to state 153
+    divide	go to state 154
+    mod 	go to state 155
+
+
+
+state 122
+
+    term_list  ->  multiply . term   (rule 63)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    term	go to state 156
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 123
+
+    term_list  ->  divide . term   (rule 64)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    term	go to state 157
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 124
+
+    term_list  ->  mod . term   (rule 65)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    term	go to state 158
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 125
+
+    relation_exp  ->  l_paren bool_exp . r_paren   (rule 46)
+
+    R_PAREN	shift, and go to state 159
+
+    r_paren	go to state 160
+
+
+
+state 126
+
+    relation_exp  ->  expression . comp expression   (rule 43)
+    term  ->  l_paren expression . r_paren   (rule 72)
+
+    EQ  	shift, and go to state 101
+    NEQ 	shift, and go to state 102
+    LT  	shift, and go to state 103
+    GT  	shift, and go to state 104
+    LTE 	shift, and go to state 105
+    GTE 	shift, and go to state 106
+    R_PAREN	shift, and go to state 159
+
+    comp	go to state 107
+    r_paren	go to state 161
+    equal_to	go to state 108
+    not_equal_to	go to state 109
+    less_than	go to state 110
+    greater_than	go to state 111
+    less_than_or_equal_to	go to state 112
+    greater_than_or_equal_to	go to state 113
+
+
+
+state 127
+
+    relation_exp  ->  not expression . comp expression   (rule 39)
+
+    EQ  	shift, and go to state 101
+    NEQ 	shift, and go to state 102
+    LT  	shift, and go to state 103
+    GT  	shift, and go to state 104
+    LTE 	shift, and go to state 105
+    GTE 	shift, and go to state 106
+
+    comp	go to state 162
+    equal_to	go to state 108
+    not_equal_to	go to state 109
+    less_than	go to state 110
+    greater_than	go to state 111
+    less_than_or_equal_to	go to state 112
+    greater_than_or_equal_to	go to state 113
+
+
+
+state 128
+
+    relation_exp  ->  not l_paren . bool_exp r_paren   (rule 42)
+    term  ->  l_paren . expression r_paren   (rule 72)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    bool_exp	go to state 163
+    relation_and_exp	go to state 67
+    relation_exp	go to state 68
+    expression	go to state 126
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 129
+
+    relation_exp  ->  not true .   (rule 40)
+
+    $default	reduce using rule 40 (relation_exp)
+
+
+
+state 130
+
+    relation_exp  ->  not false .   (rule 41)
+
+    $default	reduce using rule 41 (relation_exp)
+
+
+
+state 131
+
+    term  ->  sub var .   (rule 67)
+
+    $default	reduce using rule 67 (term)
+
+
+
+state 132
+
+    term  ->  sub number . var   (rule 68)
+
+    IDENT	shift, and go to state 6
+
+    var 	go to state 164
+    identifier	go to state 41
+
+
+
+state 133
+
+    term  ->  sub l_paren . expression r_paren   (rule 69)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    expression	go to state 165
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 134
+
+    statement  ->  while bool_exp begin_loop . statement_list end_loop   (rule 15)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 38
+    statement_list	go to state 166
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 135
+
+    statement  ->  do begin_loop statement_list . end_loop while bool_exp   (rule 16)
+    statement_list  ->  statement_list . statement semicolon   (rule 29)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    ENDLOOP	shift, and go to state 167
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 55
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    end_loop	go to state 168
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 136
+
+    var_list  ->  var_list comma . var   (rule 27)
+
+    IDENT	shift, and go to state 6
+
+    var 	go to state 169
+    identifier	go to state 41
+
+
+
+state 137
+
+    optional_array  ->  array l_bracket number . r_bracket of   (rule 10)
+
+    R_BRACKET	shift, and go to state 140
+
+    r_bracket	go to state 170
+
+
+
+state 138
+
+    question  ->  QUESTION .   (rule 91)
+
+    $default	reduce using rule 91 (question)
+
+
+
+state 139
+
+    statement  ->  var assign bool_exp question . expression colon expression   (rule 13)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    expression	go to state 171
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 140
+
+    r_bracket  ->  R_BRACKET .   (rule 85)
+
+    $default	reduce using rule 85 (r_bracket)
+
+
+
+state 141
+
+    var  ->  identifier l_bracket expression r_bracket .   (rule 74)
+
+    $default	reduce using rule 74 (var)
+
+
+
+state 142
+
+    term  ->  l_paren expression . r_paren   (rule 72)
+
+    R_PAREN	shift, and go to state 159
+
+    r_paren	go to state 161
+
+
+
+state 143
+
+    statement  ->  if bool_exp then statement_list . optional_elseif optional_else end_if   (rule 14)
+    statement_list  ->  statement_list . statement semicolon   (rule 29)
+
+    IF  	shift, and go to state 30
+    ELSEIF	shift, and go to state 172
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    ELSEIF	[reduce using rule 24 (optional_elseif)]
+    $default	reduce using rule 24 (optional_elseif)
+
+    statement	go to state 55
+    optional_elseif	go to state 173
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    elseif	go to state 174
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 144
+
+    relation_and_exp_list  ->  relation_and_exp_list or . relation_and_exp   (rule 32)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    relation_and_exp	go to state 175
+    relation_exp	go to state 68
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 145
+
+    relation_and_exp_list  ->  or relation_and_exp .   (rule 33)
+
+    $default	reduce using rule 33 (relation_and_exp_list)
+
+
+
+state 146
+
+    relation_exp_list  ->  relation_exp_list and . relation_exp   (rule 36)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    relation_exp	go to state 176
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 147
+
+    relation_exp_list  ->  and relation_exp .   (rule 37)
+
+    $default	reduce using rule 37 (relation_exp_list)
+
+
+
+state 148
+
+    relation_exp  ->  expression comp expression .   (rule 43)
+
+    $default	reduce using rule 43 (relation_exp)
+
+
+
+state 149
+
+    multiplicative_exp_list  ->  multiplicative_exp_list add . multiplicative_exp   (rule 54)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    multiplicative_exp	go to state 177
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 150
+
+    multiplicative_exp_list  ->  multiplicative_exp_list sub . multiplicative_exp   (rule 55)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    multiplicative_exp	go to state 178
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 151
+
+    multiplicative_exp_list  ->  add multiplicative_exp .   (rule 56)
+
+    $default	reduce using rule 56 (multiplicative_exp_list)
+
+
+
+state 152
+
+    multiplicative_exp_list  ->  sub multiplicative_exp .   (rule 57)
+
+    $default	reduce using rule 57 (multiplicative_exp_list)
+
+
+
+state 153
+
+    term_list  ->  term_list multiply . term   (rule 60)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    term	go to state 179
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 154
+
+    term_list  ->  term_list divide . term   (rule 61)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    term	go to state 180
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 155
+
+    term_list  ->  term_list mod . term   (rule 62)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    term	go to state 181
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 156
+
+    term_list  ->  multiply term .   (rule 63)
+
+    $default	reduce using rule 63 (term_list)
+
+
+
+state 157
+
+    term_list  ->  divide term .   (rule 64)
+
+    $default	reduce using rule 64 (term_list)
+
+
+
+state 158
+
+    term_list  ->  mod term .   (rule 65)
+
+    $default	reduce using rule 65 (term_list)
+
+
+
+state 159
+
+    r_paren  ->  R_PAREN .   (rule 87)
+
+    $default	reduce using rule 87 (r_paren)
+
+
+
+state 160
+
+    relation_exp  ->  l_paren bool_exp r_paren .   (rule 46)
+
+    $default	reduce using rule 46 (relation_exp)
+
+
+
+state 161
+
+    term  ->  l_paren expression r_paren .   (rule 72)
+
+    $default	reduce using rule 72 (term)
+
+
+
+state 162
+
+    relation_exp  ->  not expression comp . expression   (rule 39)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    expression	go to state 182
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 163
+
+    relation_exp  ->  not l_paren bool_exp . r_paren   (rule 42)
+
+    R_PAREN	shift, and go to state 159
+
+    r_paren	go to state 183
+
+
+
+state 164
+
+    term  ->  sub number var .   (rule 68)
+
+    $default	reduce using rule 68 (term)
+
+
+
+state 165
+
+    term  ->  sub l_paren expression . r_paren   (rule 69)
+
+    R_PAREN	shift, and go to state 159
+
+    r_paren	go to state 184
+
+
+
+state 166
+
+    statement  ->  while bool_exp begin_loop statement_list . end_loop   (rule 15)
+    statement_list  ->  statement_list . statement semicolon   (rule 29)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    ENDLOOP	shift, and go to state 167
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 55
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    end_loop	go to state 185
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 167
+
+    end_loop  ->  ENDLOOP .   (rule 99)
+
+    $default	reduce using rule 99 (end_loop)
+
+
+
+state 168
+
+    statement  ->  do begin_loop statement_list end_loop . while bool_exp   (rule 16)
+
+    WHILE	shift, and go to state 31
+
+    while	go to state 186
+
+
+
+state 169
+
+    var_list  ->  var_list comma var .   (rule 27)
+
+    $default	reduce using rule 27 (var_list)
+
+
+
+state 170
+
+    optional_array  ->  array l_bracket number r_bracket . of   (rule 10)
+
+    OF  	shift, and go to state 187
+
+    of  	go to state 188
+
+
+
+state 171
+
+    statement  ->  var assign bool_exp question expression . colon expression   (rule 13)
+
+    COLON	shift, and go to state 24
+
+    colon	go to state 189
+
+
+
+state 172
+
+    elseif  ->  ELSEIF .   (rule 95)
+
+    $default	reduce using rule 95 (elseif)
+
+
+
+state 173
+
+    statement  ->  if bool_exp then statement_list optional_elseif . optional_else end_if   (rule 14)
+    optional_elseif  ->  optional_elseif . elseif bool_exp statement_list   (rule 22)
+
+    ELSE	shift, and go to state 190
+    ELSEIF	shift, and go to state 172
+
+    $default	reduce using rule 26 (optional_else)
+
+    optional_else	go to state 191
+    elseif	go to state 192
+    else	go to state 193
+
+
+
+state 174
+
+    optional_elseif  ->  elseif . bool_exp statement_list optional_else   (rule 23)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    bool_exp	go to state 194
+    relation_and_exp	go to state 67
+    relation_exp	go to state 68
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 175
+
+    relation_and_exp_list  ->  relation_and_exp_list or relation_and_exp .   (rule 32)
+
+    $default	reduce using rule 32 (relation_and_exp_list)
+
+
+
+state 176
+
+    relation_exp_list  ->  relation_exp_list and relation_exp .   (rule 36)
+
+    $default	reduce using rule 36 (relation_exp_list)
+
+
+
+state 177
+
+    multiplicative_exp_list  ->  multiplicative_exp_list add multiplicative_exp .   (rule 54)
+
+    $default	reduce using rule 54 (multiplicative_exp_list)
+
+
+
+state 178
+
+    multiplicative_exp_list  ->  multiplicative_exp_list sub multiplicative_exp .   (rule 55)
+
+    $default	reduce using rule 55 (multiplicative_exp_list)
+
+
+
+state 179
+
+    term_list  ->  term_list multiply term .   (rule 60)
+
+    $default	reduce using rule 60 (term_list)
+
+
+
+state 180
+
+    term_list  ->  term_list divide term .   (rule 61)
+
+    $default	reduce using rule 61 (term_list)
+
+
+
+state 181
+
+    term_list  ->  term_list mod term .   (rule 62)
+
+    $default	reduce using rule 62 (term_list)
+
+
+
+state 182
+
+    relation_exp  ->  not expression comp expression .   (rule 39)
+
+    $default	reduce using rule 39 (relation_exp)
+
+
+
+state 183
+
+    relation_exp  ->  not l_paren bool_exp r_paren .   (rule 42)
+
+    $default	reduce using rule 42 (relation_exp)
+
+
+
+state 184
+
+    term  ->  sub l_paren expression r_paren .   (rule 69)
+
+    $default	reduce using rule 69 (term)
+
+
+
+state 185
+
+    statement  ->  while bool_exp begin_loop statement_list end_loop .   (rule 15)
+
+    $default	reduce using rule 15 (statement)
+
+
+
+state 186
+
+    statement  ->  do begin_loop statement_list end_loop while . bool_exp   (rule 16)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    bool_exp	go to state 195
+    relation_and_exp	go to state 67
+    relation_exp	go to state 68
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 187
+
+    of  ->  OF .   (rule 88)
+
+    $default	reduce using rule 88 (of)
+
+
+
+state 188
+
+    optional_array  ->  array l_bracket number r_bracket of .   (rule 10)
+
+    $default	reduce using rule 10 (optional_array)
+
+
+
+state 189
+
+    statement  ->  var assign bool_exp question expression colon . expression   (rule 13)
+
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    expression	go to state 196
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 92
+    sub 	go to state 78
+
+
+
+state 190
+
+    else  ->  ELSE .   (rule 96)
+
+    $default	reduce using rule 96 (else)
+
+
+
+state 191
+
+    statement  ->  if bool_exp then statement_list optional_elseif optional_else . end_if   (rule 14)
+
+    ENDIF	shift, and go to state 197
+
+    end_if	go to state 198
+
+
+
+state 192
+
+    optional_elseif  ->  optional_elseif elseif . bool_exp statement_list   (rule 22)
+
+    NOT 	shift, and go to state 60
+    TRUE	shift, and go to state 61
+    FALSE	shift, and go to state 62
+    SUB 	shift, and go to state 63
+    L_PAREN	shift, and go to state 64
+    NUMBER	shift, and go to state 65
+    IDENT	shift, and go to state 6
+
+    bool_exp	go to state 199
+    relation_and_exp	go to state 67
+    relation_exp	go to state 68
+    expression	go to state 69
+    multiplicative_exp	go to state 70
+    term	go to state 71
+    var 	go to state 72
+    identifier	go to state 41
+    number	go to state 73
+    l_paren	go to state 74
+    not 	go to state 75
+    true	go to state 76
+    false	go to state 77
+    sub 	go to state 78
+
+
+
+state 193
+
+    optional_else  ->  else . statement_list   (rule 25)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 38
+    statement_list	go to state 200
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 194
+
+    optional_elseif  ->  elseif bool_exp . statement_list optional_else   (rule 23)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 38
+    statement_list	go to state 201
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 195
+
+    statement  ->  do begin_loop statement_list end_loop while bool_exp .   (rule 16)
+
+    $default	reduce using rule 16 (statement)
+
+
+
+state 196
+
+    statement  ->  var assign bool_exp question expression colon expression .   (rule 13)
+
+    $default	reduce using rule 13 (statement)
+
+
+
+state 197
+
+    end_if  ->  ENDIF .   (rule 94)
+
+    $default	reduce using rule 94 (end_if)
+
+
+
+state 198
+
+    statement  ->  if bool_exp then statement_list optional_elseif optional_else end_if .   (rule 14)
+
+    $default	reduce using rule 14 (statement)
+
+
+
+state 199
+
+    optional_elseif  ->  optional_elseif elseif bool_exp . statement_list   (rule 22)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    statement	go to state 38
+    statement_list	go to state 202
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 200
+
+    optional_else  ->  else statement_list .   (rule 25)
+    statement_list  ->  statement_list . statement semicolon   (rule 29)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    $default	reduce using rule 25 (optional_else)
+
+    statement	go to state 55
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 201
+
+    optional_elseif  ->  elseif bool_exp statement_list . optional_else   (rule 23)
+    statement_list  ->  statement_list . statement semicolon   (rule 29)
+
+    IF  	shift, and go to state 30
+    ELSE	shift, and go to state 190
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    ELSE	[reduce using rule 26 (optional_else)]
+    $default	reduce using rule 26 (optional_else)
+
+    statement	go to state 55
+    optional_else	go to state 203
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    else	go to state 193
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 202
+
+    optional_elseif  ->  optional_elseif elseif bool_exp statement_list .   (rule 22)
+    statement_list  ->  statement_list . statement semicolon   (rule 29)
+
+    IF  	shift, and go to state 30
+    WHILE	shift, and go to state 31
+    DO  	shift, and go to state 32
+    BREAK	shift, and go to state 33
+    CONTINUE	shift, and go to state 34
+    EXIT	shift, and go to state 35
+    READ	shift, and go to state 36
+    WRITE	shift, and go to state 37
+    IDENT	shift, and go to state 6
+
+    $default	reduce using rule 22 (optional_elseif)
+
+    statement	go to state 55
+    var 	go to state 40
+    identifier	go to state 41
+    if  	go to state 42
+    while	go to state 43
+    do  	go to state 44
+    read	go to state 45
+    write	go to state 46
+    break	go to state 47
+    continue	go to state 48
+    exit	go to state 49
+
+
+
+state 203
+
+    optional_elseif  ->  elseif bool_exp statement_list optional_else .   (rule 23)
+
+    $default	reduce using rule 23 (optional_elseif)
+
+
+
+state 204
+
+    $   	go to state 205
+
+
+
+state 205
+
+    $   	go to state 206
+
+
+
+state 206
+
+    $default	accept
