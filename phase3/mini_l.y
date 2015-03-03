@@ -1,7 +1,10 @@
 /* Kenneth Mayorga and Juan Chavez Compiler Project Phase 2 */
 
-%{
+/* When no errors, code generator should produce a single output
+file containing the generated MIL intermediate code which should
+be named _____.mil. */
 
+%{
  #include <stdio.h>
 
  #include <stdlib.h>
@@ -15,17 +18,15 @@
  extern int currPos;
 
  FILE * yyin;
-
 %}
 
  
 
-%union{
-
+%union 
+{
   int number;
 
   char *string;
-
 }
 
  
@@ -65,9 +66,6 @@
 %left L_BRACKET R_BRACKET L_PAREN R_PAREN
 
 %%
-
- 
-
 start:       program_start 
 
 ;
@@ -76,22 +74,23 @@ start:       program_start
 
 program_start:      program   identifier   semicolon   block   end_program 
 
-	| error program identifier semicolon block end_program 
+	| error program identifier semicolon block end_program
+ 
 ;
 
  
 
-block:     declaration_list   begin_program   statement_list 
-
-                ;
+block:     declaration_list   begin_program   statement_list
+ 
+;
 
  
 
 declaration_list:    declaration_list   declaration   semicolon 
 
-| declaration   semicolon 
-
-                                ;
+| declaration   semicolon
+ 
+;
 
  
 
@@ -313,163 +312,165 @@ var:         identifier
 
 program:                PROGRAM 
 
-                                ;
+;
 
  
 
 identifier:               IDENT 
 
-                                ;
+;
 
  
 
 semicolon:            SEMICOLON 
 
-                                ;
+;
 
  
 
 end_program:       END_PROGRAM 
 
-                                ;
+;
 
  
 
 begin_program:    BEGIN_PROGRAM 
 
-                                ;
+;
 
  
 
 comma:  COMMA 
 
-                ;
+;
 
  
 
 colon:     COLON 
 
-                ;
+;
 
 array:      ARRAY 
 
-                ;
+;
 
  
 
 l_bracket:               L_BRACKET 
 
-                                ;
+;
 
  
 
 number: NUMBER 
 
-                                ;
+;
 
  
 
 r_bracket:              R_BRACKET 
 
-                                ;
+;
 
 
 
 l_paren:		L_PAREN 
-				;
+
+;
 
 
 
 r_paren:		R_PAREN 
-				;
+
+;
 
  
 
 of:           OF 
 
-                ;
+;
 
 integer:  INTEGER 
 
-                ;
+;
 
  
 
 assign:   ASSIGN 
 
-                ;
+;
 
  
 
 question:               QUESTION 
 
-                                ;
+;
 
  
 
 if:            IF 
 
-                ;
+;
 
  
 
 then:       THEN 
 
-                ;
+;
 
  
 
 end_if:    ENDIF 
 
-                ;
+;
 
  
 
 elseif:     ELSEIF 
 
-                ;
+;
 
  
 
 else:        ELSE 
 
-                ;
+;
 
  
 
 while:     WHILE 
 
-                ;
+;
 
  
 
 begin_loop:           BEGINLOOP 
 
-                                ;
+;
 
  
 
 end_loop:              ENDLOOP 
 
-                                ;
+;
 
  
 
 do:          DO 
 
-                ;
+;
 
  
 
 read:       READ 
 
-                ;
+;
 
  
 
 write:      WRITE 
 
-                ;
+;
 
  
 
@@ -477,71 +478,71 @@ write:      WRITE
 
 break:     BREAK 
 
-                ;
+;
 
  
 
 continue:               CONTINUE 
 
-                                ;
+;
 
 exit:        EXIT 
 
-                ;
+;
 
  
 
 or:           OR 
 
-                ;
+;
 
  
 
 and:        AND 
 
-                ;
+;
 
  
 
 not:         NOT 
 
-                ;
+;
 
  
 
 true:        TRUE 
 
-                ;
+;
 
  
 
 false:      FALSE 
 
-                ;
+;
 
  
 
 equal_to:               EQ 
 
-                                ;
+;
 
  
 
 not_equal_to:       NEQ 
 
-                                ;
+;
 
  
 
 less_than:              LT 
 
-                                ;
+;
 
  
 
 greater_than:        GT 
 
-                                ;
+;
 
  
 
@@ -553,35 +554,35 @@ less_than_or_equal_to:       LTE
 
 greater_than_or_equal_to: GTE 
 
-                                                                ;
+;
 
 add:        ADD 
 
-                ;
+;
 
  
 
 sub:        SUB 
 
-                ;
+;
 
  
 
 multiply:                MULT 
 
-                                ;
+;
 
  
 
 divide:    DIV 
 
-                ;
+;
 
  
 
 mod:       MOD 
 
-                ;
+;
 
  
 
