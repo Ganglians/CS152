@@ -142,7 +142,7 @@ statement:             var   assign   expression
 
 optional_elseif:     optional_elseif   elseif   bool_exp   statement_list 
 
-| elseif   bool_exp   statement_list   optional_else 
+| elseif   bool_exp   statement_list
 
 | /* epsilon */ 
 
