@@ -5,19 +5,21 @@ file containing the generated MIL intermediate code which should
 be named _____.mil. */
 
 %{
+ #include <stdlib.h>
  #include <stdio.h>
 
- #include <stdlib.h>
+// FILE * yyin;
 
- void yyerror(const char *msg);
+ int yyparse();
 
  int yylex();
 
+ void yyerror(const char *msg);
+ 
  extern int currLine;
 
  extern int currPos;
 
- FILE * yyin;
 %}
 
  
@@ -588,17 +590,15 @@ mod:       MOD
 
 %%
 
- 
-
 int main(int argc, char **argv) {
 
-   if (argc > 1) {
+   if (argc > 1) 
+   {
 
-      yyin = fopen(argv[1], "r");
+      if (freopen(argv[1], "r", stdin) == NULL)
+      {
 
-      if (yyin == NULL){
-
-         printf("syntax: %s filename\n", argv[0]);
+		 printf("syntax: %s filename\n", argv[0]);
 
       }//end if
 
@@ -609,8 +609,6 @@ int main(int argc, char **argv) {
    return 0;
 
 }
-
- 
 
 void yyerror(const char *msg) {
 

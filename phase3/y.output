@@ -3,7 +3,6 @@ State 68 contains 1 shift/reduce conflict.
 State 70 contains 2 shift/reduce conflicts.
 State 71 contains 3 shift/reduce conflicts.
 State 143 contains 1 shift/reduce conflict.
-State 201 contains 1 shift/reduce conflict.
 
 Grammar
 rule 1    start -> program_start
@@ -28,7 +27,7 @@ rule 19   statement -> break
 rule 20   statement -> continue
 rule 21   statement -> exit
 rule 22   optional_elseif -> optional_elseif elseif bool_exp statement_list
-rule 23   optional_elseif -> elseif bool_exp statement_list optional_else
+rule 23   optional_elseif -> elseif bool_exp statement_list
 rule 24   optional_elseif ->		/* empty */
 rule 25   optional_else -> else statement_list
 rule 26   optional_else ->		/* empty */
@@ -202,7 +201,7 @@ statement (58)
 optional_elseif (59)
     on left: 22 23 24, on right: 14 22
 optional_else (60)
-    on left: 25 26, on right: 14 23
+    on left: 25 26, on right: 14
 var_list (61)
     on left: 27 28, on right: 17 18 27
 statement_list (62)
@@ -332,7 +331,7 @@ state 0
     error	shift, and go to state 1
     PROGRAM	shift, and go to state 2
 
-    start	go to state 204
+    start	go to state 203
     program_start	go to state 3
     program	go to state 4
 
@@ -2539,7 +2538,7 @@ state 173
 
 state 174
 
-    optional_elseif  ->  elseif . bool_exp statement_list optional_else   (rule 23)
+    optional_elseif  ->  elseif . bool_exp statement_list   (rule 23)
 
     NOT 	shift, and go to state 60
     TRUE	shift, and go to state 61
@@ -2797,7 +2796,7 @@ state 193
 
 state 194
 
-    optional_elseif  ->  elseif bool_exp . statement_list optional_else   (rule 23)
+    optional_elseif  ->  elseif bool_exp . statement_list   (rule 23)
 
     IF  	shift, and go to state 30
     WHILE	shift, and go to state 31
@@ -2918,11 +2917,10 @@ state 200
 
 state 201
 
-    optional_elseif  ->  elseif bool_exp statement_list . optional_else   (rule 23)
+    optional_elseif  ->  elseif bool_exp statement_list .   (rule 23)
     statement_list  ->  statement_list . statement semicolon   (rule 29)
 
     IF  	shift, and go to state 30
-    ELSE	shift, and go to state 190
     WHILE	shift, and go to state 31
     DO  	shift, and go to state 32
     BREAK	shift, and go to state 33
@@ -2932,15 +2930,12 @@ state 201
     WRITE	shift, and go to state 37
     IDENT	shift, and go to state 6
 
-    ELSE	[reduce using rule 26 (optional_else)]
-    $default	reduce using rule 26 (optional_else)
+    $default	reduce using rule 23 (optional_elseif)
 
     statement	go to state 55
-    optional_else	go to state 203
     var 	go to state 40
     identifier	go to state 41
     if  	go to state 42
-    else	go to state 193
     while	go to state 43
     do  	go to state 44
     read	go to state 45
@@ -2984,9 +2979,7 @@ state 202
 
 state 203
 
-    optional_elseif  ->  elseif bool_exp statement_list optional_else .   (rule 23)
-
-    $default	reduce using rule 23 (optional_elseif)
+    $   	go to state 204
 
 
 
@@ -2997,11 +2990,5 @@ state 204
 
 
 state 205
-
-    $   	go to state 206
-
-
-
-state 206
 
     $default	accept
