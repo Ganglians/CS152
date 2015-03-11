@@ -7,17 +7,12 @@
  
 
 %{
-
    #include "y.tab.h"
-
    #include <string.h>
-
    #include <stdio.h>
-
    #include <stdlib.h>
 
    int currLine = 1, currPos = 1;
-
 %}
 
  

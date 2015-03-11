@@ -13,10 +13,9 @@
 
  #line 8 "/usr/share/bison++/bison.h"
 
-#line 41 "mini_l.y"
+#line 40 "mini_l.y"
 typedef union{
   int number;
-
   char *string;
 } yy_parse_stype;
 #define YY_parse_STYPE yy_parse_stype

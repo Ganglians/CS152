@@ -107,9 +107,9 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
  #include <sstream>
  #include <vector>
  #include <stack>
- using namespace std;
+ #include <map>
 
- int yylex(void);
+ using namespace std;
 
  void yyerror(const char *msg);
  int yylex(void); 
@@ -133,11 +133,11 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
  vector<string> Loop;
  vector<string> Pred;
 
+ map<string, int> Decl;
 
-#line 41 "mini_l.y"
+#line 40 "mini_l.y"
 typedef union{
   int number;
-
   char *string;
 } yy_parse_stype;
 #define YY_parse_STYPE yy_parse_stype
@@ -741,19 +741,19 @@ static const short yyrhs[] = {    52,
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    84,    92,   108,   114,   120,   122,   128,   140,   142,   148,
-   156,   162,   164,   166,   168,   170,   172,   174,   176,   178,
-   180,   186,   188,   190,   196,   198,   204,   206,   212,   214,
-   220,   226,   228,   230,   236,   242,   244,   246,   252,   254,
-   256,   258,   260,   262,   264,   266,   272,   274,   276,   278,
-   280,   282,   288,   294,   296,   298,   300,   302,   308,   314,
-   316,   318,   320,   322,   324,   326,   332,   334,   336,   338,
-   340,   342,   348,   350,   356,   362,   368,   374,   380,   386,
-   392,   396,   402,   408,   414,   420,   426,   432,   436,   442,
-   448,   454,   460,   466,   472,   478,   484,   490,   496,   502,
-   508,   514,   522,   528,   532,   538,   544,   550,   556,   562,
-   568,   574,   580,   586,   592,   598,   602,   608,   614,   620,
-   626
+    81,    88,   104,   110,   116,   118,   124,   136,   138,   144,
+   163,   169,   171,   173,   175,   177,   179,   181,   183,   185,
+   187,   193,   195,   197,   203,   205,   211,   213,   219,   221,
+   227,   233,   235,   237,   243,   249,   251,   253,   259,   261,
+   263,   265,   267,   269,   271,   273,   279,   281,   283,   285,
+   287,   289,   295,   301,   303,   305,   307,   309,   315,   321,
+   323,   325,   327,   329,   331,   333,   339,   341,   343,   345,
+   347,   349,   355,   357,   363,   369,   375,   381,   387,   393,
+   399,   403,   409,   415,   421,   427,   433,   439,   443,   449,
+   455,   461,   467,   473,   479,   485,   491,   497,   503,   509,
+   515,   521,   529,   535,   539,   545,   551,   557,   563,   569,
+   575,   581,   587,   593,   599,   605,   609,   615,   621,   627,
+   633
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","PROGRAM",
@@ -1425,13 +1425,13 @@ YYLABEL(yyreduce)
   switch (yyn) {
 
 case 1:
-#line 84 "mini_l.y"
+#line 81 "mini_l.y"
 {
 	Out << ": START\n";
 ;
     break;}
 case 2:
-#line 92 "mini_l.y"
+#line 88 "mini_l.y"
 {
 	{
 		for(int i = 0; i < t; i++)
@@ -1449,7 +1449,7 @@ case 2:
 ;
     break;}
 case 7:
-#line 128 "mini_l.y"
+#line 124 "mini_l.y"
 {
 	while(!ID.empty()) 
 	{
@@ -1459,13 +1459,24 @@ case 7:
 ;
     break;}
 case 10:
-#line 148 "mini_l.y"
+#line 144 "mini_l.y"
 {
-/* if(atoi($3)) 
+ if(yyvsp[-2].number <= 0) 
  {
 	errors = "Error: Declaring array of invalid size.";
 	yyerror(errors.c_str());	
- } */
+ }
+
+ while(!ID.empty())
+ {
+	 int num = yyvsp[-2].number;
+	 Out << "\t.[] " << ID.back() << ", " << num << endl;
+
+	 string id = ID.back();
+
+	 Decl[id] = num;
+	 ID.pop_back();
+ } 
 ;
     break;}
 }
@@ -1672,7 +1683,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 632 "mini_l.y"
+#line 639 "mini_l.y"
 
 
 int main(int argc, char **argv) {

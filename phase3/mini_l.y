@@ -8,9 +8,9 @@
  #include <sstream>
  #include <vector>
  #include <stack>
- using namespace std;
+ #include <map>
 
- int yylex(void);
+ using namespace std;
 
  void yyerror(const char *msg);
  int yylex(void); 
@@ -34,17 +34,13 @@
  vector<string> Loop;
  vector<string> Pred;
 
+ map<string, int> Decl;
 %}
-
- 
 
 %union{
   int number;
-
   char *string;
 }
-
- /* %error-verbose */
 
 %start start
 
@@ -80,11 +76,11 @@
 
 %left L_BRACKET R_BRACKET L_PAREN R_PAREN
 
+%type <number> number
 %%
 start: program_start {
 	Out << ": START\n";
 } 
-
 ;
 
  
@@ -146,11 +142,22 @@ identifier_list: identifier_list comma identifier
  
 
 optional_array: array   l_bracket   number   r_bracket   of {
-/* if(atoi($3)) 
+ if($3 <= 0) 
  {
 	errors = "Error: Declaring array of invalid size.";
 	yyerror(errors.c_str());	
- } */
+ }
+
+ while(!ID.empty())
+ {
+	 int num = $3;
+	 Out << "\t.[] " << ID.back() << ", " << num << endl;
+
+	 string id = ID.back();
+
+	 Decl[id] = num;
+	 ID.pop_back();
+ } 
 } 
 
 | /* epsilon */ 
