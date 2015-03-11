@@ -1,37 +1,48 @@
 /* Kenneth Mayorga and Juan Chavez Compiler Project Phase 2 */
 
-/* When no errors, code generator should produce a single output
-file containing the generated MIL intermediate code which should
-be named _____.mil. */
-
 %{
  #include <stdlib.h>
  #include <stdio.h>
+ #include <string>
+ #include <iostream>
+ #include <sstream>
+ #include <vector>
+ #include <stack>
+ using namespace std;
 
-// FILE * yyin;
-
- int yyparse();
-
- int yylex();
+ int yylex(void);
 
  void yyerror(const char *msg);
- 
- extern int currLine;
+ int yylex(void); 
 
+ extern int currLine;
  extern int currPos;
+
+ bool Err = false;
+ int t = 0, p = 0, l = 0;
+ 
+ stringstream Out;
+ string s1 = "", s2 = "", errors = "";
+
+ // Storage Vectors
+ vector<string> ID;
+ vector<string> Var;
+ vector<string> Cmp;
+ vector<string> Index;
+ vector<string> Rev;
+ vector<string> Label;
+ vector<string> Loop;
+ vector<string> Pred;
 
 %}
 
  
 
-%union 
-{
+%union{
   int number;
 
   char *string;
 }
-
- 
 
  /* %error-verbose */
 
@@ -68,27 +79,43 @@ be named _____.mil. */
 %left L_BRACKET R_BRACKET L_PAREN R_PAREN
 
 %%
-start:       program_start 
+start: program_start {
+	Out << ": START\n";
+} 
 
 ;
 
  
 
-program_start:      program   identifier   semicolon   block   end_program 
+program_start: program   identifier   semicolon   block   end_program {
+	{
+		for(int i = 0; i < t; i++)
+		{
+			cout << "\t. t" << i << endl;
+		}
 
-	| error program identifier semicolon block end_program
+		for(int j = 0; j < p; j ++)
+		{
+			cout << "\t. p" << j << endl;
+		}
+
+		cout << Out.str();
+	}
+} 
+
+| error program identifier semicolon block end_program
  
 ;
 
  
 
-block:     declaration_list   begin_program   statement_list
+block: declaration_list   begin_program   statement_list
  
 ;
 
  
 
-declaration_list:    declaration_list   declaration   semicolon 
+declaration_list: declaration_list   declaration   semicolon 
 
 | declaration   semicolon
  
@@ -96,13 +123,19 @@ declaration_list:    declaration_list   declaration   semicolon
 
  
 
-declaration :          identifier_list   colon   optional_array   integer 
+declaration: identifier_list   colon   optional_array   integer {
+	while(!ID.empty()) 
+	{
+		Out << "\t. " << ID.back() << endl;
+		ID.pop_back();
+	}
+} 
 
 ;
 
  
 
-identifier_list:   identifier_list comma identifier   
+identifier_list: identifier_list comma identifier   
 
 | identifier 
 
@@ -110,7 +143,13 @@ identifier_list:   identifier_list comma identifier
 
  
 
-optional_array:     array   l_bracket   number   r_bracket   of 
+optional_array: array   l_bracket   number   r_bracket   of {
+/* if(atoi($3)) 
+ {
+	errors = "Error: Declaring array of invalid size.";
+	yyerror(errors.c_str());	
+ } */
+} 
 
 | /* epsilon */ 
 
@@ -118,7 +157,7 @@ optional_array:     array   l_bracket   number   r_bracket   of
 
  
 
-statement:             var   assign   expression 
+statement: var   assign   expression 
 
 | var   assign   bool_exp   question   expression   colon   expression 
 
@@ -178,7 +217,7 @@ statement_list:      statement_list   statement   semicolon
 
 bool_exp:              relation_and_exp   relation_and_exp_list 
 
-                                ;
+;
 
  
 
@@ -312,13 +351,13 @@ var:         identifier
 
  
 
-program:                PROGRAM 
+program: PROGRAM 
 
 ;
 
  
 
-identifier:               IDENT 
+identifier: IDENT 
 
 ;
 
@@ -392,85 +431,85 @@ of:           OF
 
 ;
 
-integer:  INTEGER 
+integer: INTEGER 
 
 ;
 
  
 
-assign:   ASSIGN 
+assign: ASSIGN 
 
 ;
 
  
 
-question:               QUESTION 
+question: QUESTION 
 
 ;
 
  
 
-if:            IF 
+if: IF 
 
 ;
 
  
 
-then:       THEN 
+then: THEN 
 
 ;
 
  
 
-end_if:    ENDIF 
+end_if: ENDIF 
 
 ;
 
  
 
-elseif:     ELSEIF 
+elseif: ELSEIF 
 
 ;
 
  
 
-else:        ELSE 
+else: ELSE 
 
 ;
 
  
 
-while:     WHILE 
+while: WHILE 
 
 ;
 
  
 
-begin_loop:           BEGINLOOP 
+begin_loop: BEGINLOOP 
 
 ;
 
  
 
-end_loop:              ENDLOOP 
+end_loop: ENDLOOP 
 
 ;
 
  
 
-do:          DO 
+do: DO 
 
 ;
 
  
 
-read:       READ 
+read: READ 
 
 ;
 
  
 
-write:      WRITE 
+write: WRITE 
 
 ;
 
@@ -591,7 +630,6 @@ mod:       MOD
 %%
 
 int main(int argc, char **argv) {
-
    if (argc > 1) 
    {
 

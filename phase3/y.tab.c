@@ -98,27 +98,44 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
 #define YYBISON 1  
 
  #line 88 "/usr/share/bison++/bison.cc"
-#line 7 "mini_l.y"
+#line 3 "mini_l.y"
 
  #include <stdlib.h>
  #include <stdio.h>
+ #include <string>
+ #include <iostream>
+ #include <sstream>
+ #include <vector>
+ #include <stack>
+ using namespace std;
 
-// FILE * yyin;
-
- int yyparse();
-
- int yylex();
+ int yylex(void);
 
  void yyerror(const char *msg);
- 
- extern int currLine;
+ int yylex(void); 
 
+ extern int currLine;
  extern int currPos;
 
+ bool Err = false;
+ int t = 0, p = 0, l = 0;
+ 
+ stringstream Out;
+ string s1 = "", s2 = "", errors = "";
 
-#line 27 "mini_l.y"
-typedef union 
-{
+ // Storage Vectors
+ vector<string> ID;
+ vector<string> Var;
+ vector<string> Cmp;
+ vector<string> Index;
+ vector<string> Rev;
+ vector<string> Label;
+ vector<string> Loop;
+ vector<string> Pred;
+
+
+#line 41 "mini_l.y"
+typedef union{
   int number;
 
   char *string;
@@ -724,19 +741,19 @@ static const short yyrhs[] = {    52,
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    71,    77,    79,    85,    91,    93,    99,   105,   107,   113,
-   115,   121,   123,   125,   127,   129,   131,   133,   135,   137,
-   139,   145,   147,   149,   155,   157,   163,   165,   171,   173,
-   179,   185,   187,   189,   195,   201,   203,   205,   211,   213,
-   215,   217,   219,   221,   223,   225,   231,   233,   235,   237,
-   239,   241,   247,   253,   255,   257,   259,   261,   267,   273,
-   275,   277,   279,   281,   283,   285,   291,   293,   295,   297,
-   299,   301,   307,   309,   315,   321,   327,   333,   339,   345,
-   351,   355,   361,   367,   373,   379,   385,   391,   395,   401,
-   407,   413,   419,   425,   431,   437,   443,   449,   455,   461,
-   467,   473,   481,   487,   491,   497,   503,   509,   515,   521,
-   527,   533,   539,   545,   551,   557,   561,   567,   573,   579,
-   585
+    82,    90,   106,   112,   118,   120,   126,   138,   140,   146,
+   154,   160,   162,   164,   166,   168,   170,   172,   174,   176,
+   178,   184,   186,   188,   194,   196,   202,   204,   210,   212,
+   218,   224,   226,   228,   234,   240,   242,   244,   250,   252,
+   254,   256,   258,   260,   262,   264,   270,   272,   274,   276,
+   278,   280,   286,   292,   294,   296,   298,   300,   306,   312,
+   314,   316,   318,   320,   322,   324,   330,   332,   334,   336,
+   338,   340,   346,   348,   354,   360,   366,   372,   378,   384,
+   390,   394,   400,   406,   412,   418,   424,   430,   434,   440,
+   446,   452,   458,   464,   470,   476,   482,   488,   494,   500,
+   506,   512,   520,   526,   530,   536,   542,   548,   554,   560,
+   566,   572,   578,   584,   590,   596,   600,   606,   612,   618,
+   624
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","PROGRAM",
@@ -1407,6 +1424,50 @@ YYLABEL(yyreduce)
 
   switch (yyn) {
 
+case 1:
+#line 82 "mini_l.y"
+{
+	Out << ": START\n";
+;
+    break;}
+case 2:
+#line 90 "mini_l.y"
+{
+	{
+		for(int i = 0; i < t; i++)
+		{
+			cout << "\t. t" << i << endl;
+		}
+
+		for(int j = 0; j < p; j ++)
+		{
+			cout << "\t. p" << j << endl;
+		}
+
+		cout << Out.str();
+	}
+;
+    break;}
+case 7:
+#line 126 "mini_l.y"
+{
+	while(!ID.empty()) 
+	{
+		Out << "\t. " << ID.back() << endl;
+		ID.pop_back();
+	}
+;
+    break;}
+case 10:
+#line 146 "mini_l.y"
+{
+/* if(atoi($3)) 
+ {
+	errors = "Error: Declaring array of invalid size.";
+	yyerror(errors.c_str());	
+ } */
+;
+    break;}
 }
 
 #line 839 "/usr/share/bison++/bison.cc"
@@ -1611,11 +1672,10 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 591 "mini_l.y"
+#line 630 "mini_l.y"
 
 
 int main(int argc, char **argv) {
-
    if (argc > 1) 
    {
 
