@@ -105,7 +105,7 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
  #include <string>
  #include <iostream>
  #include <sstream>
- #include <vector>
+ #include <stack>
  #include <stack>
  #include <map>
 
@@ -123,15 +123,15 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
  stringstream Out;
  string s1 = "", s2 = "", errors = "";
 
- // Storage Vectors
- vector<string> ID;
- vector<string> Var;
- vector<string> Cmp;
- vector<string> Index;
- vector<string> Rev;
- vector<string> Label;
- vector<string> Loop;
- vector<string> Pred;
+ // Storage stacks
+ stack<string> ID;
+ stack<string> Var;
+ stack<string> Cmp;
+ stack<string> Index;
+ stack<string> Rev;
+ stack<string> Label;
+ stack<string> Loop;
+ stack<string> Pred;
 
  map<string, int> Decl;
 
@@ -1453,8 +1453,8 @@ case 7:
 {
 	while(!ID.empty()) 
 	{
-		Out << "\t. " << ID.back() << endl;
-		ID.pop_back();
+		Out << "\t. " << ID.top() << endl;
+		ID.pop();
 	}
 ;
     break;}
@@ -1470,12 +1470,12 @@ case 10:
  while(!ID.empty())
  {
 	 int num = yyvsp[-2].number;
-	 Out << "\t.[] " << ID.back() << ", " << num << endl;
+	 Out << "\t.[] " << ID.top() << ", " << num << endl;
 
-	 string id = ID.back();
+	 string id = ID.top();
 
 	 Decl[id] = num;
-	 ID.pop_back();
+	 ID.pop();
  } 
 ;
     break;}

@@ -6,6 +6,7 @@
  #include <string>
  #include <iostream>
  #include <sstream>
+ #include <vector>
  #include <stack>
  #include <map>
 
@@ -23,15 +24,15 @@
  stringstream Out;
  string s1 = "", s2 = "", errors = "";
 
- // Storage stacks
- stack<string> ID;
- stack<string> Var;
- stack<string> Cmp;
- stack<string> Index;
- stack<string> Rev;
- stack<string> Label;
- stack<string> Loop;
- stack<string> Pred;
+ // Storage Vectors
+ vector<string> ID;
+ vector<string> Var;
+ vector<string> Cmp;
+ vector<string> Index;
+ vector<string> Rev;
+ vector<string> Label;
+ vector<string> Loop;
+ vector<string> Pred;
 
  map<string, int> Decl;
 %}
@@ -123,8 +124,8 @@ declaration_list: declaration_list   declaration   semicolon
 declaration: identifier_list   colon   optional_array   integer {
 	while(!ID.empty()) 
 	{
-		Out << "\t. " << ID.top() << endl;
-		ID.pop();
+		Out << "\t. " << ID.back() << endl;
+		ID.pop_back();
 	}
 } 
 
@@ -150,12 +151,12 @@ optional_array: array   l_bracket   number   r_bracket   of {
  while(!ID.empty())
  {
 	 int num = $3;
-	 Out << "\t.[] " << ID.top() << ", " << num << endl;
+	 Out << "\t.[] " << ID.back() << ", " << num << endl;
 
-	 string id = ID.top();
+	 string id = ID.back();
 
 	 Decl[id] = num;
-	 ID.pop();
+	 ID.pop_back();
  } 
 } 
 
