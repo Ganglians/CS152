@@ -33,7 +33,7 @@
  stack<string> Loop;
  stack<string> Pred;
 
- map<string, int> Symbols;
+ map<string, int> Decl;
 %}
 
 %union{
@@ -76,8 +76,6 @@
 %left L_BRACKET R_BRACKET L_PAREN R_PAREN
 
 %type <number> number
-
-%type <string> identifier
 %%
 start: program_start {
 	Out << ": START\n";
@@ -149,7 +147,7 @@ optional_array: array   l_bracket   number   r_bracket   of {
 	yyerror(errors.c_str());	
  }
 
- /* while(!ID.empty())
+ while(!ID.empty())
  {
 	 int num = $3;
 	 Out << "\t.[] " << ID.top() << ", " << num << endl;
@@ -158,7 +156,7 @@ optional_array: array   l_bracket   number   r_bracket   of {
 
 	 Decl[id] = num;
 	 ID.pop();
- } */
+ } 
 } 
 
 | /* epsilon */ 
@@ -367,29 +365,13 @@ program: PROGRAM
 
  
 
-identifier: IDENT {
-    // Access the identifier
-    //cout << "$$: " << $$ << endl;	
-	string Id = $1;
-
-	// Search for the identifier in the map
-    if(Symbols.find(Id)	== Symbols.end())
-	{
-		ID.push(Id);
-	}
-    // Error checking
-	else
-	{
-		errors = "Error: redeclaration of " + Id;
-		yyerror(errors.c_str());
-	}
-}
+identifier: IDENT 
 
 ;
 
  
 
-semicolon:            SEMICOLON  
+semicolon:            SEMICOLON 
 
 ;
 
