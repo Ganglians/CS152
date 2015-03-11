@@ -1,4 +1,4 @@
-/* Kenneth Mayorga and Juan Chavez Compiler Project Phase 2 */
+/* Kenneth Mayorga and Juan Chavez Compiler Project Phase 3 */
 
 %{
  #include <stdlib.h>
