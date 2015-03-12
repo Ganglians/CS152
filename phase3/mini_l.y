@@ -1,44 +1,70 @@
-/* Kenneth Mayorga and Juan Chavez Compiler Project Phase 3 */
+/*
+	Names:		Juan Chavez
+				Kenneth Mayorga
+
+	Class:		CS152 Winter 2015
+
+    Assignment: Phase 3; Code Generation
+
+	File: mini_l.y
+*/
 
 %{
- #include <stdlib.h>
- #include <stdio.h>
- #include <string>
- #include <iostream>
- #include <sstream>
- #include <stack>
- #include <map>
 
- using namespace std;
+	#include <stdlib.h>
+	#include <stdio.h>
+	#include <string>
+	#include <iostream>
+	#include <sstream>
+	#include <stack>
+	#include <vector>
+	#include <map>
 
- void yyerror(const char *msg);
- int yylex(void); 
+	using namespace std;
 
- extern int currLine;
- extern int currPos;
+	void yyerror(const char *msg);
+	int yylex(void); 
 
- bool Err = false;
- int t = 0, p = 0, l = 0;
- 
- stringstream Out;
- string s1 = "", s2 = "", errors = "";
+	extern int currLine;
+	extern int currPos;
 
- // Storage stacks
- stack<string> ID;
- stack<string> Var;
- stack<string> Cmp;
- stack<string> Index;
- stack<string> Rev;
- stack<string> Label;
- stack<string> Loop;
- stack<string> Pred;
+	bool Err = false;
+	int t = 0, p = 0, l = 0;
+	
+	// Intermediate code buffer
+	ostringstream buff;
+	string s1 = "";
+	string s2 = "";
 
- map<string, int> Symbols;
+	// Error message string
+	string errors = "";
+
+	// Storage stacks
+	stack<string> ID;
+	stack<string> Var;
+	stack<string> Comp;
+	stack<string> Index;
+	stack<string> Rev;
+	stack<int> Label;
+	stack<int> Loop;
+	stack<int> Pred;
+
+	// Symbol table
+	map<string, int> Symbols;
+
+	// Keywords
+	static const string Key_words[] = { "_program", "_endprogram", "_array", "_if", "_endif", "_while", "_beginloop", "_continue", "_write", "_or", "_true", "_begin_program", "_integer", "_of", "_then", "_else", "_do", "_endloop", "_read", "_and", "_not", "_false" };
+
+	vector<string> Keywords (Key_words, Key_words + sizeof(Key_words) / sizeof(Key_words[0]));
+
 %}
 
-%union{
-  int number;
-  char *string;
+%union
+{
+
+	int number;
+	char *string;
+
 }
 
 %start start
@@ -80,26 +106,25 @@
 %type <string> identifier var expression assign statement
 %%
 start: program_start {
-	Out << ": START\n";
+	buff << ": START\n";
 } 
 ;
-
  
-
 program_start: program   identifier   semicolon   block   end_program {
-	{
-		for(int i = 0; i < t; i++)
+		if(!Err) 
 		{
-			cout << "\t. t" << i << endl;
-		}
+			for(int i = 0; i < t; i++)
+			{
+				cout << "\t. t" << i << endl;
+			}
 
-		for(int j = 0; j < p; j ++)
-		{
-			cout << "\t. p" << j << endl;
-		}
+			for(int j = 0; j < p; j ++)
+			{
+				cout << "\t. p" << j << endl;
+			}
 
-		cout << Out.str();
-	}
+			cout << buff.str();
+		}
 } 
 
 | error program identifier semicolon block end_program
@@ -125,7 +150,7 @@ declaration_list: declaration_list   declaration   semicolon
 declaration: identifier_list   colon   optional_array   integer {
 	while(!ID.empty()) 
 	{
-		Out << "\t. " << ID.top() << endl;
+		buff << "\t. " << ID.top() << endl;
 		ID.pop();
 	}
 } 
@@ -136,39 +161,80 @@ declaration: identifier_list   colon   optional_array   integer {
 
 identifier_list: identifier_list comma identifier   
 
-| identifier 
+| identifier {
+	// Error check
+	string id = "_" + string($1);
+	map<string, int>::iterator i = Symbols.find(id);
+
+	if (i != Symbols.end())
+	{
+		errors = "Error: " + id + " has been previously defined";
+		yyerror(errors.c_str());
+	}
+
+	Symbols[id] = -1;
+	ID.push(id);
+} 
 
 ;
 
  
 
 optional_array: array   l_bracket   number   r_bracket   of {
- if($3 <= 0) 
- {
-	errors = "Error: Declaring array of invalid size.";
-	yyerror(errors.c_str());	
- }
+	int num = $3;
 
-  while(!ID.empty())
- {
-	 int num = $3;
-	 Out << "\t.[] " << ID.top() << ", " << num << endl;
+    //Error check
+	if(num <= 0) 
+	{	
+		errors = "Error: Declaring array of invalid size.";
+		yyerror(errors.c_str());	
+	}
 
-	 string id = ID.top();
+	while(!ID.empty())
+	{
+		buff << "\t.[] " << ID.top() << ", " << num << endl;
 
-	 Symbols[id] = num;
-	 ID.pop();
- } 
+		string id = ID.top();
+
+		Symbols[id] = num;
+		ID.pop();
+	} 
 } 
 
 | /* epsilon */ 
 
 ;
 
- 
-
 statement: var   assign   expression {
 
+	/*s2 = Var.top();
+	if(Index.top() != "-1")
+	{
+		ostringstream convert;
+		convert << t;
+		buff << "\t=[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+
+		s2 = "t" + convert.str();
+		t++;
+	}
+
+	Var.pop();
+	Index.pop();
+	s1 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		buff << "\t[]= " << s1 << ", " << Index.top() << ", " << s2 << endl;
+	}
+
+	else
+	{
+		buff << "\t= " << s1 << ", " << s2 << endl;
+	}
+
+	Var.pop();
+	Index.pop(); */
+ 
 }
 
 | if   bool_exp   then   statement_list   optional_elseif   optional_else   end_if 
@@ -277,17 +343,41 @@ relation_exp: not   expression   comp   expression
 
  
 
-comp: equal_to 
+comp: equal_to {
 
-| not_equal_to 
+	Comp.push("==");
 
-| less_than 
+} 
 
-| greater_than 
+| not_equal_to {
 
-| less_than_or_equal_to 
+	Comp.push("!=");
 
-| greater_than_or_equal_to 
+}
+
+| less_than {
+
+	Comp.push("<");
+
+}
+
+| greater_than {
+
+	Comp.push(">");
+
+}
+
+| less_than_or_equal_to {
+
+	Comp.push("<=");
+
+}
+
+| greater_than_or_equal_to {
+
+	Comp.push(">=");
+
+}
 
 ;
 
@@ -368,21 +458,34 @@ program: PROGRAM
  
 
 identifier: IDENT {
-    // Access the identifier
-    //cout << "$$: " << $$ << endl;	
-	string Id = $1;
 
-	// Search for the identifier in the map
-    if(Symbols.find(Id)	== Symbols.end())
+	// Search symbol table for identifier
+	string id = "_" + string($1);
+	map <string, int>::iterator i = Symbols.find(id);
+
+	// Error check
+	if (i != Symbols.end())
 	{
-		ID.push(Id);
-	}
-    // Error checking
-	else
-	{
-		errors = "Error: redeclaration of " + Id;
+		errors = "Error: " + id + " was previously defined";
 		yyerror(errors.c_str());
 	}
+
+	bool keybool = false;
+	int size = Keywords.size();
+
+	for(int j = 0; j < size; j++)
+	{
+		(id == Keywords[j]) ? keybool = true : keybool;	
+	}
+	
+	if(keybool == true)
+	{
+		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
+		yyerror(errors.c_str());
+	}
+
+	Var.push(id);
+
 }
 
 ;
@@ -480,12 +583,25 @@ if: IF
  
 
 then: THEN 
+{
+	int s2 = Pred.top();
+	Pred.pop();
+
+	buff << "\t?:= L" << l << ", p" << s2 << endl;
+	Label.push(l);
+	l++;	
+}
 
 ;
 
  
 
-end_if: ENDIF 
+end_if: ENDIF {
+
+	buff << ": L" << Label.top() << endl;
+	Label.pop();
+
+} 
 
 ;
 
@@ -497,19 +613,38 @@ elseif: ELSEIF
 
  
 
-else: ELSE 
+else: ELSE {
+
+	buff << "\t:= L" << l << endl;
+	buff << ": L" << Label.top() << endl;
+	Label.pop();
+	Label.push(l);
+
+	l++;
+
+}
 
 ;
 
  
 
-while: WHILE 
+while: WHILE {
+
+	buff << ": L" << l << endl;
+
+	Loop.push(l);
+	Label.push(l);
+	++l;
+	
+} 
 
 ;
 
  
 
-begin_loop: BEGINLOOP 
+begin_loop: BEGINLOOP {
+	int t = Pred.top();
+} 
 
 ;
 
@@ -547,7 +682,12 @@ break: BREAK
 
  
 
-continue: CONTINUE 
+continue: CONTINUE {
+	if(!Loop.empty())
+	{
+		buff << "\t:= L" << Loop.top() << endl;
+	}
+} 
 
 ;
 
