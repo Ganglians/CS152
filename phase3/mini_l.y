@@ -77,7 +77,7 @@
 
 %type <number> number
 
-%type <string> identifier
+%type <string> identifier var expression assign statement
 %%
 start: program_start {
 	Out << ": START\n";
@@ -149,16 +149,16 @@ optional_array: array   l_bracket   number   r_bracket   of {
 	yyerror(errors.c_str());	
  }
 
- /* while(!ID.empty())
+  while(!ID.empty())
  {
 	 int num = $3;
 	 Out << "\t.[] " << ID.top() << ", " << num << endl;
 
 	 string id = ID.top();
 
-	 Decl[id] = num;
+	 Symbols[id] = num;
 	 ID.pop();
- } */
+ } 
 } 
 
 | /* epsilon */ 
@@ -167,9 +167,9 @@ optional_array: array   l_bracket   number   r_bracket   of {
 
  
 
-statement: var   assign   expression 
+statement: var   assign   expression {
 
-| var   assign   bool_exp   question   expression   colon   expression 
+}
 
 | if   bool_exp   then   statement_list   optional_elseif   optional_else   end_if 
 
@@ -191,7 +191,7 @@ statement: var   assign   expression
 
  
 
-optional_elseif:     optional_elseif   elseif   bool_exp   statement_list 
+optional_elseif: optional_elseif   elseif   bool_exp   statement_list 
 
 | elseif   bool_exp   statement_list
 
@@ -201,7 +201,7 @@ optional_elseif:     optional_elseif   elseif   bool_exp   statement_list
 
  
 
-optional_else:       else   statement_list 
+optional_else: else   statement_list 
 
 | /* epsilon */ 
 
@@ -209,7 +209,7 @@ optional_else:       else   statement_list
 
  
 
-var_list:  var_list   comma   var 
+var_list: var_list   comma   var 
 
 | var 
 
@@ -217,7 +217,7 @@ var_list:  var_list   comma   var
 
  
 
-statement_list:      statement_list   statement   semicolon 
+statement_list: statement_list   statement   semicolon 
 
 | statement   semicolon 
 
@@ -225,13 +225,13 @@ statement_list:      statement_list   statement   semicolon
 
  
 
-bool_exp:              relation_and_exp   relation_and_exp_list 
+bool_exp: relation_and_exp   relation_and_exp_list 
 
 ;
 
  
 
-relation_and_exp_list:         relation_and_exp_list   or   relation_and_exp 
+relation_and_exp_list: relation_and_exp_list   or   relation_and_exp 
 
 | or relation_and_exp 
 
@@ -241,9 +241,9 @@ relation_and_exp_list:         relation_and_exp_list   or   relation_and_exp
 
  
 
-relation_and_exp:                relation_exp   relation_exp_list 
+relation_and_exp: relation_exp   relation_exp_list 
 
-                                                ;
+;
 
  
 
@@ -257,7 +257,7 @@ relation_exp_list:  relation_exp_list   and   relation_exp
 
  
 
-relation_exp:         not   expression   comp   expression 
+relation_exp: not   expression   comp   expression 
 
 | not true 
 
@@ -277,7 +277,7 @@ relation_exp:         not   expression   comp   expression
 
  
 
-comp:     equal_to 
+comp: equal_to 
 
 | not_equal_to 
 
@@ -293,13 +293,13 @@ comp:     equal_to
 
  
 
-expression:           multiplicative_exp   multiplicative_exp_list 
+expression: multiplicative_exp   multiplicative_exp_list 
 
-                                ;
+;
 
  
 
-multiplicative_exp_list:       multiplicative_exp_list   add   multiplicative_exp 
+multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp 
 
 | multiplicative_exp_list   sub multiplicative_exp 
 
@@ -313,13 +313,13 @@ multiplicative_exp_list:       multiplicative_exp_list   add   multiplicative_ex
 
  
 
-multiplicative_exp:               term   term_list 
+multiplicative_exp: term   term_list 
 
-                                                ;
+;
 
  
 
-term_list:               term_list   multiply   term 
+term_list: term_list   multiply   term 
 
 | term_list   divide   term 
 
@@ -337,7 +337,7 @@ term_list:               term_list   multiply   term
 
  
 
-term:       sub   var %prec NEG 
+term: sub   var %prec NEG 
 
 | sub   number var %prec NEG 
 
@@ -353,7 +353,7 @@ term:       sub   var %prec NEG
 
  
 
-var:         identifier 
+var: identifier 
 
 | identifier   l_bracket   expression   r_bracket 
 
@@ -389,41 +389,41 @@ identifier: IDENT {
 
  
 
-semicolon:            SEMICOLON  
+semicolon: SEMICOLON  
 
 ;
 
  
 
-end_program:       END_PROGRAM 
+end_program: END_PROGRAM 
 
 ;
 
  
 
-begin_program:    BEGIN_PROGRAM 
+begin_program: BEGIN_PROGRAM 
 
 ;
 
  
 
-comma:  COMMA 
+comma: COMMA 
 
 ;
 
  
 
-colon:     COLON 
+colon: COLON 
 
 ;
 
-array:      ARRAY 
+array: ARRAY 
 
 ;
 
  
 
-l_bracket:               L_BRACKET 
+l_bracket: L_BRACKET 
 
 ;
 
@@ -435,25 +435,23 @@ number: NUMBER
 
  
 
-r_bracket:              R_BRACKET 
+r_bracket: R_BRACKET 
 
 ;
 
 
 
-l_paren:		L_PAREN 
+l_paren: L_PAREN 
 
 ;
 
 
 
-r_paren:		R_PAREN 
+r_paren: R_PAREN 
 
 ;
 
- 
-
-of:           OF 
+of: OF 
 
 ;
 
@@ -543,77 +541,77 @@ write: WRITE
 
  
 
-break:     BREAK 
+break: BREAK 
 
 ;
 
  
 
-continue:               CONTINUE 
+continue: CONTINUE 
 
 ;
 
-exit:        EXIT 
-
-;
-
- 
-
-or:           OR 
+exit: EXIT 
 
 ;
 
  
 
-and:        AND 
+or: OR 
 
 ;
 
  
 
-not:         NOT 
+and: AND 
 
 ;
 
  
 
-true:        TRUE 
+not: NOT 
 
 ;
 
  
 
-false:      FALSE 
+true: TRUE 
 
 ;
 
  
 
-equal_to:               EQ 
+false: FALSE 
 
 ;
 
  
 
-not_equal_to:       NEQ 
+equal_to: EQ 
 
 ;
 
  
 
-less_than:              LT 
+not_equal_to: NEQ 
 
 ;
 
  
 
-greater_than:        GT 
+less_than: LT 
 
 ;
 
  
 
-less_than_or_equal_to:       LTE 
+greater_than: GT 
+
+;
+
+ 
+
+less_than_or_equal_to: LTE 
 
 ;
 
@@ -623,31 +621,31 @@ greater_than_or_equal_to: GTE
 
 ;
 
-add:        ADD 
+add: ADD 
 
 ;
 
  
 
-sub:        SUB 
+sub: SUB 
 
 ;
 
  
 
-multiply:                MULT 
+multiply: MULT 
 
 ;
 
  
 
-divide:    DIV 
+divide: DIV 
 
 ;
 
  
 
-mod:       MOD 
+mod: MOD 
 
 ;
 

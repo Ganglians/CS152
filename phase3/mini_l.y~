@@ -33,7 +33,7 @@
  stack<string> Loop;
  stack<string> Pred;
 
- map<string, int> Decl;
+ map<string, int> Symbols;
 %}
 
 %union{
@@ -76,6 +76,8 @@
 %left L_BRACKET R_BRACKET L_PAREN R_PAREN
 
 %type <number> number
+
+%type <string> identifier var expression assign statement
 %%
 start: program_start {
 	Out << ": START\n";
@@ -147,7 +149,7 @@ optional_array: array   l_bracket   number   r_bracket   of {
 	yyerror(errors.c_str());	
  }
 
- while(!ID.empty())
+ /* while(!ID.empty())
  {
 	 int num = $3;
 	 Out << "\t.[] " << ID.top() << ", " << num << endl;
@@ -156,7 +158,7 @@ optional_array: array   l_bracket   number   r_bracket   of {
 
 	 Decl[id] = num;
 	 ID.pop();
- } 
+ } */
 } 
 
 | /* epsilon */ 
@@ -165,10 +167,11 @@ optional_array: array   l_bracket   number   r_bracket   of {
 
  
 
-statement: var   assign   expression 
+statement: var   assign   expression {
 
-| var   assign   bool_exp   question   expression   colon   expression 
-
+ 	string var, a, exp;
+	cout << "$$: " << $$ << " " << $1 << " " << $2 << " " << $3 << endl << endl;
+}
 | if   bool_exp   then   statement_list   optional_elseif   optional_else   end_if 
 
 | while   bool_exp   begin_loop   statement_list   end_loop 
@@ -365,13 +368,29 @@ program: PROGRAM
 
  
 
-identifier: IDENT 
+identifier: IDENT {
+    // Access the identifier
+    //cout << "$$: " << $$ << endl;	
+	string Id = $1;
+
+	// Search for the identifier in the map
+    if(Symbols.find(Id)	== Symbols.end())
+	{
+		ID.push(Id);
+	}
+    // Error checking
+	else
+	{
+		errors = "Error: redeclaration of " + Id;
+		yyerror(errors.c_str());
+	}
+}
 
 ;
 
  
 
-semicolon:            SEMICOLON 
+semicolon:            SEMICOLON  
 
 ;
 
