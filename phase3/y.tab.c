@@ -762,10 +762,10 @@ static const short yyrline[] = { 0,
    441,   447,   449,   451,   453,   455,   461,   467,   469,   471,
    473,   475,   477,   479,   485,   487,   489,   491,   493,   495,
    501,   517,   523,   529,   567,   573,   579,   587,   593,   597,
-   603,   609,   615,   621,   627,   631,   635,   641,   647,   653,
-   659,   675,   686,   692,   707,   721,   734,   744,   759,   771,
-   777,   785,   791,   800,   806,   812,   818,   824,   830,   836,
-   842,   848,   854,   860,   866,   870,   876,   882,   888,   894
+   603,   609,   626,   632,   638,   642,   646,   652,   658,   664,
+   670,   686,   697,   703,   718,   732,   745,   755,   770,   782,
+   788,   796,   802,   811,   817,   823,   829,   835,   841,   847,
+   853,   859,   865,   871,   877,   881,   887,   893,   899,   905
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","PROGRAM",
@@ -1777,12 +1777,27 @@ case 77:
 	buff << ": START" << endl;
 ;
     break;}
+case 82:
+#line 609 "mini_l.y"
+{
+	stringstream convert1;
+	convert1 << yyvsp[0].number;
+	buff << " - t" << t << ", 0, " << convert1.str() << endl;
+
+	stringstream convert2;
+	convert2 << t;
+	
+	Var.push("t" + convert2.str());
+	Index.push("-1");
+	++t;
+;
+    break;}
 case 88:
-#line 641 "mini_l.y"
+#line 652 "mini_l.y"
 {;
     break;}
 case 91:
-#line 660 "mini_l.y"
+#line 671 "mini_l.y"
 {//###
 	// Segfault
 
@@ -1795,7 +1810,7 @@ case 91:
 ;
     break;}
 case 92:
-#line 675 "mini_l.y"
+#line 686 "mini_l.y"
 {//***
 
 	buff << ": L" << Label.top() << endl;
@@ -1804,7 +1819,7 @@ case 92:
 ;
     break;}
 case 94:
-#line 692 "mini_l.y"
+#line 703 "mini_l.y"
 {//***
 
 	buff << "\t:= L" << l << endl;
@@ -1817,7 +1832,7 @@ case 94:
 ;
     break;}
 case 95:
-#line 707 "mini_l.y"
+#line 718 "mini_l.y"
 {//***
 
 	buff << ": L" << l << endl;
@@ -1829,7 +1844,7 @@ case 95:
 ;
     break;}
 case 96:
-#line 721 "mini_l.y"
+#line 732 "mini_l.y"
 {
 	//######### Segfault
 
@@ -1841,7 +1856,7 @@ case 96:
 ;
     break;}
 case 97:
-#line 734 "mini_l.y"
+#line 745 "mini_l.y"
 { //################# Segfault
 
 	/*int l1 = Loop.top();
@@ -1852,7 +1867,7 @@ case 97:
 ;
     break;}
 case 98:
-#line 744 "mini_l.y"
+#line 755 "mini_l.y"
 { //#################### Segfault 
 	/*int s2 = Label.top();
 	Label.pop();
@@ -1865,7 +1880,7 @@ case 98:
 ;
     break;}
 case 99:
-#line 759 "mini_l.y"
+#line 770 "mini_l.y"
 {// ***
 	buff << ": L" << l << endl;
 	Label.push(l);
@@ -1875,7 +1890,7 @@ case 99:
 ;
     break;}
 case 103:
-#line 791 "mini_l.y"
+#line 802 "mini_l.y"
 {
 	if(!Loop.empty())
 	{
@@ -2087,7 +2102,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 900 "mini_l.y"
+#line 911 "mini_l.y"
 
 
 int main(int argc, char **argv) {

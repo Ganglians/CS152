@@ -392,7 +392,7 @@ relation_exp: not   expression   comp   expression {
 	p++;
 } 
 
-| l_paren   bool_exp   r_paren 
+| l_paren   bool_exp   r_paren //***
 
 ;
 
@@ -458,7 +458,7 @@ multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp
 
  
 
-multiplicative_exp: term   term_list 
+multiplicative_exp: term   term_list //*******
 
 ;
 
@@ -606,7 +606,18 @@ l_bracket: L_BRACKET
 
  
 
-number: NUMBER 
+number: NUMBER {
+	stringstream convert1;
+	convert1 << $1;
+	buff << " - t" << t << ", 0, " << convert1.str() << endl;
+
+	stringstream convert2;
+	convert2 << t;
+	
+	Var.push("t" + convert2.str());
+	Index.push("-1");
+	++t;
+} 
 
 ;
 
