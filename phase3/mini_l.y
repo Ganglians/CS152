@@ -105,12 +105,13 @@
 
 %type <string> identifier var expression assign statement
 %%
-start: program_start {
-} 
+
+start: program_start {}
+ 
 ;
  
 program_start: program   identifier   semicolon   block   end_program {//***
-		/*if(!Err) */
+		if(!Err) 
 		{
 			for(int i = 0; i < t; i++)
 			{
@@ -126,7 +127,6 @@ program_start: program   identifier   semicolon   block   end_program {//***
 		}
 } 
 
- 
 ;
 
  
@@ -178,7 +178,7 @@ identifier_list: identifier_list comma identifier
 
  
 
-optional_array: array   l_bracket   number   r_bracket   of {
+optional_array: array   l_bracket   number   r_bracket   of {//****
 	int num = $3;
 
     //Error check
@@ -197,7 +197,7 @@ optional_array: array   l_bracket   number   r_bracket   of {
 		Symbols[id] = num;
 		ID.pop(); 
 	} 
-} 
+} //****************************
 
 | /* epsilon */ 
 
@@ -251,9 +251,74 @@ statement: var   assign   expression {//**************************
 	Label.pop();
 } 
 
-| read   var_list {} 
+| read   var_list {//-----
 
-| write   var_list {} 
+	/*while(!Var.empty())
+	{
+	
+		if(Index.top() == "-1")
+		{
+			stringstream convert;
+			convert << "\t.< " << Var.top() << endl;
+			Rev.push(convert.str());
+		}			
+
+		else
+		{
+			stringstream convert2;
+			convert2 << "\t.[]< " << Var.top() << ", " << Index.top() << endl;
+			Rev.push(convert2.str()); 
+		}
+		
+		Var.pop();
+		Index.pop();
+
+	}
+
+		while(!Rev.empty())
+		{
+
+			buff << Rev.top();
+			Rev.pop();
+		
+		} */	
+
+} 
+
+| write   var_list {//##############
+
+	/*while(!Var.empty())
+	{
+	
+		if(Index.top() == "-1")
+		{
+			stringstream convert;
+			convert << "\t.> " << Var.top() << endl;
+			Rev.push(convert.str());
+		}			
+
+		else
+		{
+			stringstream convert2;
+			convert2 << "\t.[]> " << Var.top() << ", " << Index.top() << endl;
+			Rev.push(convert2.str()); 
+		}
+		
+		Var.pop();
+		Index.pop();
+
+	}
+
+		while(!Rev.empty())
+		{
+
+			buff << Rev.top();
+			Rev.pop();
+		
+		} */
+			
+
+} 
 
 | break {} 
 
@@ -299,13 +364,35 @@ statement_list: statement_list   statement   semicolon
 
  
 
-bool_exp: relation_and_exp   relation_and_exp_list 
+bool_exp: relation_and_exp   relation_and_exp_list //***
+{
+
+	int s2 = Pred.top();	
+	Pred.pop();
+
+	buff << "\t== p" << p << ", p" << s2 << ", 0" << endl;
+	Pred.push(p);
+	++p;
+
+}
 
 ;
 
  
 
-relation_and_exp_list: relation_and_exp_list   or   relation_and_exp 
+relation_and_exp_list: relation_and_exp_list   or   relation_and_exp
+{//***
+
+	int s2 = Pred.top();
+	Pred.pop();
+	int s1 = Pred.top();
+	Pred.pop();
+
+	buff << "\t|| p" << p << ", p" << s1 << ", p" << s2 << endl;
+	Pred.push(p);
+	p++;
+
+} 
 
 | or relation_and_exp 
 
@@ -321,7 +408,19 @@ relation_and_exp: relation_exp   relation_exp_list
 
  
 
-relation_exp_list:  relation_exp_list   and   relation_exp 
+relation_exp_list:  relation_exp_list   and   relation_exp //******
+{
+
+	int s2 = Pred.top();
+	Pred.pop();
+	int s1 = Pred.top();
+	Pred.pop();
+
+	buff << "\t&& p" << p << ", p" << s1 << ", p" << s2 << endl;
+	Pred.push(p);
+	++p;
+
+} //***************************************
 
 | and   relation_exp 
 
