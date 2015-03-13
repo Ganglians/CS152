@@ -333,6 +333,42 @@ relation_exp_list:  relation_exp_list   and   relation_exp
 
 relation_exp: not   expression   comp   expression {
 
+	s2 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << "\t=[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+		++t;
+	}
+	
+	Index.pop();
+	Var.pop();
+
+	s1 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << "\t=[] t" << t << ", " << s1 << ", " << Index.top() << endl;
+		
+		s1 = "t" + convert.str();
+		t++;
+	}
+
+	Var.pop();
+	Index.pop();
+	string ct = Comp.top();
+	Comp.pop();
+
+	buff << "\t" << ct << " p" << p << ", " << s1 << ", " << s2 << endl;
+	buff << "\t== p" << p << ", p" << p << ", 0" << endl;
+	++p;
+	Pred.push(p);
+	++p;
+
 }
 
 | not true 
@@ -341,9 +377,9 @@ relation_exp: not   expression   comp   expression {
 
 | not   l_paren   bool_exp   r_paren 
 
-| expression   comp   expression {//######### Seg Fault
+| expression   comp   expression {//*******************
 
-	/*s2 = Var.top();
+	s2 = Var.top();
 	if(Index.top() != "-1")
 	{
 		stringstream convert;
@@ -376,7 +412,7 @@ relation_exp: not   expression   comp   expression {
 	buff << "\t" << ct << " p" << p << ", " << s1 << ", " << s2 << endl;
 	
 	Pred.push(p);
-	p++;*/
+	p++;
 
 } 
 
@@ -444,9 +480,89 @@ expression: multiplicative_exp   multiplicative_exp_list {}
 
  
 
-multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp 
+multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp { //***********
 
-| multiplicative_exp_list   sub multiplicative_exp 
+
+	s2 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		
+		buff << "\t=[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+		t++;
+	}
+	
+	Index.pop();
+	Var.pop();
+ 
+	s1 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+
+		buff << "\t=[] t" << t << ", " << s1 << Index.top() << endl;
+
+		s1 = "t" + convert.str();
+		++t;
+	}
+
+	Var.pop();
+	Index.pop();
+
+	buff << "\t+ t" << t << ", " << s1 << ", " << s2 << endl;
+
+	stringstream convert2;
+	convert2 << t;
+	Var.push("t" + convert2.str());
+	Index.push("-1");
+	++t;
+
+}
+
+| multiplicative_exp_list   sub multiplicative_exp {//**********
+
+	s2 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		
+		buff << "\t=[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+		t++;
+	}
+	
+	Index.pop();
+	Var.pop();
+ 
+	s1 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+
+		buff << "\t=[] t" << t << ", " << s1 << Index.top() << endl;
+
+		s1 = "t" + convert.str();
+		++t;
+	}
+
+	Var.pop();
+	Index.pop();
+
+	buff << "\t- t" << t << ", " << s1 << ", " << s2 << endl;
+
+	stringstream convert2;
+	convert2 << t;
+	Var.push("t" + convert2.str());
+	Index.push("-1");
+	++t;
+}
 
 | add   multiplicative_exp 
 
@@ -456,7 +572,6 @@ multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp
 
 ;
 
- 
 
 multiplicative_exp: term   term_list //*******
 
@@ -464,15 +579,117 @@ multiplicative_exp: term   term_list //*******
 
  
 
-term_list: term_list   multiply   term 
+term_list: term_list   multiply   term { //********
+
+	s2 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << "\t=[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+		++t;
+	}
+
+	Var.pop();
+	Index.pop();
+	
+	s1 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << "\t=[] t" << t << ", " << s1 << ", " << Index.top() << endl;
+		s1 = "t" + convert.str();
+		++t;
+	}
+
+	Var.pop();
+	Index.pop();
+
+	buff << " * t" << t << ", " << s1 << ", " << s2 << endl;
+	stringstream convert;
+	convert << t;
+	Var.push("t" + convert.str());
+	Index.push("-1");
+	++t;
+}
 
 | term_list   divide   term 
 
-| term_list   mod   term 
+| term_list   mod   term { //*******
+	s2 = Var.top();
+	
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << " =[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+		++t;
+	}
+	
+	Index.pop();
+	Var.pop();
+	
+	s1 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << " =[] t" << t << ", " << s1 << ", " << Index.top() << endl;
+		s1 = "t" + convert.str();
+		++t;
+	}
+
+	Var.pop();
+	Index.pop();
+	
+	buff << " % t" << t << ", " << s1 << ", " << s2 << endl;
+	stringstream convert2;
+
+	convert2 << t;
+	Var.push("t" + convert2.str());
+	Index.push("-1");
+	++t;
+}
 
 | multiply  term 
 
-| divide   term 
+| divide   term { //******************************
+
+	s2 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << " =[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+	}
+	Var.pop();
+	Index.pop();
+	s1 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert2;
+		convert2 << t;
+		buff << " =[] t" << t << ", " << s1 << ", " << Index.top() << endl;
+		s1 = "t" + convert2.str();
+		++t;
+	}
+	Var.pop();
+	Index.pop();
+
+	buff << " 	" << t << ", " << s1 << ", " << s2 << endl;
+
+	stringstream convert3;
+	convert3 << t;
+	Var.push("t" + convert3.str());
+	Index.push("-1");
+	++t;
+} 
 
 | mod   term 
 
@@ -482,23 +699,62 @@ term_list: term_list   multiply   term
 
  
 
-term: sub   var %prec NEG 
+term: sub   var %prec NEG { //***
+
+	s2 = Var.top();
+	if(Index.top() != "-1")
+	{
+		std::stringstream convert;
+		convert << t;
+
+		buff << "=[] t" << t << ", " << s2 << Index.top() << endl;
+
+		s2 = "t" + convert.str();
+		t++;
+	}
+	Var.pop();
+	buff << " - t" << t << ", 0, " << s2 << endl;
+	stringstream convert;
+	convert << t;
+	Var.push("t" + convert.str());
+	Index.push("-1");
+	t++;	
+	
+}
+
+ 
 
 | sub   number var %prec NEG 
 
-| sub   l_paren   expression r_paren %prec NEG 
+| sub   l_paren   expression r_paren %prec NEG {// ***
+	s2 = Var.top();
+	Var.pop();
+	buff << " - t" << t << ", 0, " << s2 << endl;
+	stringstream convert;
+	convert << t;
+	
+	Var.push("t" + convert.str());
+	Index.push("-1");
+	++t;
+}
 
 | var {} 
 
-| number {} 
+| number {// ***
+	stringstream convert;
+	convert << $1;
 
-| l_paren   expression   r_paren 
+	Var.push(convert.str());
+	Index.push("-1");
+} 
+
+| l_paren   expression   r_paren //
 
 ;
 
  
 
-var: identifier {
+var: identifier {// ***
 	map<string, int>::iterator i;
 	
 	i = Symbols.find(Var.top());
@@ -606,7 +862,7 @@ l_bracket: L_BRACKET
 
  
 
-number: NUMBER {
+number: NUMBER { //***/
 	stringstream convert1;
 	convert1 << $1;
 	buff << " - t" << t << ", 0, " << convert1.str() << endl;
@@ -629,7 +885,19 @@ r_bracket: R_BRACKET
 
 
 
-l_paren: L_PAREN 
+l_paren: L_PAREN {
+	map<string, int>::iterator i;
+	i = Symbols.find(Var.top());
+
+	if(i != Symbols.end())
+	{
+		if((*i).second == -1)
+		{
+			errors = "Error: the variable " + Var.top().substr(1, Var.top().length() - 1) + " cannot have index";
+			yyerror(errors.c_str());
+		}
+	}
+}
 
 ;
 
