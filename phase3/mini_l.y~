@@ -1,61 +1,70 @@
-/* Kenneth Mayorga and Juan Chavez Compiler Project Phase 3 */
+/*
+	Names:		Juan Chavez
+				Kenneth Mayorga
+
+	Class:		CS152 Winter 2015
+
+    Assignment: Phase 3; Code Generation
+
+	File: mini_l.y
+*/
 
 %{
 
- #include <stdlib.h>
- #include <stdio.h>
- #include <string>
- #include <iostream>
- #include <sstream>
- #include <stack>
- #include <map>
+	#include <stdlib.h>
+	#include <stdio.h>
+	#include <string>
+	#include <iostream>
+	#include <sstream>
+	#include <stack>
+	#include <vector>
+	#include <map>
 
- using namespace std;
+	using namespace std;
 
- void yyerror(const char *msg);
- int yylex(void); 
+	void yyerror(const char *msg);
+	int yylex(void); 
 
- extern int currLine;
- extern int currPos;
+	extern int currLine;
+	extern int currPos;
 
- // Struct to store symbol types
- struct symbol
- {
-
-	int size;
+	bool Err = false;
+	int t = 0, p = 0, l = 0;
 	
-	public:
-	
-	string name;
-	int value;	
-	bool is_array;
+	// Intermediate code buffer
+	ostringstream buff;
+	string s1 = "";
+	string s2 = "";
 
-	symbol(): name(""), value(0), is_array(false) {}
+	// Error message string
+	string errors = "";
 
-	void set_size(int tmp_s)
-	{
-		if(is_array == true)
-		{
-			size = tmp_s;
-		}
-	}
+	// Storage stacks
+	stack<string> ID;
+	stack<string> Var;
+	stack<string> Comp;
+	stack<string> Index;
+	stack<string> Rev;
+	stack<int> Label;
+	stack<int> Loop;
+	stack<int> Pred;
 
-	map<string, symbol> symbol_table;
-	 
- };
+	// Symbol table
+	map<string, int> Symbols;
 
- // Temporaries
- int t = 0, p = 0, l = 0;
- 
- // Intermediate code buffer
- stringstream buff;
+	// Keywords
+	static const string Key_words[] = { "_program", "_endprogram", "_array", "_if", "_endif", "_while", "_beginloop", "_continue", "_write", "_or", "_true", "_begin_program", "_integer", "_of", "_then", "_else", "_do", "_endloop", "_read", "_and", "_not", "_false" };
 
- 
+	vector<string> Keywords (Key_words, Key_words + sizeof(Key_words) / sizeof(Key_words[0]));
+
 %}
 
-%union{
-  int number;
-  char *string;
+%union
+{
+
+	int number;
+	char *string;
+
 }
 
 %start start
@@ -97,18 +106,26 @@
 %type <string> identifier var expression assign statement
 %%
 start: program_start {
-
-}
- 
+} 
 ;
-
  
-
 program_start: program   identifier   semicolon   block   end_program {
+		/*if(!Err) */
+		{
+			for(int i = 0; i < t; i++)
+			{
+				cout << "\t. t" << i << endl;
+			}
 
+			for(int j = 0; j < p; j ++)
+			{
+				cout << "\t. p" << j << endl;
+			}
+
+			cout << buff.str();
+		}
 } 
 
-| error program identifier semicolon block end_program
  
 ;
 
@@ -129,7 +146,11 @@ declaration_list: declaration_list   declaration   semicolon
  
 
 declaration: identifier_list   colon   optional_array   integer {
-
+	while(!ID.empty()) 
+	{
+		buff << "\t. " << ID.top() << endl;
+		ID.pop();
+	}
 } 
 
 ;
@@ -138,41 +159,97 @@ declaration: identifier_list   colon   optional_array   integer {
 
 identifier_list: identifier_list comma identifier   
 
-| identifier 
+| identifier {
+	// Error check
+	string id = "_" + string($1);
+	/*map<string, int>::iterator i = Symbols.find(id);
+
+	if (i != Symbols.end())
+	{
+		errors = "Error: " + id + " has been previously defined";
+		yyerror(errors.c_str());
+	}*/
+
+	Symbols[id] = -1;
+	ID.push(id);
+} 
 
 ;
 
  
 
 optional_array: array   l_bracket   number   r_bracket   of {
+	int num = $3;
 
+    //Error check
+	if(num <= 0) 
+	{	
+		errors = "Error: Declaring array of invalid size.";
+		yyerror(errors.c_str());	
+	}
+
+	while(!ID.empty())
+	{
+		buff << "\t.[] " << ID.top() << ", " << num << endl;
+
+		string id = ID.top();
+
+		Symbols[id] = num;
+		ID.pop(); 
+	} 
 } 
 
 | /* epsilon */ 
 
 ;
 
- 
-
 statement: var   assign   expression {
+	s2 = Var.top();
 
+	if(Index.top() != "-1")
+	{
+		ostringstream convert;
+		convert << t;
+		buff << "\t=[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+
+		s2 = "t" + convert.str();
+		t++;
+	}
+
+	Var.pop();
+	Index.pop();
+	s1 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		buff << "\t[]= " << s1 << ", " << Index.top() << ", " << s2 << endl;
+	}
+
+	else
+	{
+		buff << "\t= " << s1 << ", " << s2 << endl;
+	}
+
+	Var.pop();
+	Index.pop();
+    
 }
 
-| if   bool_exp   then   statement_list   optional_elseif   optional_else   end_if 
+| if   bool_exp   then   statement_list   optional_elseif   optional_else   end_if {} 
 
-| while   bool_exp   begin_loop   statement_list   end_loop 
+| while   bool_exp   begin_loop   statement_list   end_loop {} 
 
-| do   begin_loop   statement_list   end_loop   while bool_exp 
+| do   begin_loop   statement_list   end_loop   while bool_exp {} 
 
-| read   var_list 
+| read   var_list {} 
 
-| write   var_list 
+| write   var_list {} 
 
-| break 
+| break {} 
 
-| continue 
+| continue {} 
 
-| exit 
+| exit {} 
 
 ;
 
@@ -198,7 +275,7 @@ optional_else: else   statement_list
 
 var_list: var_list   comma   var 
 
-| var 
+| var {} 
 
 ;
 
@@ -206,7 +283,7 @@ var_list: var_list   comma   var
 
 statement_list: statement_list   statement   semicolon 
 
-| statement   semicolon 
+| statement   semicolon {} 
 
 ;
 
@@ -252,7 +329,7 @@ relation_exp: not   expression   comp   expression
 
 | not   l_paren   bool_exp   r_paren 
 
-| expression   comp   expression 
+| expression   comp   expression {} 
 
 | true 
 
@@ -264,23 +341,47 @@ relation_exp: not   expression   comp   expression
 
  
 
-comp: equal_to 
+comp: equal_to {
 
-| not_equal_to 
+	Comp.push("==");
 
-| less_than 
+} 
 
-| greater_than 
+| not_equal_to {
 
-| less_than_or_equal_to 
+	Comp.push("!=");
 
-| greater_than_or_equal_to 
+}
+
+| less_than {
+
+	Comp.push("<");
+
+}
+
+| greater_than {
+
+	Comp.push(">");
+
+}
+
+| less_than_or_equal_to {
+
+	Comp.push("<=");
+
+}
+
+| greater_than_or_equal_to {
+
+	Comp.push(">=");
+
+}
 
 ;
 
  
 
-expression: multiplicative_exp   multiplicative_exp_list 
+expression: multiplicative_exp   multiplicative_exp_list {} 
 
 ;
 
@@ -330,9 +431,9 @@ term: sub   var %prec NEG
 
 | sub   l_paren   expression r_paren %prec NEG 
 
-| var 
+| var {} 
 
-| number 
+| number {} 
 
 | l_paren   expression   r_paren 
 
@@ -340,7 +441,21 @@ term: sub   var %prec NEG
 
  
 
-var: identifier 
+var: identifier {
+	map<string, int>::iterator i;
+	
+	i = Symbols.find(Var.top());
+	if(i != Symbols.end())
+	{
+		if((*i).second != -1)
+		{
+			errors = "Error: the array " + Var.top().substr(1, Var.top().length()-1) + " lacks an index";
+			yyerror(errors.c_str());
+		}
+	}
+
+	Index.push("-1");
+} 
 
 | identifier   l_bracket   expression   r_bracket 
 
@@ -355,6 +470,36 @@ program: PROGRAM
  
 
 identifier: IDENT {
+
+	// Search symbol table for identifier
+	string id = "_" + string($1);
+	map <string, int>::iterator i = Symbols.find(id);
+
+	// Error check
+	/*if (i != Symbols.end())
+	{
+		errors = "Error: " + id + " was previously defined";
+		yyerror(errors.c_str());
+	}*/
+	
+	Symbols[id] = -1;
+	ID.push(id);
+
+	bool keybool = false;
+	int size = Keywords.size();
+
+	for(int j = 0; j < size; j++)
+	{
+		(id == Keywords[j]) ? keybool = true : keybool;	
+	}
+	
+	if(keybool == true)
+	{
+		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
+		yyerror(errors.c_str());
+	}
+
+	Var.push(id);
 
 }
 
@@ -374,7 +519,9 @@ end_program: END_PROGRAM
 
  
 
-begin_program: BEGIN_PROGRAM 
+begin_program: BEGIN_PROGRAM {
+	buff << ": START" << endl;
+} 
 
 ;
 
@@ -434,7 +581,7 @@ integer: INTEGER
 
  
 
-assign: ASSIGN 
+assign: ASSIGN {} 
 
 ;
 
@@ -453,12 +600,27 @@ if: IF
  
 
 then: THEN 
+{
+	// Segfault
+
+	int s2 = Pred.top();
+	Pred.pop();
+
+	buff << "\t?:= L" << l << ", p" << s2 << endl;
+	Label.push(l);
+	l++; 	
+}
 
 ;
 
  
 
-end_if: ENDIF 
+end_if: ENDIF {
+
+	/*buff << ": L" << Label.top() << endl;
+	Label.pop();*/
+
+} 
 
 ;
 
@@ -470,19 +632,38 @@ elseif: ELSEIF
 
  
 
-else: ELSE 
+else: ELSE {
+
+	/*buff << "\t:= L" << l << endl;
+	buff << ": L" << Label.top() << endl;
+	Label.pop();
+	Label.push(l);
+
+	l++;*/
+
+}
 
 ;
 
  
 
-while: WHILE 
+while: WHILE {
+
+	buff << ": L" << l << endl;
+
+	Loop.push(l);
+	Label.push(l);
+	++l;
+	
+} 
 
 ;
 
  
 
-begin_loop: BEGINLOOP 
+begin_loop: BEGINLOOP {
+	//int t = Pred.top();
+} 
 
 ;
 
@@ -520,7 +701,12 @@ break: BREAK
 
  
 
-continue: CONTINUE 
+continue: CONTINUE {
+	if(!Loop.empty())
+	{
+		buff << "\t:= L" << Loop.top() << endl;
+	}
+} 
 
 ;
 

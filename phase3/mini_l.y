@@ -106,13 +106,12 @@
 %type <string> identifier var expression assign statement
 %%
 start: program_start {
-	//buff << ": START\n";
 } 
 ;
  
 program_start: program   identifier   semicolon   block   end_program {
 		/*if(!Err) */
-	//	{
+		{
 			for(int i = 0; i < t; i++)
 			{
 				cout << "\t. t" << i << endl;
@@ -124,10 +123,9 @@ program_start: program   identifier   semicolon   block   end_program {
 			}
 
 			cout << buff.str();
-	//	}
+		}
 } 
 
-| error program identifier semicolon block end_program
  
 ;
 
@@ -206,8 +204,8 @@ optional_array: array   l_bracket   number   r_bracket   of {
 ;
 
 statement: var   assign   expression {
-	// Segfault
-	/*s2 = Var.top();
+	s2 = Var.top();
+
 	if(Index.top() != "-1")
 	{
 		ostringstream convert;
@@ -233,7 +231,7 @@ statement: var   assign   expression {
 	}
 
 	Var.pop();
-	Index.pop();*/
+	Index.pop();
     
 }
 
@@ -443,7 +441,21 @@ term: sub   var %prec NEG
 
  
 
-var: identifier 
+var: identifier {
+	map<string, int>::iterator i;
+	
+	i = Symbols.find(Var.top());
+	if(i != Symbols.end())
+	{
+		if((*i).second != -1)
+		{
+			errors = "Error: the array " + Var.top().substr(1, Var.top().length()-1) + " lacks an index";
+			yyerror(errors.c_str());
+		}
+	}
+
+	Index.push("-1");
+} 
 
 | identifier   l_bracket   expression   r_bracket 
 
@@ -469,6 +481,9 @@ identifier: IDENT {
 		errors = "Error: " + id + " was previously defined";
 		yyerror(errors.c_str());
 	}*/
+	
+	Symbols[id] = -1;
+	ID.push(id);
 
 	bool keybool = false;
 	int size = Keywords.size();
