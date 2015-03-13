@@ -762,11 +762,11 @@ static const short yyrline[] = { 0,
    332,   334,   336,   338,   340,   346,   352,   358,   364,   370,
    376,   386,   392,   394,   396,   398,   400,   406,   412,   414,
    416,   418,   420,   422,   424,   430,   432,   434,   436,   438,
-   440,   446,   448,   454,   460,   495,   501,   507,   513,   519,
-   523,   529,   535,   541,   547,   553,   557,   561,   567,   573,
-   579,   585,   601,   612,   618,   633,   647,   655,   661,   667,
-   673,   681,   687,   696,   702,   708,   714,   720,   726,   732,
-   738,   744,   750,   756,   762,   766,   772,   778,   784,   790
+   440,   446,   448,   454,   460,   495,   501,   507,   515,   521,
+   525,   531,   537,   543,   549,   555,   559,   563,   569,   575,
+   581,   587,   603,   614,   620,   635,   649,   657,   663,   669,
+   675,   683,   689,   698,   704,   710,   716,   722,   728,   734,
+   740,   746,   752,   758,   764,   768,   774,   780,   786,   792
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","PROGRAM",
@@ -1432,7 +1432,7 @@ YYLABEL(yyreduce)
 case 1:
 #line 108 "mini_l.y"
 {
-	buff << ": START\n";
+	//buff << ": START\n";
 ;
     break;}
 case 2:
@@ -1675,12 +1675,18 @@ case 75:
 
 ;
     break;}
+case 78:
+#line 507 "mini_l.y"
+{
+	buff << ": START" << endl;
+;
+    break;}
 case 89:
-#line 567 "mini_l.y"
+#line 569 "mini_l.y"
 {;
     break;}
 case 92:
-#line 586 "mini_l.y"
+#line 588 "mini_l.y"
 {
 	// Segfault
 
@@ -1693,7 +1699,7 @@ case 92:
 ;
     break;}
 case 93:
-#line 601 "mini_l.y"
+#line 603 "mini_l.y"
 {
 
 	/*buff << ": L" << Label.top() << endl;
@@ -1702,7 +1708,7 @@ case 93:
 ;
     break;}
 case 95:
-#line 618 "mini_l.y"
+#line 620 "mini_l.y"
 {
 
 	/*buff << "\t:= L" << l << endl;
@@ -1715,7 +1721,7 @@ case 95:
 ;
     break;}
 case 96:
-#line 633 "mini_l.y"
+#line 635 "mini_l.y"
 {
 
 	buff << ": L" << l << endl;
@@ -1727,13 +1733,13 @@ case 96:
 ;
     break;}
 case 97:
-#line 647 "mini_l.y"
+#line 649 "mini_l.y"
 {
 	//int t = Pred.top();
 ;
     break;}
 case 103:
-#line 687 "mini_l.y"
+#line 689 "mini_l.y"
 {
 	if(!Loop.empty())
 	{
@@ -1945,7 +1951,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 796 "mini_l.y"
+#line 798 "mini_l.y"
 
 
 int main(int argc, char **argv) {

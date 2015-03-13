@@ -106,7 +106,7 @@
 %type <string> identifier var expression assign statement
 %%
 start: program_start {
-	buff << ": START\n";
+	//buff << ": START\n";
 } 
 ;
  
@@ -504,7 +504,9 @@ end_program: END_PROGRAM
 
  
 
-begin_program: BEGIN_PROGRAM 
+begin_program: BEGIN_PROGRAM {
+	buff << ": START" << endl;
+} 
 
 ;
 
