@@ -127,7 +127,6 @@ program_start: program   identifier   semicolon   block   end_program {//***
 		}
 } 
 
- 
 ;
 
  
@@ -163,13 +162,13 @@ identifier_list: identifier_list comma identifier
 | identifier {//***
 	// Error check
 	string id = "_" + string($1);
-	/*map<string, int>::iterator i = Symbols.find(id);
+	map<string, int>::iterator i = Symbols.find(id);
 
 	if (i != Symbols.end())
 	{
 		errors = "Error: " + id + " has been previously defined";
 		yyerror(errors.c_str());
-	}*/
+	}
 
 	Symbols[id] = -1;
 	ID.push(id);
@@ -252,7 +251,7 @@ statement: var   assign   expression {//**************************
 	Label.pop();
 } 
 
-| read   var_list {//-----
+| read   var_list {//######
 
 	/*while(!Var.empty())
 	{
@@ -889,11 +888,11 @@ identifier: IDENT { //***
 	map <string, int>::iterator i = Symbols.find(id);
 
 	// Error check
-	/*if (i != Symbols.end())
+	if (i != Symbols.end())
 	{
 		errors = "Error: " + id + " was previously defined";
 		yyerror(errors.c_str());
-	}*/
+	}
 	
 	Symbols[id] = -1;
 	ID.push(id);
@@ -962,7 +961,7 @@ l_bracket: L_BRACKET
 
  
 
-number: NUMBER { //***/
+number: NUMBER { //***
 	stringstream convert1;
 	convert1 << $1;
 	buff << " - t" << t << ", 0, " << convert1.str() << endl;
@@ -1036,15 +1035,14 @@ if: IF
  
 
 then: THEN 
-{//###
-	// Segfault
+{ //$$$ 
 
-	/*int s2 = Pred.top();
+	int s2 = Pred.top();
 	Pred.pop();
 
 	buff << "\t?:= L" << l << ", p" << s2 << endl;
 	Label.push(l);
-	l++;*/ 	
+	l++;	
 }
 
 ;
@@ -1097,38 +1095,37 @@ while: WHILE {//***
 
  
 
-begin_loop: BEGINLOOP {
-	//######### Segfault
+begin_loop: BEGINLOOP { // $$$$$
 
-	/*int s2 = Pred.top();
+	int s2 = Pred.top();
 	Pred.pop();
 	buff << "\t?:= L" << l << ", p" << s2 << endl;
 	Label.push(l);
-	++l;*/
+	++l;
 } 
 
 ;
 
  
-dend_loop: ENDLOOP { //################# Segfault
+dend_loop: ENDLOOP { // $$$$$$$$$
 
-	/*int l1 = Loop.top();
+	int l1 = Loop.top();
 	buff << ": L " << l1 << endl;
-	Loop.pop();*/
+	Loop.pop();
 
 
 }
 
 
-end_loop: ENDLOOP { //#################### Segfault 
-	/*int s2 = Label.top();
+end_loop: ENDLOOP { // $$$
+	int s2 = Label.top();
 	Label.pop();
 
 	int s1 = Label.top();
 	Label.pop();
 
 	buff << "\t:= L" << s1 << endl << ": L" << s2 << endl;
-	Loop.pop();*/
+	Loop.pop();
 }
 
 ;
