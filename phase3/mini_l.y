@@ -111,8 +111,8 @@ start: program_start {
 ;
  
 program_start: program   identifier   semicolon   block   end_program {
-		if(!Err) 
-		{
+		/*if(!Err) */
+	//	{
 			for(int i = 0; i < t; i++)
 			{
 				cout << "\t. t" << i << endl;
@@ -124,7 +124,7 @@ program_start: program   identifier   semicolon   block   end_program {
 			}
 
 			cout << buff.str();
-		}
+	//	}
 } 
 
 | error program identifier semicolon block end_program
@@ -164,13 +164,13 @@ identifier_list: identifier_list comma identifier
 | identifier {
 	// Error check
 	string id = "_" + string($1);
-	map<string, int>::iterator i = Symbols.find(id);
+	/*map<string, int>::iterator i = Symbols.find(id);
 
 	if (i != Symbols.end())
 	{
 		errors = "Error: " + id + " has been previously defined";
 		yyerror(errors.c_str());
-	}
+	}*/
 
 	Symbols[id] = -1;
 	ID.push(id);
@@ -197,7 +197,7 @@ optional_array: array   l_bracket   number   r_bracket   of {
 		string id = ID.top();
 
 		Symbols[id] = num;
-		ID.pop();
+		ID.pop(); 
 	} 
 } 
 
@@ -206,7 +206,7 @@ optional_array: array   l_bracket   number   r_bracket   of {
 ;
 
 statement: var   assign   expression {
-
+	// Segfault
 	/*s2 = Var.top();
 	if(Index.top() != "-1")
 	{
@@ -233,25 +233,25 @@ statement: var   assign   expression {
 	}
 
 	Var.pop();
-	Index.pop(); */
- 
+	Index.pop();*/
+    
 }
 
-| if   bool_exp   then   statement_list   optional_elseif   optional_else   end_if 
+| if   bool_exp   then   statement_list   optional_elseif   optional_else   end_if {} 
 
-| while   bool_exp   begin_loop   statement_list   end_loop 
+| while   bool_exp   begin_loop   statement_list   end_loop {} 
 
-| do   begin_loop   statement_list   end_loop   while bool_exp 
+| do   begin_loop   statement_list   end_loop   while bool_exp {} 
 
-| read   var_list 
+| read   var_list {} 
 
-| write   var_list 
+| write   var_list {} 
 
-| break 
+| break {} 
 
-| continue 
+| continue {} 
 
-| exit 
+| exit {} 
 
 ;
 
@@ -277,7 +277,7 @@ optional_else: else   statement_list
 
 var_list: var_list   comma   var 
 
-| var 
+| var {} 
 
 ;
 
@@ -285,7 +285,7 @@ var_list: var_list   comma   var
 
 statement_list: statement_list   statement   semicolon 
 
-| statement   semicolon 
+| statement   semicolon {} 
 
 ;
 
@@ -331,7 +331,7 @@ relation_exp: not   expression   comp   expression
 
 | not   l_paren   bool_exp   r_paren 
 
-| expression   comp   expression 
+| expression   comp   expression {} 
 
 | true 
 
@@ -383,7 +383,7 @@ comp: equal_to {
 
  
 
-expression: multiplicative_exp   multiplicative_exp_list 
+expression: multiplicative_exp   multiplicative_exp_list {} 
 
 ;
 
@@ -433,9 +433,9 @@ term: sub   var %prec NEG
 
 | sub   l_paren   expression r_paren %prec NEG 
 
-| var 
+| var {} 
 
-| number 
+| number {} 
 
 | l_paren   expression   r_paren 
 
@@ -464,11 +464,11 @@ identifier: IDENT {
 	map <string, int>::iterator i = Symbols.find(id);
 
 	// Error check
-	if (i != Symbols.end())
+	/*if (i != Symbols.end())
 	{
 		errors = "Error: " + id + " was previously defined";
 		yyerror(errors.c_str());
-	}
+	}*/
 
 	bool keybool = false;
 	int size = Keywords.size();
@@ -564,7 +564,7 @@ integer: INTEGER
 
  
 
-assign: ASSIGN 
+assign: ASSIGN {} 
 
 ;
 
@@ -584,12 +584,14 @@ if: IF
 
 then: THEN 
 {
-	int s2 = Pred.top();
+	// Segfault
+
+	/*int s2 = Pred.top();
 	Pred.pop();
 
 	buff << "\t?:= L" << l << ", p" << s2 << endl;
 	Label.push(l);
-	l++;	
+	l++;*/ 	
 }
 
 ;
@@ -598,8 +600,8 @@ then: THEN
 
 end_if: ENDIF {
 
-	buff << ": L" << Label.top() << endl;
-	Label.pop();
+	/*buff << ": L" << Label.top() << endl;
+	Label.pop();*/
 
 } 
 
@@ -615,12 +617,12 @@ elseif: ELSEIF
 
 else: ELSE {
 
-	buff << "\t:= L" << l << endl;
+	/*buff << "\t:= L" << l << endl;
 	buff << ": L" << Label.top() << endl;
 	Label.pop();
 	Label.push(l);
 
-	l++;
+	l++;*/
 
 }
 
@@ -643,7 +645,7 @@ while: WHILE {
  
 
 begin_loop: BEGINLOOP {
-	int t = Pred.top();
+	//int t = Pred.top();
 } 
 
 ;

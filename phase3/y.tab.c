@@ -764,9 +764,9 @@ static const short yyrline[] = { 0,
    416,   418,   420,   422,   424,   430,   432,   434,   436,   438,
    440,   446,   448,   454,   460,   495,   501,   507,   513,   519,
    523,   529,   535,   541,   547,   553,   557,   561,   567,   573,
-   579,   585,   599,   610,   616,   631,   645,   653,   659,   665,
-   671,   679,   685,   694,   700,   706,   712,   718,   724,   730,
-   736,   742,   748,   754,   760,   764,   770,   776,   782,   788
+   579,   585,   601,   612,   618,   633,   647,   655,   661,   667,
+   673,   681,   687,   696,   702,   708,   714,   720,   726,   732,
+   738,   744,   750,   756,   762,   766,   772,   778,   784,   790
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","PROGRAM",
@@ -1438,8 +1438,8 @@ case 1:
 case 2:
 #line 113 "mini_l.y"
 {
-		if(!Err) 
-		{
+		/*if(!Err) */
+	//	{
 			for(int i = 0; i < t; i++)
 			{
 				cout << "\t. t" << i << endl;
@@ -1451,7 +1451,7 @@ case 2:
 			}
 
 			cout << buff.str();
-		}
+	//	}
 ;
     break;}
 case 7:
@@ -1469,13 +1469,13 @@ case 9:
 {
 	// Error check
 	string id = "_" + string(yyvsp[0].string);
-	map<string, int>::iterator i = Symbols.find(id);
+	/*map<string, int>::iterator i = Symbols.find(id);
 
 	if (i != Symbols.end())
 	{
 		errors = "Error: " + id + " has been previously defined";
 		yyerror(errors.c_str());
-	}
+	}*/
 
 	Symbols[id] = -1;
 	ID.push(id);
@@ -1500,14 +1500,14 @@ case 10:
 		string id = ID.top();
 
 		Symbols[id] = num;
-		ID.pop();
+		ID.pop(); 
 	} 
 ;
     break;}
 case 12:
 #line 208 "mini_l.y"
 {
-
+	// Segfault
 	/*s2 = Var.top();
 	if(Index.top() != "-1")
 	{
@@ -1534,9 +1534,53 @@ case 12:
 	}
 
 	Var.pop();
-	Index.pop(); */
- 
+	Index.pop();*/
+    
 ;
+    break;}
+case 13:
+#line 240 "mini_l.y"
+{;
+    break;}
+case 14:
+#line 242 "mini_l.y"
+{;
+    break;}
+case 15:
+#line 244 "mini_l.y"
+{;
+    break;}
+case 16:
+#line 246 "mini_l.y"
+{;
+    break;}
+case 17:
+#line 248 "mini_l.y"
+{;
+    break;}
+case 18:
+#line 250 "mini_l.y"
+{;
+    break;}
+case 19:
+#line 252 "mini_l.y"
+{;
+    break;}
+case 20:
+#line 254 "mini_l.y"
+{;
+    break;}
+case 27:
+#line 280 "mini_l.y"
+{;
+    break;}
+case 29:
+#line 288 "mini_l.y"
+{;
+    break;}
+case 42:
+#line 334 "mini_l.y"
+{;
     break;}
 case 46:
 #line 346 "mini_l.y"
@@ -1586,6 +1630,18 @@ case 51:
 
 ;
     break;}
+case 52:
+#line 386 "mini_l.y"
+{;
+    break;}
+case 69:
+#line 436 "mini_l.y"
+{;
+    break;}
+case 70:
+#line 438 "mini_l.y"
+{;
+    break;}
 case 75:
 #line 460 "mini_l.y"
 {
@@ -1595,11 +1651,11 @@ case 75:
 	map <string, int>::iterator i = Symbols.find(id);
 
 	// Error check
-	if (i != Symbols.end())
+	/*if (i != Symbols.end())
 	{
 		errors = "Error: " + id + " was previously defined";
 		yyerror(errors.c_str());
-	}
+	}*/
 
 	bool keybool = false;
 	int size = Keywords.size();
@@ -1619,41 +1675,47 @@ case 75:
 
 ;
     break;}
+case 89:
+#line 567 "mini_l.y"
+{;
+    break;}
 case 92:
 #line 586 "mini_l.y"
 {
-	int s2 = Pred.top();
+	// Segfault
+
+	/*int s2 = Pred.top();
 	Pred.pop();
 
 	buff << "\t?:= L" << l << ", p" << s2 << endl;
 	Label.push(l);
-	l++;	
+	l++;*/ 	
 ;
     break;}
 case 93:
-#line 599 "mini_l.y"
+#line 601 "mini_l.y"
 {
 
-	buff << ": L" << Label.top() << endl;
-	Label.pop();
+	/*buff << ": L" << Label.top() << endl;
+	Label.pop();*/
 
 ;
     break;}
 case 95:
-#line 616 "mini_l.y"
+#line 618 "mini_l.y"
 {
 
-	buff << "\t:= L" << l << endl;
+	/*buff << "\t:= L" << l << endl;
 	buff << ": L" << Label.top() << endl;
 	Label.pop();
 	Label.push(l);
 
-	l++;
+	l++;*/
 
 ;
     break;}
 case 96:
-#line 631 "mini_l.y"
+#line 633 "mini_l.y"
 {
 
 	buff << ": L" << l << endl;
@@ -1665,13 +1727,13 @@ case 96:
 ;
     break;}
 case 97:
-#line 645 "mini_l.y"
+#line 647 "mini_l.y"
 {
-	int t = Pred.top();
+	//int t = Pred.top();
 ;
     break;}
 case 103:
-#line 685 "mini_l.y"
+#line 687 "mini_l.y"
 {
 	if(!Loop.empty())
 	{
@@ -1883,7 +1945,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 794 "mini_l.y"
+#line 796 "mini_l.y"
 
 
 int main(int argc, char **argv) {
