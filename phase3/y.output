@@ -33,7 +33,7 @@ rule 10   optional_array ->		/* empty */
 rule 11   statement -> var assign expression
 rule 12   statement -> if bool_exp then statement_list optional_elseif optional_else end_if
 rule 13   statement -> while bool_exp begin_loop statement_list end_loop
-rule 14   statement -> do begin_loop statement_list end_loop while bool_exp
+rule 14   statement -> do begin_loop statement_list dend_loop while bool_exp
 rule 15   statement -> read var_list
 rule 16   statement -> write var_list
 rule 17   statement -> break
@@ -115,29 +115,30 @@ rule 93   elseif -> ELSEIF
 rule 94   else -> ELSE
 rule 95   while -> WHILE
 rule 96   begin_loop -> BEGINLOOP
-rule 97   end_loop -> ENDLOOP
-rule 98   do -> DO
-rule 99   read -> READ
-rule 100  write -> WRITE
-rule 101  break -> BREAK
-rule 102  continue -> CONTINUE
-rule 103  exit -> EXIT
-rule 104  or -> OR
-rule 105  and -> AND
-rule 106  not -> NOT
-rule 107  true -> TRUE
-rule 108  false -> FALSE
-rule 109  equal_to -> EQ
-rule 110  not_equal_to -> NEQ
-rule 111  less_than -> LT
-rule 112  greater_than -> GT
-rule 113  less_than_or_equal_to -> LTE
-rule 114  greater_than_or_equal_to -> GTE
-rule 115  add -> ADD
-rule 116  sub -> SUB
-rule 117  multiply -> MULT
-rule 118  divide -> DIV
-rule 119  mod -> MOD
+rule 97   dend_loop -> ENDLOOP
+rule 98   end_loop -> ENDLOOP
+rule 99   do -> DO
+rule 100  read -> READ
+rule 101  write -> WRITE
+rule 102  break -> BREAK
+rule 103  continue -> CONTINUE
+rule 104  exit -> EXIT
+rule 105  or -> OR
+rule 106  and -> AND
+rule 107  not -> NOT
+rule 108  true -> TRUE
+rule 109  false -> FALSE
+rule 110  equal_to -> EQ
+rule 111  not_equal_to -> NEQ
+rule 112  less_than -> LT
+rule 113  greater_than -> GT
+rule 114  less_than_or_equal_to -> LTE
+rule 115  greater_than_or_equal_to -> GTE
+rule 116  add -> ADD
+rule 117  sub -> SUB
+rule 118  multiply -> MULT
+rule 119  divide -> DIV
+rule 120  mod -> MOD
 
 Terminals, with rules where they appear
 
@@ -155,30 +156,30 @@ ENDIF (266) 92
 ELSE (267) 94
 ELSEIF (268) 93
 WHILE (269) 95
-DO (270) 98
+DO (270) 99
 BEGINLOOP (271) 96
-ENDLOOP (272) 97
-BREAK (273) 101
-CONTINUE (274) 102
-EXIT (275) 103
-READ (276) 99
-WRITE (277) 100
-AND (278) 105
-OR (279) 104
-NOT (280) 106
-TRUE (281) 107
-FALSE (282) 108
-SUB (283) 116
-ADD (284) 115
-MULT (285) 117
-DIV (286) 118
-MOD (287) 119
-EQ (288) 109
-NEQ (289) 110
-LT (290) 111
-GT (291) 112
-LTE (292) 113
-GTE (293) 114
+ENDLOOP (272) 97 98
+BREAK (273) 102
+CONTINUE (274) 103
+EXIT (275) 104
+READ (276) 100
+WRITE (277) 101
+AND (278) 106
+OR (279) 105
+NOT (280) 107
+TRUE (281) 108
+FALSE (282) 109
+SUB (283) 117
+ADD (284) 116
+MULT (285) 118
+DIV (286) 119
+MOD (287) 120
+EQ (288) 110
+NEQ (289) 111
+LT (290) 112
+GT (291) 113
+LTE (292) 114
+GTE (293) 115
 SEMICOLON (294) 75
 COLON (295) 79
 COMMA (296) 78
@@ -288,59 +289,61 @@ while (96)
     on left: 95, on right: 13 14
 begin_loop (97)
     on left: 96, on right: 13 14
-end_loop (98)
-    on left: 97, on right: 13 14
-do (99)
-    on left: 98, on right: 14
-read (100)
-    on left: 99, on right: 15
-write (101)
-    on left: 100, on right: 16
-break (102)
-    on left: 101, on right: 17
-continue (103)
-    on left: 102, on right: 18
-exit (104)
-    on left: 103, on right: 19
-or (105)
-    on left: 104, on right: 30 31
-and (106)
-    on left: 105, on right: 34 35
-not (107)
-    on left: 106, on right: 37 38 39 40
-true (108)
-    on left: 107, on right: 38 42
-false (109)
-    on left: 108, on right: 39 43
-equal_to (110)
-    on left: 109, on right: 45
-not_equal_to (111)
-    on left: 110, on right: 46
-less_than (112)
-    on left: 111, on right: 47
-greater_than (113)
-    on left: 112, on right: 48
-less_than_or_equal_to (114)
-    on left: 113, on right: 49
-greater_than_or_equal_to (115)
-    on left: 114, on right: 50
-add (116)
-    on left: 115, on right: 52 54
-sub (117)
-    on left: 116, on right: 53 55 65 66 67
-multiply (118)
-    on left: 117, on right: 58 61
-divide (119)
-    on left: 118, on right: 59 62
-mod (120)
-    on left: 119, on right: 60 63
+dend_loop (98)
+    on left: 97, on right: 14
+end_loop (99)
+    on left: 98, on right: 13
+do (100)
+    on left: 99, on right: 14
+read (101)
+    on left: 100, on right: 15
+write (102)
+    on left: 101, on right: 16
+break (103)
+    on left: 102, on right: 17
+continue (104)
+    on left: 103, on right: 18
+exit (105)
+    on left: 104, on right: 19
+or (106)
+    on left: 105, on right: 30 31
+and (107)
+    on left: 106, on right: 34 35
+not (108)
+    on left: 107, on right: 37 38 39 40
+true (109)
+    on left: 108, on right: 38 42
+false (110)
+    on left: 109, on right: 39 43
+equal_to (111)
+    on left: 110, on right: 45
+not_equal_to (112)
+    on left: 111, on right: 46
+less_than (113)
+    on left: 112, on right: 47
+greater_than (114)
+    on left: 113, on right: 48
+less_than_or_equal_to (115)
+    on left: 114, on right: 49
+greater_than_or_equal_to (116)
+    on left: 115, on right: 50
+add (117)
+    on left: 116, on right: 52 54
+sub (118)
+    on left: 117, on right: 53 55 65 66 67
+multiply (119)
+    on left: 118, on right: 58 61
+divide (120)
+    on left: 119, on right: 59 62
+mod (121)
+    on left: 120, on right: 60 63
 
 
 state 0
 
     PROGRAM	shift, and go to state 1
 
-    start	go to state 191
+    start	go to state 192
     program_start	go to state 2
     program	go to state 3
 
@@ -604,49 +607,49 @@ state 25
 
 state 26
 
-    do  ->  DO .   (rule 98)
+    do  ->  DO .   (rule 99)
 
-    $default	reduce using rule 98 (do)
+    $default	reduce using rule 99 (do)
 
 
 
 state 27
 
-    break  ->  BREAK .   (rule 101)
+    break  ->  BREAK .   (rule 102)
 
-    $default	reduce using rule 101 (break)
+    $default	reduce using rule 102 (break)
 
 
 
 state 28
 
-    continue  ->  CONTINUE .   (rule 102)
+    continue  ->  CONTINUE .   (rule 103)
 
-    $default	reduce using rule 102 (continue)
+    $default	reduce using rule 103 (continue)
 
 
 
 state 29
 
-    exit  ->  EXIT .   (rule 103)
+    exit  ->  EXIT .   (rule 104)
 
-    $default	reduce using rule 103 (exit)
+    $default	reduce using rule 104 (exit)
 
 
 
 state 30
 
-    read  ->  READ .   (rule 99)
+    read  ->  READ .   (rule 100)
 
-    $default	reduce using rule 99 (read)
+    $default	reduce using rule 100 (read)
 
 
 
 state 31
 
-    write  ->  WRITE .   (rule 100)
+    write  ->  WRITE .   (rule 101)
 
-    $default	reduce using rule 100 (write)
+    $default	reduce using rule 101 (write)
 
 
 
@@ -774,7 +777,7 @@ state 37
 
 state 38
 
-    statement  ->  do . begin_loop statement_list end_loop while bool_exp   (rule 14)
+    statement  ->  do . begin_loop statement_list dend_loop while bool_exp   (rule 14)
 
     BEGINLOOP	shift, and go to state 74
 
@@ -942,33 +945,33 @@ state 53
 
 state 54
 
-    not  ->  NOT .   (rule 106)
+    not  ->  NOT .   (rule 107)
 
-    $default	reduce using rule 106 (not)
+    $default	reduce using rule 107 (not)
 
 
 
 state 55
 
-    true  ->  TRUE .   (rule 107)
+    true  ->  TRUE .   (rule 108)
 
-    $default	reduce using rule 107 (true)
+    $default	reduce using rule 108 (true)
 
 
 
 state 56
 
-    false  ->  FALSE .   (rule 108)
+    false  ->  FALSE .   (rule 109)
 
-    $default	reduce using rule 108 (false)
+    $default	reduce using rule 109 (false)
 
 
 
 state 57
 
-    sub  ->  SUB .   (rule 116)
+    sub  ->  SUB .   (rule 117)
 
-    $default	reduce using rule 116 (sub)
+    $default	reduce using rule 117 (sub)
 
 
 
@@ -1210,7 +1213,7 @@ state 74
 
 state 75
 
-    statement  ->  do begin_loop . statement_list end_loop while bool_exp   (rule 14)
+    statement  ->  do begin_loop . statement_list dend_loop while bool_exp   (rule 14)
 
     IF  	shift, and go to state 24
     WHILE	shift, and go to state 25
@@ -1382,9 +1385,9 @@ state 87
 
 state 88
 
-    or  ->  OR .   (rule 104)
+    or  ->  OR .   (rule 105)
 
-    $default	reduce using rule 104 (or)
+    $default	reduce using rule 105 (or)
 
 
 
@@ -1431,9 +1434,9 @@ state 90
 
 state 91
 
-    and  ->  AND .   (rule 105)
+    and  ->  AND .   (rule 106)
 
-    $default	reduce using rule 105 (and)
+    $default	reduce using rule 106 (and)
 
 
 
@@ -1479,49 +1482,49 @@ state 93
 
 state 94
 
-    equal_to  ->  EQ .   (rule 109)
+    equal_to  ->  EQ .   (rule 110)
 
-    $default	reduce using rule 109 (equal_to)
+    $default	reduce using rule 110 (equal_to)
 
 
 
 state 95
 
-    not_equal_to  ->  NEQ .   (rule 110)
+    not_equal_to  ->  NEQ .   (rule 111)
 
-    $default	reduce using rule 110 (not_equal_to)
+    $default	reduce using rule 111 (not_equal_to)
 
 
 
 state 96
 
-    less_than  ->  LT .   (rule 111)
+    less_than  ->  LT .   (rule 112)
 
-    $default	reduce using rule 111 (less_than)
+    $default	reduce using rule 112 (less_than)
 
 
 
 state 97
 
-    greater_than  ->  GT .   (rule 112)
+    greater_than  ->  GT .   (rule 113)
 
-    $default	reduce using rule 112 (greater_than)
+    $default	reduce using rule 113 (greater_than)
 
 
 
 state 98
 
-    less_than_or_equal_to  ->  LTE .   (rule 113)
+    less_than_or_equal_to  ->  LTE .   (rule 114)
 
-    $default	reduce using rule 113 (less_than_or_equal_to)
+    $default	reduce using rule 114 (less_than_or_equal_to)
 
 
 
 state 99
 
-    greater_than_or_equal_to  ->  GTE .   (rule 114)
+    greater_than_or_equal_to  ->  GTE .   (rule 115)
 
-    $default	reduce using rule 114 (greater_than_or_equal_to)
+    $default	reduce using rule 115 (greater_than_or_equal_to)
 
 
 
@@ -1595,9 +1598,9 @@ state 106
 
 state 107
 
-    add  ->  ADD .   (rule 115)
+    add  ->  ADD .   (rule 116)
 
-    $default	reduce using rule 115 (add)
+    $default	reduce using rule 116 (add)
 
 
 
@@ -1657,25 +1660,25 @@ state 110
 
 state 111
 
-    multiply  ->  MULT .   (rule 117)
+    multiply  ->  MULT .   (rule 118)
 
-    $default	reduce using rule 117 (multiply)
+    $default	reduce using rule 118 (multiply)
 
 
 
 state 112
 
-    divide  ->  DIV .   (rule 118)
+    divide  ->  DIV .   (rule 119)
 
-    $default	reduce using rule 118 (divide)
+    $default	reduce using rule 119 (divide)
 
 
 
 state 113
 
-    mod  ->  MOD .   (rule 119)
+    mod  ->  MOD .   (rule 120)
 
-    $default	reduce using rule 119 (mod)
+    $default	reduce using rule 120 (mod)
 
 
 
@@ -1923,7 +1926,7 @@ state 127
 
 state 128
 
-    statement  ->  do begin_loop statement_list . end_loop while bool_exp   (rule 14)
+    statement  ->  do begin_loop statement_list . dend_loop while bool_exp   (rule 14)
     statement_list  ->  statement_list . statement semicolon   (rule 27)
 
     IF  	shift, and go to state 24
@@ -1942,7 +1945,7 @@ state 128
     identifier	go to state 35
     if  	go to state 36
     while	go to state 37
-    end_loop	go to state 159
+    dend_loop	go to state 159
     do  	go to state 38
     read	go to state 39
     write	go to state 40
@@ -2325,7 +2328,7 @@ state 157
     IF  	shift, and go to state 24
     WHILE	shift, and go to state 25
     DO  	shift, and go to state 26
-    ENDLOOP	shift, and go to state 158
+    ENDLOOP	shift, and go to state 175
     BREAK	shift, and go to state 27
     CONTINUE	shift, and go to state 28
     EXIT	shift, and go to state 29
@@ -2338,7 +2341,7 @@ state 157
     identifier	go to state 35
     if  	go to state 36
     while	go to state 37
-    end_loop	go to state 175
+    end_loop	go to state 176
     do  	go to state 38
     read	go to state 39
     write	go to state 40
@@ -2350,19 +2353,19 @@ state 157
 
 state 158
 
-    end_loop  ->  ENDLOOP .   (rule 97)
+    dend_loop  ->  ENDLOOP .   (rule 97)
 
-    $default	reduce using rule 97 (end_loop)
+    $default	reduce using rule 97 (dend_loop)
 
 
 
 state 159
 
-    statement  ->  do begin_loop statement_list end_loop . while bool_exp   (rule 14)
+    statement  ->  do begin_loop statement_list dend_loop . while bool_exp   (rule 14)
 
     WHILE	shift, and go to state 25
 
-    while	go to state 176
+    while	go to state 177
 
 
 
@@ -2378,9 +2381,9 @@ state 161
 
     optional_array  ->  array l_bracket number r_bracket . of   (rule 9)
 
-    OF  	shift, and go to state 177
+    OF  	shift, and go to state 178
 
-    of  	go to state 178
+    of  	go to state 179
 
 
 
@@ -2397,14 +2400,14 @@ state 163
     statement  ->  if bool_exp then statement_list optional_elseif . optional_else end_if   (rule 12)
     optional_elseif  ->  optional_elseif . elseif bool_exp statement_list   (rule 20)
 
-    ELSE	shift, and go to state 179
+    ELSE	shift, and go to state 180
     ELSEIF	shift, and go to state 162
 
     $default	reduce using rule 24 (optional_else)
 
-    optional_else	go to state 180
-    elseif	go to state 181
-    else	go to state 182
+    optional_else	go to state 181
+    elseif	go to state 182
+    else	go to state 183
 
 
 
@@ -2420,7 +2423,7 @@ state 164
     NUMBER	shift, and go to state 59
     IDENT	shift, and go to state 4
 
-    bool_exp	go to state 183
+    bool_exp	go to state 184
     relation_and_exp	go to state 61
     relation_exp	go to state 62
     expression	go to state 63
@@ -2519,15 +2522,23 @@ state 174
 
 state 175
 
+    end_loop  ->  ENDLOOP .   (rule 98)
+
+    $default	reduce using rule 98 (end_loop)
+
+
+
+state 176
+
     statement  ->  while bool_exp begin_loop statement_list end_loop .   (rule 13)
 
     $default	reduce using rule 13 (statement)
 
 
 
-state 176
+state 177
 
-    statement  ->  do begin_loop statement_list end_loop while . bool_exp   (rule 14)
+    statement  ->  do begin_loop statement_list dend_loop while . bool_exp   (rule 14)
 
     NOT 	shift, and go to state 54
     TRUE	shift, and go to state 55
@@ -2537,7 +2548,7 @@ state 176
     NUMBER	shift, and go to state 59
     IDENT	shift, and go to state 4
 
-    bool_exp	go to state 184
+    bool_exp	go to state 185
     relation_and_exp	go to state 61
     relation_exp	go to state 62
     expression	go to state 63
@@ -2554,7 +2565,7 @@ state 176
 
 
 
-state 177
+state 178
 
     of  ->  OF .   (rule 86)
 
@@ -2562,7 +2573,7 @@ state 177
 
 
 
-state 178
+state 179
 
     optional_array  ->  array l_bracket number r_bracket of .   (rule 9)
 
@@ -2570,7 +2581,7 @@ state 178
 
 
 
-state 179
+state 180
 
     else  ->  ELSE .   (rule 94)
 
@@ -2578,17 +2589,17 @@ state 179
 
 
 
-state 180
+state 181
 
     statement  ->  if bool_exp then statement_list optional_elseif optional_else . end_if   (rule 12)
 
-    ENDIF	shift, and go to state 185
+    ENDIF	shift, and go to state 186
 
-    end_if	go to state 186
+    end_if	go to state 187
 
 
 
-state 181
+state 182
 
     optional_elseif  ->  optional_elseif elseif . bool_exp statement_list   (rule 20)
 
@@ -2600,7 +2611,7 @@ state 181
     NUMBER	shift, and go to state 59
     IDENT	shift, and go to state 4
 
-    bool_exp	go to state 187
+    bool_exp	go to state 188
     relation_and_exp	go to state 61
     relation_exp	go to state 62
     expression	go to state 63
@@ -2617,38 +2628,9 @@ state 181
 
 
 
-state 182
-
-    optional_else  ->  else . statement_list   (rule 23)
-
-    IF  	shift, and go to state 24
-    WHILE	shift, and go to state 25
-    DO  	shift, and go to state 26
-    BREAK	shift, and go to state 27
-    CONTINUE	shift, and go to state 28
-    EXIT	shift, and go to state 29
-    READ	shift, and go to state 30
-    WRITE	shift, and go to state 31
-    IDENT	shift, and go to state 4
-
-    statement	go to state 32
-    statement_list	go to state 188
-    var 	go to state 34
-    identifier	go to state 35
-    if  	go to state 36
-    while	go to state 37
-    do  	go to state 38
-    read	go to state 39
-    write	go to state 40
-    break	go to state 41
-    continue	go to state 42
-    exit	go to state 43
-
-
-
 state 183
 
-    optional_elseif  ->  elseif bool_exp . statement_list   (rule 21)
+    optional_else  ->  else . statement_list   (rule 23)
 
     IF  	shift, and go to state 24
     WHILE	shift, and go to state 25
@@ -2677,31 +2659,7 @@ state 183
 
 state 184
 
-    statement  ->  do begin_loop statement_list end_loop while bool_exp .   (rule 14)
-
-    $default	reduce using rule 14 (statement)
-
-
-
-state 185
-
-    end_if  ->  ENDIF .   (rule 92)
-
-    $default	reduce using rule 92 (end_if)
-
-
-
-state 186
-
-    statement  ->  if bool_exp then statement_list optional_elseif optional_else end_if .   (rule 12)
-
-    $default	reduce using rule 12 (statement)
-
-
-
-state 187
-
-    optional_elseif  ->  optional_elseif elseif bool_exp . statement_list   (rule 20)
+    optional_elseif  ->  elseif bool_exp . statement_list   (rule 21)
 
     IF  	shift, and go to state 24
     WHILE	shift, and go to state 25
@@ -2728,7 +2686,60 @@ state 187
 
 
 
+state 185
+
+    statement  ->  do begin_loop statement_list dend_loop while bool_exp .   (rule 14)
+
+    $default	reduce using rule 14 (statement)
+
+
+
+state 186
+
+    end_if  ->  ENDIF .   (rule 92)
+
+    $default	reduce using rule 92 (end_if)
+
+
+
+state 187
+
+    statement  ->  if bool_exp then statement_list optional_elseif optional_else end_if .   (rule 12)
+
+    $default	reduce using rule 12 (statement)
+
+
+
 state 188
+
+    optional_elseif  ->  optional_elseif elseif bool_exp . statement_list   (rule 20)
+
+    IF  	shift, and go to state 24
+    WHILE	shift, and go to state 25
+    DO  	shift, and go to state 26
+    BREAK	shift, and go to state 27
+    CONTINUE	shift, and go to state 28
+    EXIT	shift, and go to state 29
+    READ	shift, and go to state 30
+    WRITE	shift, and go to state 31
+    IDENT	shift, and go to state 4
+
+    statement	go to state 32
+    statement_list	go to state 191
+    var 	go to state 34
+    identifier	go to state 35
+    if  	go to state 36
+    while	go to state 37
+    do  	go to state 38
+    read	go to state 39
+    write	go to state 40
+    break	go to state 41
+    continue	go to state 42
+    exit	go to state 43
+
+
+
+state 189
 
     optional_else  ->  else statement_list .   (rule 23)
     statement_list  ->  statement_list . statement semicolon   (rule 27)
@@ -2759,7 +2770,7 @@ state 188
 
 
 
-state 189
+state 190
 
     optional_elseif  ->  elseif bool_exp statement_list .   (rule 21)
     statement_list  ->  statement_list . statement semicolon   (rule 27)
@@ -2790,7 +2801,7 @@ state 189
 
 
 
-state 190
+state 191
 
     optional_elseif  ->  optional_elseif elseif bool_exp statement_list .   (rule 20)
     statement_list  ->  statement_list . statement semicolon   (rule 27)
@@ -2821,12 +2832,6 @@ state 190
 
 
 
-state 191
-
-    $   	go to state 192
-
-
-
 state 192
 
     $   	go to state 193
@@ -2834,5 +2839,11 @@ state 192
 
 
 state 193
+
+    $   	go to state 194
+
+
+
+state 194
 
     $default	accept

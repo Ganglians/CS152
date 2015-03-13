@@ -109,7 +109,7 @@ start: program_start {
 } 
 ;
  
-program_start: program   identifier   semicolon   block   end_program {
+program_start: program   identifier   semicolon   block   end_program {//***
 		/*if(!Err) */
 		{
 			for(int i = 0; i < t; i++)
@@ -145,7 +145,7 @@ declaration_list: declaration_list   declaration   semicolon
 
  
 
-declaration: identifier_list   colon   optional_array   integer {
+declaration: identifier_list   colon   optional_array   integer {//***
 	while(!ID.empty()) 
 	{
 		buff << "\t. " << ID.top() << endl;
@@ -159,7 +159,7 @@ declaration: identifier_list   colon   optional_array   integer {
 
 identifier_list: identifier_list comma identifier   
 
-| identifier {
+| identifier {//***
 	// Error check
 	string id = "_" + string($1);
 	/*map<string, int>::iterator i = Symbols.find(id);
@@ -203,7 +203,7 @@ optional_array: array   l_bracket   number   r_bracket   of {
 
 ;
 
-statement: var   assign   expression {
+statement: var   assign   expression {//**************************
 	s2 = Var.top();
 
 	if(Index.top() != "-1")
@@ -239,7 +239,17 @@ statement: var   assign   expression {
 
 | while   bool_exp   begin_loop   statement_list   end_loop {} 
 
-| do   begin_loop   statement_list   end_loop   while bool_exp {} 
+| do   begin_loop   statement_list   dend_loop   while bool_exp {
+//***
+	int s1 = Pred.top();
+	Pred.pop();
+	int l1 = Label.top();
+
+	buff << "\t== p" << p << ", p" << s1 << ", 0" << endl;
+	buff << "\t?:= L" << l1 << ", p" << p << endl;
+	++p;
+	Label.pop();
+} 
 
 | read   var_list {} 
 
@@ -321,19 +331,66 @@ relation_exp_list:  relation_exp_list   and   relation_exp
 
  
 
-relation_exp: not   expression   comp   expression 
+relation_exp: not   expression   comp   expression {
+
+}
 
 | not true 
 
-| not   false 
+| not false 
 
 | not   l_paren   bool_exp   r_paren 
 
-| expression   comp   expression {} 
+| expression   comp   expression {//######### Seg Fault
 
-| true 
+	/*s2 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << "\t=[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+		++t;
+	}
+	
+	Index.pop();
+	Var.pop();
 
-| false 
+	s1 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << "\t=[] t" << t << ", " << s1 << ", " << Index.top() << endl;
+		
+		s1 = "t" + convert.str();
+		t++;
+	}
+
+	Var.pop();
+	Index.pop();
+	string ct = Comp.top();
+	Comp.pop();
+
+	buff << "\t" << ct << " p" << p << ", " << s1 << ", " << s2 << endl;
+	
+	Pred.push(p);
+	p++;*/
+
+} 
+
+| true { //***
+	buff << "\t== p" << p << ", 1, 1" << endl;
+	Pred.push(p);
+	++p;
+}
+
+| false { //***
+	buff << "\t== p" << p << ", 1, 0" << endl;
+	Pred.push(p);
+	p++;
+} 
 
 | l_paren   bool_exp   r_paren 
 
@@ -341,7 +398,7 @@ relation_exp: not   expression   comp   expression
 
  
 
-comp: equal_to {
+comp: equal_to { //************
 
 	Comp.push("==");
 
@@ -469,7 +526,7 @@ program: PROGRAM
 
  
 
-identifier: IDENT {
+identifier: IDENT { //***
 
 	// Search symbol table for identifier
 	string id = "_" + string($1);
@@ -600,7 +657,7 @@ if: IF
  
 
 then: THEN 
-{
+{//###
 	// Segfault
 
 	/*int s2 = Pred.top();
@@ -615,10 +672,10 @@ then: THEN
 
  
 
-end_if: ENDIF {
+end_if: ENDIF {//***
 
-	/*buff << ": L" << Label.top() << endl;
-	Label.pop();*/
+	buff << ": L" << Label.top() << endl;
+	Label.pop();
 
 } 
 
@@ -632,14 +689,14 @@ elseif: ELSEIF
 
  
 
-else: ELSE {
+else: ELSE {//***
 
-	/*buff << "\t:= L" << l << endl;
+	buff << "\t:= L" << l << endl;
 	buff << ": L" << Label.top() << endl;
 	Label.pop();
 	Label.push(l);
 
-	l++;*/
+	l++;
 
 }
 
@@ -647,7 +704,7 @@ else: ELSE {
 
  
 
-while: WHILE {
+while: WHILE {//***
 
 	buff << ": L" << l << endl;
 
@@ -662,20 +719,50 @@ while: WHILE {
  
 
 begin_loop: BEGINLOOP {
-	//int t = Pred.top();
+	//######### Segfault
+
+	/*int s2 = Pred.top();
+	Pred.pop();
+	buff << "\t?:= L" << l << ", p" << s2 << endl;
+	Label.push(l);
+	++l;*/
 } 
 
 ;
 
  
+dend_loop: ENDLOOP { //################# Segfault
 
-end_loop: ENDLOOP 
+	/*int l1 = Loop.top();
+	buff << ": L " << l1 << endl;
+	Loop.pop();*/
+
+
+}
+
+
+end_loop: ENDLOOP { //#################### Segfault 
+	/*int s2 = Label.top();
+	Label.pop();
+
+	int s1 = Label.top();
+	Label.pop();
+
+	buff << "\t:= L" << s1 << endl << ": L" << s2 << endl;
+	Loop.pop();*/
+}
 
 ;
 
  
 
-do: DO 
+do: DO {// ***
+	buff << ": L" << l << endl;
+	Label.push(l);
+	++l;
+	Loop.push(l);
+	++l;
+}
 
 ;
 
