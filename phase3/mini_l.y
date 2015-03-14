@@ -328,7 +328,13 @@ statement: var   assign   expression {//**************************
 
 | break {} 
 
-| continue {} 
+| continue {
+	if(!Loop.empty())
+	{
+		int tmp = Loop.top();
+		buff << "\t:= L" << tmp << endl;
+	}
+} 
 
 | exit {} 
 
@@ -845,7 +851,7 @@ term: sub   var %prec NEG { //***
 
 | var {} 
 
-| number {// ***
+| number {//***
 	stringstream convert;
 	convert << $1;
 

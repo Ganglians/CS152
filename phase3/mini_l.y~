@@ -328,7 +328,9 @@ statement: var   assign   expression {//**************************
 
 | break {} 
 
-| continue {} 
+| continue {
+
+} 
 
 | exit {} 
 
@@ -845,7 +847,7 @@ term: sub   var %prec NEG { //***
 
 | var {} 
 
-| number {// ***
+| number {//***
 	stringstream convert;
 	convert << $1;
 
