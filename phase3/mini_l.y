@@ -67,50 +67,30 @@
 
 }
 
-%start start
+%start program_start
 
-%token PROGRAM BEGIN_PROGRAM END_PROGRAM INTEGER ARRAY OF IF THEN ENDIF ELSE ELSEIF
+%left PROGRAM BEGIN_PROGRAM END_PROGRAM INTEGER ARRAY OF IF THEN ENDIF ELSE ELSEIF
 
-%token WHILE DO BEGINLOOP ENDLOOP BREAK CONTINUE EXIT READ WRITE AND OR NOT TRUE
+%left WHILE DO BEGINLOOP ENDLOOP BREAK CONTINUE EXIT READ WRITE AND OR NOT TRUE
 
-%token FALSE SUB ADD MULT DIV MOD EQ NEQ LT GT LTE GTE SEMICOLON COLON COMMA QUESTION
+%left FALSE SUB ADD MULT DIV MOD EQ NEQ LT GT LTE GTE SEMICOLON COLON COMMA QUESTION
 
-%token L_BRACKET R_BRACKET L_PAREN R_PAREN ASSIGN
+%left L_BRACKET R_BRACKET L_PAREN R_PAREN ASSIGN
 
 %token <number> NUMBER
 
 %token <string> IDENT
 
-%right ASSIGN
-
-%right QUESTION COLON
-
-%left OR
-
-%left AND
-
-%right NOT
-
-%left EQ NEQ LT GT LTE GTE
-
-%left SUB ADD
-
-%left MULT DIV MOD
-
 %right NEG
-
-%left L_BRACKET R_BRACKET L_PAREN R_PAREN
 
 %type <number> number
 
 %type <string> identifier var expression assign statement
-%%
 
-start: program_start {}
+%type <number> integer
+%%
  
-;
- 
-program_start: program   identifier   semicolon   block   end_program {//***
+program_start: PROGRAM IDENT SEMICOLON block END_PROGRAM {//***
 		if(!Err) 
 		{
 			for(int i = 0; i < t; i++)
@@ -124,8 +104,10 @@ program_start: program   identifier   semicolon   block   end_program {//***
 			}
 
 			cout << buff.str();
-			cout << ": EndLabel" << endl;;
+
+			cout << ": EndLabel" << endl;
 		}
+
 } 
 
 ;
@@ -146,7 +128,7 @@ declaration_list: declaration_list   declaration   semicolon
 
  
 
-declaration: identifier_list   colon   optional_array   integer {//***
+declaration: identifier_list   colon   optional_array integer {//***
 	while(!ID.empty()) 
 	{
 		buff << "\t. " << ID.top() << endl;
@@ -161,7 +143,6 @@ declaration: identifier_list   colon   optional_array   integer {//***
 identifier_list: identifier_list comma identifier   
 
 | identifier {//***
-	// Error check %%%%%%%%%%%%%%%%%
 	string id = "_" + string($1);
 	map<string, int>::iterator i = Symbols.find(id);
 
@@ -170,9 +151,9 @@ identifier_list: identifier_list comma identifier
 		errors = "Error: " + id + " has been previously defined";
 		yyerror(errors.c_str());
 	}
-
 	Symbols[id] = -1;
 	ID.push(id);
+
 } 
 
 ;
@@ -252,25 +233,19 @@ statement: var   assign   expression {//**************************
 	Label.pop();
 } 
 
-| read   var_list {//###### 
+| read var_list {//###
 
-	/*cout << "read var_list" << endl;//*
-	!Var.empty();
-	Index.top() == "-1";
-	Var.top();
-	while(!Var.empty())
+	if(!Var.empty())
 	{
 		if(Index.top() == "-1")
 		{
 			stringstream convert;
 			convert << "\t.< " << Var.top() << endl;
 			Rev.push(convert.str());
-			cout << convert.str() << endl;//*
 		}			
 
 		else
 		{
-			//cout << "in the else" << endl;//*
 			stringstream convert2;
 			convert2 << "\t.[]< " << Var.top() << ", " << Index.top() << endl;
 			Rev.push(convert2.str()); 
@@ -287,13 +262,13 @@ statement: var   assign   expression {//**************************
 			buff << Rev.top();
 			Rev.pop();
 		
-		}*/
+		}
 
 } 
 
-| write   var_list {//##############
+| write   var_list {
 
-	/*while(!Var.empty())
+	if(!Var.empty())
 	{
 	
 		if(Index.top() == "-1")
@@ -321,7 +296,7 @@ statement: var   assign   expression {//**************************
 			buff << Rev.top();
 			Rev.pop();
 		
-		} */
+		} 
 			
 
 } 
@@ -420,9 +395,10 @@ relation_and_exp: relation_exp   relation_exp_list
 
  
 
-relation_exp_list:  relation_exp_list   and   relation_exp //******
-{
+relation_exp_list:  relation_exp_list   and   relation_exp {} 
 
+| and   relation_exp 
+{
 	int s2 = Pred.top();
 	Pred.pop();
 	int s1 = Pred.top();
@@ -431,10 +407,7 @@ relation_exp_list:  relation_exp_list   and   relation_exp //******
 	buff << "\t&& p" << p << ", p" << s1 << ", p" << s2 << endl;
 	Pred.push(p);
 	++p;
-
-} //***************************************
-
-| and   relation_exp 
+}
 
 | /* epsilon */ 
 
@@ -479,12 +452,19 @@ relation_exp: not   expression   comp   expression {
 	++p;
 	Pred.push(p);
 	++p;
-
 }
 
-| not true 
+| not true {
+	buff << "\t== p" << p << ", 1, 0" << endl;
+	Pred.push(p);
+	++p;
+}
 
-| not false 
+| not false {
+	buff << "\t== p" << p << ", 1, 1" << endl;
+	Pred.push(p);
+	++p;
+}
 
 | not   l_paren   bool_exp   r_paren 
 
@@ -595,7 +575,7 @@ multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp
 
 | multiplicative_exp_list   sub multiplicative_exp
 
-| add   multiplicative_exp 
+| add multiplicative_exp 
 {
 	s2 = Var.top();
 	if(Index.top() != "-1")
@@ -910,13 +890,13 @@ identifier: IDENT { //***
 	}
 
 
-	if(Symbols.find(id) == Symbols.end())
+	/*if(Symbols.find(id) == Symbols.end())
 	{
 		errors = "Error: " + id + " is undeclared";
 		yyerror(errors.c_str());
-	}
+	}*/
 
-	else if(keybool == true)
+	if(keybool == true)
 	{
 		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
 		yyerror(errors.c_str());
@@ -999,14 +979,14 @@ l_paren: L_PAREN {
 	map<string, int>::iterator i;
 	i = Symbols.find(Var.top());
 
-	if(i != Symbols.end())
+	/*if(i != Symbols.end())
 	{
 		if((*i).second == -1)
 		{
 			errors = "Error: the variable " + Var.top().substr(1, Var.top().length() - 1) + " cannot have index";
 			yyerror(errors.c_str());
 		}
-	}
+	}*/
 }
 
 ;
