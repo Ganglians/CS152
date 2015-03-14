@@ -124,6 +124,7 @@ program_start: program   identifier   semicolon   block   end_program {//***
 			}
 
 			cout << buff.str();
+			cout << ": EndLabel" << endl;;
 		}
 } 
 
@@ -160,7 +161,7 @@ declaration: identifier_list   colon   optional_array   integer {//***
 identifier_list: identifier_list comma identifier   
 
 | identifier {//***
-	// Error check
+	// Error check %%%%%%%%%%%%%%%%%
 	string id = "_" + string($1);
 	map<string, int>::iterator i = Symbols.find(id);
 
@@ -181,7 +182,7 @@ identifier_list: identifier_list comma identifier
 optional_array: array   l_bracket   number   r_bracket   of {//****
 	int num = $3;
 
-    //Error check
+    	//Error check
 	if(num <= 0) 
 	{	
 		errors = "Error: Declaring array of invalid size.";
@@ -251,20 +252,25 @@ statement: var   assign   expression {//**************************
 	Label.pop();
 } 
 
-| read   var_list {//######
+| read   var_list {//###### 
 
+	cout << "read var_list" << endl;//*
+	!Var.empty();
+	Index.top() == "-1";
+	Var.top();
 	/*while(!Var.empty())
 	{
-	
 		if(Index.top() == "-1")
 		{
 			stringstream convert;
 			convert << "\t.< " << Var.top() << endl;
 			Rev.push(convert.str());
+			cout << convert.str() << endl;//*
 		}			
 
 		else
 		{
+			//cout << "in the else" << endl;//*
 			stringstream convert2;
 			convert2 << "\t.[]< " << Var.top() << ", " << Index.top() << endl;
 			Rev.push(convert2.str()); 
@@ -281,7 +287,7 @@ statement: var   assign   expression {//**************************
 			buff << Rev.top();
 			Rev.pop();
 		
-		} */	
+		}*/
 
 } 
 
@@ -847,7 +853,7 @@ term: sub   var %prec NEG { //***
 	Index.push("-1");
 } 
 
-| l_paren   expression   r_paren //
+| l_paren   expression   r_paren 
 
 ;
 
@@ -869,7 +875,13 @@ var: identifier {// ***
 	Index.push("-1");
 } 
 
-| identifier   l_bracket   expression   r_bracket 
+| identifier   l_bracket   expression   r_bracket { //@@@
+
+	Index.pop();
+	Index.push(Var.top());
+	Var.pop();
+
+}
 
 ;
 
@@ -883,8 +895,30 @@ program: PROGRAM
 
 identifier: IDENT { //***
 
-	// Search symbol table for identifier
 	string id = "_" + string($1);
+	if(Symbols.find(id) == Symbols.end())
+	{
+		errors = "Error: " + id + " is undeclared";
+		yyerror(errors.c_str());
+	}
+	bool keybool = false;
+
+		//bool keybool = false;
+		int size = keywords.size();
+		for(int j =0; j < size; j++)
+		{
+			(id == Keywords[j]) ? keybool = true : keybool;	
+		}
+
+	if(keybool == true)
+	{
+		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
+		yyerror(errors.c_str());
+	}
+
+	Var.push(id);
+	// Search symbol table for identifier
+	/*string id = "_" + string($1);
 	map <string, int>::iterator i = Symbols.find(id);
 
 	// Error check
@@ -895,9 +929,9 @@ identifier: IDENT { //***
 	}
 	
 	Symbols[id] = -1;
-	ID.push(id);
+	ID.push(id);*/
 
-	bool keybool = false;
+	/*bool keybool = false;
 	int size = Keywords.size();
 
 	for(int j = 0; j < size; j++)
@@ -911,7 +945,7 @@ identifier: IDENT { //***
 		yyerror(errors.c_str());
 	}
 
-	Var.push(id);
+	Var.push(id);*/
 
 }
 

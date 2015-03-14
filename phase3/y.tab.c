@@ -754,18 +754,18 @@ static const short yyrhs[] = {    52,
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-   109,   113,   134,   140,   142,   148,   160,   162,   181,   202,
-   206,   238,   240,   242,   254,   288,   323,   325,   327,   333,
-   335,   337,   343,   345,   351,   353,   359,   361,   367,   383,
-   397,   399,   405,   411,   425,   427,   433,   473,   475,   477,
-   479,   518,   524,   530,   536,   542,   548,   554,   560,   566,
-   576,   582,   625,   666,   668,   670,   675,   681,   718,   720,
-   757,   759,   793,   795,   801,   826,   828,   840,   842,   850,
-   856,   872,   878,   884,   922,   928,   934,   942,   948,   952,
-   958,   964,   981,   987,  1005,  1009,  1013,  1019,  1025,  1031,
-  1037,  1052,  1063,  1069,  1084,  1098,  1110,  1120,  1135,  1147,
-  1153,  1161,  1167,  1176,  1182,  1188,  1194,  1200,  1206,  1212,
-  1218,  1224,  1230,  1236,  1242,  1246,  1252,  1258,  1264,  1270
+   109,   113,   135,   141,   143,   149,   161,   163,   182,   203,
+   207,   239,   241,   243,   255,   294,   329,   331,   333,   339,
+   341,   343,   349,   351,   357,   359,   365,   367,   373,   389,
+   403,   405,   411,   417,   431,   433,   439,   479,   481,   483,
+   485,   524,   530,   536,   542,   548,   554,   560,   566,   572,
+   582,   588,   631,   672,   674,   676,   681,   687,   724,   726,
+   763,   765,   799,   801,   807,   832,   834,   846,   848,   856,
+   862,   878,   890,   896,   956,   962,   968,   976,   982,   986,
+   992,   998,  1015,  1021,  1039,  1043,  1047,  1053,  1059,  1065,
+  1071,  1086,  1097,  1103,  1118,  1132,  1144,  1154,  1169,  1181,
+  1187,  1195,  1201,  1210,  1216,  1222,  1228,  1234,  1240,  1246,
+  1252,  1258,  1264,  1270,  1276,  1280,  1286,  1292,  1298,  1304
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","PROGRAM",
@@ -1456,11 +1456,12 @@ case 2:
 			}
 
 			cout << buff.str();
+			cout << ": EndLabel" << endl;;
 		}
 ;
     break;}
 case 6:
-#line 148 "mini_l.y"
+#line 149 "mini_l.y"
 {//***
 	while(!ID.empty()) 
 	{
@@ -1470,9 +1471,9 @@ case 6:
 ;
     break;}
 case 8:
-#line 162 "mini_l.y"
+#line 163 "mini_l.y"
 {//***
-	// Error check
+	// Error check %%%%%%%%%%%%%%%%%
 	string id = "_" + string(yyvsp[0].string);
 	map<string, int>::iterator i = Symbols.find(id);
 
@@ -1487,11 +1488,11 @@ case 8:
 ;
     break;}
 case 9:
-#line 181 "mini_l.y"
+#line 182 "mini_l.y"
 {//****
 	int num = yyvsp[-2].number;
 
-    //Error check
+    	//Error check
 	if(num <= 0) 
 	{	
 		errors = "Error: Declaring array of invalid size.";
@@ -1510,7 +1511,7 @@ case 9:
 ;
     break;}
 case 11:
-#line 206 "mini_l.y"
+#line 207 "mini_l.y"
 {//**************************
 	s2 = Var.top();
 
@@ -1544,15 +1545,15 @@ case 11:
 ;
     break;}
 case 12:
-#line 238 "mini_l.y"
+#line 239 "mini_l.y"
 {;
     break;}
 case 13:
-#line 240 "mini_l.y"
+#line 241 "mini_l.y"
 {;
     break;}
 case 14:
-#line 242 "mini_l.y"
+#line 243 "mini_l.y"
 {
 //***
 	int s1 = Pred.top();
@@ -1566,21 +1567,26 @@ case 14:
 ;
     break;}
 case 15:
-#line 254 "mini_l.y"
-{//######
+#line 255 "mini_l.y"
+{//###### 
 
+	cout << "read var_list" << endl;//*
+	!Var.empty();
+	Index.top() == "-1";
+	Var.top();
 	/*while(!Var.empty())
 	{
-	
 		if(Index.top() == "-1")
 		{
 			stringstream convert;
 			convert << "\t.< " << Var.top() << endl;
 			Rev.push(convert.str());
+			cout << convert.str() << endl;//*
 		}			
 
 		else
 		{
+			//cout << "in the else" << endl;//*
 			stringstream convert2;
 			convert2 << "\t.[]< " << Var.top() << ", " << Index.top() << endl;
 			Rev.push(convert2.str()); 
@@ -1597,12 +1603,12 @@ case 15:
 			buff << Rev.top();
 			Rev.pop();
 		
-		} */	
+		}*/
 
 ;
     break;}
 case 16:
-#line 288 "mini_l.y"
+#line 294 "mini_l.y"
 {//##############
 
 	/*while(!Var.empty())
@@ -1639,27 +1645,27 @@ case 16:
 ;
     break;}
 case 17:
-#line 323 "mini_l.y"
+#line 329 "mini_l.y"
 {;
     break;}
 case 18:
-#line 325 "mini_l.y"
+#line 331 "mini_l.y"
 {;
     break;}
 case 19:
-#line 327 "mini_l.y"
+#line 333 "mini_l.y"
 {;
     break;}
 case 26:
-#line 353 "mini_l.y"
+#line 359 "mini_l.y"
 {;
     break;}
 case 28:
-#line 361 "mini_l.y"
+#line 367 "mini_l.y"
 {;
     break;}
 case 29:
-#line 368 "mini_l.y"
+#line 374 "mini_l.y"
 {
 
 	int s2 = Pred.top();	
@@ -1672,7 +1678,7 @@ case 29:
 ;
     break;}
 case 30:
-#line 384 "mini_l.y"
+#line 390 "mini_l.y"
 {//***
 
 	int s2 = Pred.top();
@@ -1687,7 +1693,7 @@ case 30:
 ;
     break;}
 case 34:
-#line 412 "mini_l.y"
+#line 418 "mini_l.y"
 {
 
 	int s2 = Pred.top();
@@ -1702,7 +1708,7 @@ case 34:
 ;
     break;}
 case 37:
-#line 433 "mini_l.y"
+#line 439 "mini_l.y"
 {
 
 	s2 = Var.top();
@@ -1744,7 +1750,7 @@ case 37:
 ;
     break;}
 case 41:
-#line 479 "mini_l.y"
+#line 485 "mini_l.y"
 {//*******************
 
 	s2 = Var.top();
@@ -1785,7 +1791,7 @@ case 41:
 ;
     break;}
 case 42:
-#line 518 "mini_l.y"
+#line 524 "mini_l.y"
 { //***
 	buff << "\t== p" << p << ", 1, 1" << endl;
 	Pred.push(p);
@@ -1793,7 +1799,7 @@ case 42:
 ;
     break;}
 case 43:
-#line 524 "mini_l.y"
+#line 530 "mini_l.y"
 { //***
 	buff << "\t== p" << p << ", 1, 0" << endl;
 	Pred.push(p);
@@ -1801,7 +1807,7 @@ case 43:
 ;
     break;}
 case 45:
-#line 536 "mini_l.y"
+#line 542 "mini_l.y"
 { //************
 
 	Comp.push("==");
@@ -1809,7 +1815,7 @@ case 45:
 ;
     break;}
 case 46:
-#line 542 "mini_l.y"
+#line 548 "mini_l.y"
 {
 
 	Comp.push("!=");
@@ -1817,7 +1823,7 @@ case 46:
 ;
     break;}
 case 47:
-#line 548 "mini_l.y"
+#line 554 "mini_l.y"
 {
 
 	Comp.push("<");
@@ -1825,7 +1831,7 @@ case 47:
 ;
     break;}
 case 48:
-#line 554 "mini_l.y"
+#line 560 "mini_l.y"
 {
 
 	Comp.push(">");
@@ -1833,7 +1839,7 @@ case 48:
 ;
     break;}
 case 49:
-#line 560 "mini_l.y"
+#line 566 "mini_l.y"
 {
 
 	Comp.push("<=");
@@ -1841,7 +1847,7 @@ case 49:
 ;
     break;}
 case 50:
-#line 566 "mini_l.y"
+#line 572 "mini_l.y"
 {
 
 	Comp.push(">=");
@@ -1849,11 +1855,11 @@ case 50:
 ;
     break;}
 case 51:
-#line 576 "mini_l.y"
+#line 582 "mini_l.y"
 {;
     break;}
 case 52:
-#line 582 "mini_l.y"
+#line 588 "mini_l.y"
 { //***********
 
 
@@ -1898,7 +1904,7 @@ case 52:
 ;
     break;}
 case 53:
-#line 625 "mini_l.y"
+#line 631 "mini_l.y"
 {//**********
 
 	s2 = Var.top();
@@ -1941,7 +1947,7 @@ case 53:
 ;
     break;}
 case 58:
-#line 681 "mini_l.y"
+#line 687 "mini_l.y"
 { //********
 
 	s2 = Var.top();
@@ -1980,7 +1986,7 @@ case 58:
 ;
     break;}
 case 60:
-#line 720 "mini_l.y"
+#line 726 "mini_l.y"
 { //*******
 	s2 = Var.top();
 	
@@ -2019,7 +2025,7 @@ case 60:
 ;
     break;}
 case 62:
-#line 759 "mini_l.y"
+#line 765 "mini_l.y"
 { //******************************
 
 	s2 = Var.top();
@@ -2055,7 +2061,7 @@ case 62:
 ;
     break;}
 case 65:
-#line 801 "mini_l.y"
+#line 807 "mini_l.y"
 { //***
 
 	s2 = Var.top();
@@ -2080,7 +2086,7 @@ case 65:
 ;
     break;}
 case 67:
-#line 828 "mini_l.y"
+#line 834 "mini_l.y"
 {// ***
 	s2 = Var.top();
 	Var.pop();
@@ -2094,11 +2100,11 @@ case 67:
 ;
     break;}
 case 68:
-#line 840 "mini_l.y"
+#line 846 "mini_l.y"
 {;
     break;}
 case 69:
-#line 842 "mini_l.y"
+#line 848 "mini_l.y"
 {// ***
 	stringstream convert;
 	convert << yyvsp[0].number;
@@ -2108,7 +2114,7 @@ case 69:
 ;
     break;}
 case 71:
-#line 856 "mini_l.y"
+#line 862 "mini_l.y"
 {// ***
 	map<string, int>::iterator i;
 	
@@ -2125,12 +2131,44 @@ case 71:
 	Index.push("-1");
 ;
     break;}
+case 72:
+#line 878 "mini_l.y"
+{ //@@@
+
+	Index.pop();
+	Index.push(Var.top());
+	Var.pop();
+
+;
+    break;}
 case 74:
-#line 884 "mini_l.y"
+#line 896 "mini_l.y"
 { //***
 
-	// Search symbol table for identifier
 	string id = "_" + string(yyvsp[0].string);
+	if(Symbols.find(id) == Symbols.end())
+	{
+		errors = "Error: " + id + " is undeclared";
+		yyerror(errors.c_str());
+	}
+	bool keybool = false;
+
+		//bool keybool = false;
+		int size = Keywords.size();
+		for(int j =0; j < size; j++)
+		{
+			(id == Keywords[j]) ? keybool = true : keybool;	
+		}
+
+	if(keybool == true)
+	{
+		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
+		yyerror(errors.c_str());
+	}
+
+	Var.push(id);
+	// Search symbol table for identifier
+	/*string id = "_" + string($1);
 	map <string, int>::iterator i = Symbols.find(id);
 
 	// Error check
@@ -2141,9 +2179,9 @@ case 74:
 	}
 	
 	Symbols[id] = -1;
-	ID.push(id);
+	ID.push(id);*/
 
-	bool keybool = false;
+	/*bool keybool = false;
 	int size = Keywords.size();
 
 	for(int j = 0; j < size; j++)
@@ -2157,18 +2195,18 @@ case 74:
 		yyerror(errors.c_str());
 	}
 
-	Var.push(id);
+	Var.push(id);*/
 
 ;
     break;}
 case 77:
-#line 934 "mini_l.y"
+#line 968 "mini_l.y"
 {
 	buff << ": START" << endl;
 ;
     break;}
 case 82:
-#line 964 "mini_l.y"
+#line 998 "mini_l.y"
 { //***
 	stringstream convert1;
 	convert1 << yyvsp[0].number;
@@ -2183,7 +2221,7 @@ case 82:
 ;
     break;}
 case 84:
-#line 987 "mini_l.y"
+#line 1021 "mini_l.y"
 {
 	map<string, int>::iterator i;
 	i = Symbols.find(Var.top());
@@ -2199,11 +2237,11 @@ case 84:
 ;
     break;}
 case 88:
-#line 1019 "mini_l.y"
+#line 1053 "mini_l.y"
 {;
     break;}
 case 91:
-#line 1038 "mini_l.y"
+#line 1072 "mini_l.y"
 { //$$$ 
 
 	int s2 = Pred.top();
@@ -2215,7 +2253,7 @@ case 91:
 ;
     break;}
 case 92:
-#line 1052 "mini_l.y"
+#line 1086 "mini_l.y"
 {//***
 
 	buff << ": L" << Label.top() << endl;
@@ -2224,7 +2262,7 @@ case 92:
 ;
     break;}
 case 94:
-#line 1069 "mini_l.y"
+#line 1103 "mini_l.y"
 {//***
 
 	buff << "\t:= L" << l << endl;
@@ -2237,7 +2275,7 @@ case 94:
 ;
     break;}
 case 95:
-#line 1084 "mini_l.y"
+#line 1118 "mini_l.y"
 {//***
 
 	buff << ": L" << l << endl;
@@ -2249,7 +2287,7 @@ case 95:
 ;
     break;}
 case 96:
-#line 1098 "mini_l.y"
+#line 1132 "mini_l.y"
 { // $$$$$
 
 	int s2 = Pred.top();
@@ -2260,7 +2298,7 @@ case 96:
 ;
     break;}
 case 97:
-#line 1110 "mini_l.y"
+#line 1144 "mini_l.y"
 { // $$$$$$$$$
 
 	int l1 = Loop.top();
@@ -2271,7 +2309,7 @@ case 97:
 ;
     break;}
 case 98:
-#line 1120 "mini_l.y"
+#line 1154 "mini_l.y"
 { // $$$
 	int s2 = Label.top();
 	Label.pop();
@@ -2284,7 +2322,7 @@ case 98:
 ;
     break;}
 case 99:
-#line 1135 "mini_l.y"
+#line 1169 "mini_l.y"
 {// ***
 	buff << ": L" << l << endl;
 	Label.push(l);
@@ -2294,7 +2332,7 @@ case 99:
 ;
     break;}
 case 103:
-#line 1167 "mini_l.y"
+#line 1201 "mini_l.y"
 {
 	if(!Loop.empty())
 	{
@@ -2506,7 +2544,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 1276 "mini_l.y"
+#line 1310 "mini_l.y"
 
 
 int main(int argc, char **argv) {
