@@ -759,8 +759,8 @@ static const short yyrline[] = { 0,
    341,   343,   349,   351,   357,   359,   365,   367,   373,   389,
    403,   405,   411,   417,   431,   433,   439,   479,   481,   483,
    485,   524,   530,   536,   542,   548,   554,   560,   566,   572,
-   582,   588,   631,   672,   674,   676,   681,   687,   724,   726,
-   763,   765,   799,   801,   807,   832,   834,   846,   848,   856,
+   582,   588,   590,   592,   633,   675,   680,   686,   688,   690,
+   692,   729,   763,   801,   807,   832,   834,   846,   848,   856,
    862,   878,   890,   896,   927,   933,   939,   947,   953,   957,
    963,   969,   986,   992,  1010,  1014,  1018,  1024,  1030,  1036,
   1042,  1057,  1068,  1074,  1089,  1103,  1115,  1125,  1140,  1152,
@@ -1858,11 +1858,9 @@ case 51:
 #line 582 "mini_l.y"
 {;
     break;}
-case 52:
-#line 588 "mini_l.y"
-{ //***********
-
-
+case 54:
+#line 593 "mini_l.y"
+{
 	s2 = Var.top();
 	if(Index.top() != "-1")
 	{
@@ -1900,12 +1898,11 @@ case 52:
 	Var.push("t" + convert2.str());
 	Index.push("-1");
 	++t;
-
 ;
     break;}
-case 53:
-#line 631 "mini_l.y"
-{//**********
+case 55:
+#line 634 "mini_l.y"
+{
 
 	s2 = Var.top();
 	if(Index.top() != "-1")
@@ -1946,9 +1943,9 @@ case 53:
 	++t;
 ;
     break;}
-case 58:
-#line 687 "mini_l.y"
-{ //********
+case 61:
+#line 692 "mini_l.y"
+{
 
 	s2 = Var.top();
 	if(Index.top() != "-1")
@@ -1985,9 +1982,45 @@ case 58:
 	++t;
 ;
     break;}
-case 60:
-#line 726 "mini_l.y"
-{ //*******
+case 62:
+#line 729 "mini_l.y"
+{ //******************************
+
+	s2 = Var.top();
+
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << " =[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+	}
+	Var.pop();
+	Index.pop();
+	s1 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert2;
+		convert2 << t;
+		buff << " =[] t" << t << ", " << s1 << ", " << Index.top() << endl;
+		s1 = "t" + convert2.str();
+		++t;
+	}
+	Var.pop();
+	Index.pop();
+
+	buff << " / t" << t << ", " << s1 << ", " << s2 << endl;
+
+	stringstream convert3;
+	convert3 << t;
+	Var.push("t" + convert3.str());
+	Index.push("-1");
+	++t;
+;
+    break;}
+case 63:
+#line 764 "mini_l.y"
+{
 	s2 = Var.top();
 	
 	if(Index.top() != "-1")
@@ -2020,42 +2053,6 @@ case 60:
 
 	convert2 << t;
 	Var.push("t" + convert2.str());
-	Index.push("-1");
-	++t;
-;
-    break;}
-case 62:
-#line 765 "mini_l.y"
-{ //******************************
-
-	s2 = Var.top();
-
-	if(Index.top() != "-1")
-	{
-		stringstream convert;
-		convert << t;
-		buff << " =[] t" << t << ", " << s2 << ", " << Index.top() << endl;
-		s2 = "t" + convert.str();
-	}
-	Var.pop();
-	Index.pop();
-	s1 = Var.top();
-	if(Index.top() != "-1")
-	{
-		stringstream convert2;
-		convert2 << t;
-		buff << " =[] t" << t << ", " << s1 << ", " << Index.top() << endl;
-		s1 = "t" + convert2.str();
-		++t;
-	}
-	Var.pop();
-	Index.pop();
-
-	buff << " / t" << t << ", " << s1 << ", " << s2 << endl;
-
-	stringstream convert3;
-	convert3 << t;
-	Var.push("t" + convert3.str());
 	Index.push("-1");
 	++t;
 ;

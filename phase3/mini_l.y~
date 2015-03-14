@@ -585,9 +585,12 @@ expression: multiplicative_exp   multiplicative_exp_list {}
 
  
 
-multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp { //***********
+multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp
 
+| multiplicative_exp_list   sub multiplicative_exp
 
+| add   multiplicative_exp 
+{
 	s2 = Var.top();
 	if(Index.top() != "-1")
 	{
@@ -625,10 +628,10 @@ multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp { //
 	Var.push("t" + convert2.str());
 	Index.push("-1");
 	++t;
-
 }
 
-| multiplicative_exp_list   sub multiplicative_exp {//**********
+| sub   multiplicative_exp
+{
 
 	s2 = Var.top();
 	if(Index.top() != "-1")
@@ -669,22 +672,24 @@ multiplicative_exp_list: multiplicative_exp_list   add   multiplicative_exp { //
 	++t;
 }
 
-| add   multiplicative_exp 
-
-| sub   multiplicative_exp 
-
 |  /* epsilon */ 
 
 ;
 
 
-multiplicative_exp: term   term_list //*******
+multiplicative_exp: term   term_list
 
 ;
 
  
 
-term_list: term_list   multiply   term { //********
+term_list: term_list   multiply   term
+
+| term_list   divide   term 
+
+| term_list   mod   term
+
+| multiply  term {
 
 	s2 = Var.top();
 	if(Index.top() != "-1")
@@ -721,47 +726,6 @@ term_list: term_list   multiply   term { //********
 	++t;
 }
 
-| term_list   divide   term 
-
-| term_list   mod   term { //*******
-	s2 = Var.top();
-	
-	if(Index.top() != "-1")
-	{
-		stringstream convert;
-		convert << t;
-		buff << " =[] t" << t << ", " << s2 << ", " << Index.top() << endl;
-		s2 = "t" + convert.str();
-		++t;
-	}
-	
-	Index.pop();
-	Var.pop();
-	
-	s1 = Var.top();
-	if(Index.top() != "-1")
-	{
-		stringstream convert;
-		convert << t;
-		buff << " =[] t" << t << ", " << s1 << ", " << Index.top() << endl;
-		s1 = "t" + convert.str();
-		++t;
-	}
-
-	Var.pop();
-	Index.pop();
-	
-	buff << " % t" << t << ", " << s1 << ", " << s2 << endl;
-	stringstream convert2;
-
-	convert2 << t;
-	Var.push("t" + convert2.str());
-	Index.push("-1");
-	++t;
-}
-
-| multiply  term 
-
 | divide   term { //******************************
 
 	s2 = Var.top();
@@ -797,6 +761,42 @@ term_list: term_list   multiply   term { //********
 } 
 
 | mod   term 
+{
+	s2 = Var.top();
+	
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << " =[] t" << t << ", " << s2 << ", " << Index.top() << endl;
+		s2 = "t" + convert.str();
+		++t;
+	}
+	
+	Index.pop();
+	Var.pop();
+	
+	s1 = Var.top();
+	if(Index.top() != "-1")
+	{
+		stringstream convert;
+		convert << t;
+		buff << " =[] t" << t << ", " << s1 << ", " << Index.top() << endl;
+		s1 = "t" + convert.str();
+		++t;
+	}
+
+	Var.pop();
+	Index.pop();
+	
+	buff << " % t" << t << ", " << s1 << ", " << s2 << endl;
+	stringstream convert2;
+
+	convert2 << t;
+	Var.push("t" + convert2.str());
+	Index.push("-1");
+	++t;
+}
 
 | /* epsilon */ 
 
