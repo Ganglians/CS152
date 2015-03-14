@@ -254,11 +254,11 @@ statement: var   assign   expression {//**************************
 
 | read   var_list {//###### 
 
-	cout << "read var_list" << endl;//*
+	/*cout << "read var_list" << endl;//*
 	!Var.empty();
 	Index.top() == "-1";
 	Var.top();
-	/*while(!Var.empty())
+	while(!Var.empty())
 	{
 		if(Index.top() == "-1")
 		{
@@ -787,7 +787,7 @@ term_list: term_list   multiply   term { //********
 	Var.pop();
 	Index.pop();
 
-	buff << " 	" << t << ", " << s1 << ", " << s2 << endl;
+	buff << " / t" << t << ", " << s1 << ", " << s2 << endl;
 
 	stringstream convert3;
 	convert3 << t;
@@ -894,58 +894,29 @@ program: PROGRAM
  
 
 identifier: IDENT { //***
-
 	string id = "_" + string($1);
+	int size = Keywords.size();
+	bool keybool = false;
+
+	for(int j =0; j < size; j++)
+	{
+		(id == Keywords[j]) ? keybool = true : keybool;	
+	}
+
+
 	if(Symbols.find(id) == Symbols.end())
 	{
 		errors = "Error: " + id + " is undeclared";
 		yyerror(errors.c_str());
 	}
-	bool keybool = false;
 
-		//bool keybool = false;
-		int size = keywords.size();
-		for(int j =0; j < size; j++)
-		{
-			(id == Keywords[j]) ? keybool = true : keybool;	
-		}
-
-	if(keybool == true)
+	else if(keybool == true)
 	{
 		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
 		yyerror(errors.c_str());
 	}
 
 	Var.push(id);
-	// Search symbol table for identifier
-	/*string id = "_" + string($1);
-	map <string, int>::iterator i = Symbols.find(id);
-
-	// Error check
-	if (i != Symbols.end())
-	{
-		errors = "Error: " + id + " was previously defined";
-		yyerror(errors.c_str());
-	}
-	
-	Symbols[id] = -1;
-	ID.push(id);*/
-
-	/*bool keybool = false;
-	int size = Keywords.size();
-
-	for(int j = 0; j < size; j++)
-	{
-		(id == Keywords[j]) ? keybool = true : keybool;	
-	}
-	
-	if(keybool == true)
-	{
-		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
-		yyerror(errors.c_str());
-	}
-
-	Var.push(id);*/
 
 }
 
@@ -1198,7 +1169,7 @@ break: BREAK
 
  
 
-continue: CONTINUE {
+continue: CONTINUE {// ***
 	if(!Loop.empty())
 	{
 		buff << "\t:= L" << Loop.top() << endl;

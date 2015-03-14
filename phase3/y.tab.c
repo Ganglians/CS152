@@ -761,11 +761,11 @@ static const short yyrline[] = { 0,
    485,   524,   530,   536,   542,   548,   554,   560,   566,   572,
    582,   588,   631,   672,   674,   676,   681,   687,   724,   726,
    763,   765,   799,   801,   807,   832,   834,   846,   848,   856,
-   862,   878,   890,   896,   956,   962,   968,   976,   982,   986,
-   992,   998,  1015,  1021,  1039,  1043,  1047,  1053,  1059,  1065,
-  1071,  1086,  1097,  1103,  1118,  1132,  1144,  1154,  1169,  1181,
-  1187,  1195,  1201,  1210,  1216,  1222,  1228,  1234,  1240,  1246,
-  1252,  1258,  1264,  1270,  1276,  1280,  1286,  1292,  1298,  1304
+   862,   878,   890,   896,   927,   933,   939,   947,   953,   957,
+   963,   969,   986,   992,  1010,  1014,  1018,  1024,  1030,  1036,
+  1042,  1057,  1068,  1074,  1089,  1103,  1115,  1125,  1140,  1152,
+  1158,  1166,  1172,  1181,  1187,  1193,  1199,  1205,  1211,  1217,
+  1223,  1229,  1235,  1241,  1247,  1251,  1257,  1263,  1269,  1275
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","PROGRAM",
@@ -1570,11 +1570,11 @@ case 15:
 #line 255 "mini_l.y"
 {//###### 
 
-	cout << "read var_list" << endl;//*
+	/*cout << "read var_list" << endl;//*
 	!Var.empty();
 	Index.top() == "-1";
 	Var.top();
-	/*while(!Var.empty())
+	while(!Var.empty())
 	{
 		if(Index.top() == "-1")
 		{
@@ -2051,7 +2051,7 @@ case 62:
 	Var.pop();
 	Index.pop();
 
-	buff << " 	" << t << ", " << s1 << ", " << s2 << endl;
+	buff << " / t" << t << ", " << s1 << ", " << s2 << endl;
 
 	stringstream convert3;
 	convert3 << t;
@@ -2144,69 +2144,40 @@ case 72:
 case 74:
 #line 896 "mini_l.y"
 { //***
-
 	string id = "_" + string(yyvsp[0].string);
+	int size = Keywords.size();
+	bool keybool = false;
+
+	for(int j =0; j < size; j++)
+	{
+		(id == Keywords[j]) ? keybool = true : keybool;	
+	}
+
+
 	if(Symbols.find(id) == Symbols.end())
 	{
 		errors = "Error: " + id + " is undeclared";
 		yyerror(errors.c_str());
 	}
-	bool keybool = false;
 
-		//bool keybool = false;
-		int size = Keywords.size();
-		for(int j =0; j < size; j++)
-		{
-			(id == Keywords[j]) ? keybool = true : keybool;	
-		}
-
-	if(keybool == true)
+	else if(keybool == true)
 	{
 		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
 		yyerror(errors.c_str());
 	}
 
 	Var.push(id);
-	// Search symbol table for identifier
-	/*string id = "_" + string($1);
-	map <string, int>::iterator i = Symbols.find(id);
-
-	// Error check
-	if (i != Symbols.end())
-	{
-		errors = "Error: " + id + " was previously defined";
-		yyerror(errors.c_str());
-	}
-	
-	Symbols[id] = -1;
-	ID.push(id);*/
-
-	/*bool keybool = false;
-	int size = Keywords.size();
-
-	for(int j = 0; j < size; j++)
-	{
-		(id == Keywords[j]) ? keybool = true : keybool;	
-	}
-	
-	if(keybool == true)
-	{
-		errors = "Error: " + id + " has been defined as a keyword and cannot be used";
-		yyerror(errors.c_str());
-	}
-
-	Var.push(id);*/
 
 ;
     break;}
 case 77:
-#line 968 "mini_l.y"
+#line 939 "mini_l.y"
 {
 	buff << ": START" << endl;
 ;
     break;}
 case 82:
-#line 998 "mini_l.y"
+#line 969 "mini_l.y"
 { //***
 	stringstream convert1;
 	convert1 << yyvsp[0].number;
@@ -2221,7 +2192,7 @@ case 82:
 ;
     break;}
 case 84:
-#line 1021 "mini_l.y"
+#line 992 "mini_l.y"
 {
 	map<string, int>::iterator i;
 	i = Symbols.find(Var.top());
@@ -2237,11 +2208,11 @@ case 84:
 ;
     break;}
 case 88:
-#line 1053 "mini_l.y"
+#line 1024 "mini_l.y"
 {;
     break;}
 case 91:
-#line 1072 "mini_l.y"
+#line 1043 "mini_l.y"
 { //$$$ 
 
 	int s2 = Pred.top();
@@ -2253,7 +2224,7 @@ case 91:
 ;
     break;}
 case 92:
-#line 1086 "mini_l.y"
+#line 1057 "mini_l.y"
 {//***
 
 	buff << ": L" << Label.top() << endl;
@@ -2262,7 +2233,7 @@ case 92:
 ;
     break;}
 case 94:
-#line 1103 "mini_l.y"
+#line 1074 "mini_l.y"
 {//***
 
 	buff << "\t:= L" << l << endl;
@@ -2275,7 +2246,7 @@ case 94:
 ;
     break;}
 case 95:
-#line 1118 "mini_l.y"
+#line 1089 "mini_l.y"
 {//***
 
 	buff << ": L" << l << endl;
@@ -2287,7 +2258,7 @@ case 95:
 ;
     break;}
 case 96:
-#line 1132 "mini_l.y"
+#line 1103 "mini_l.y"
 { // $$$$$
 
 	int s2 = Pred.top();
@@ -2298,7 +2269,7 @@ case 96:
 ;
     break;}
 case 97:
-#line 1144 "mini_l.y"
+#line 1115 "mini_l.y"
 { // $$$$$$$$$
 
 	int l1 = Loop.top();
@@ -2309,7 +2280,7 @@ case 97:
 ;
     break;}
 case 98:
-#line 1154 "mini_l.y"
+#line 1125 "mini_l.y"
 { // $$$
 	int s2 = Label.top();
 	Label.pop();
@@ -2322,7 +2293,7 @@ case 98:
 ;
     break;}
 case 99:
-#line 1169 "mini_l.y"
+#line 1140 "mini_l.y"
 {// ***
 	buff << ": L" << l << endl;
 	Label.push(l);
@@ -2332,8 +2303,8 @@ case 99:
 ;
     break;}
 case 103:
-#line 1201 "mini_l.y"
-{
+#line 1172 "mini_l.y"
+{// ***
 	if(!Loop.empty())
 	{
 		buff << "\t:= L" << Loop.top() << endl;
@@ -2544,7 +2515,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 1310 "mini_l.y"
+#line 1281 "mini_l.y"
 
 
 int main(int argc, char **argv) {
